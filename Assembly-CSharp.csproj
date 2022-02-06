@@ -44,7 +44,10 @@
      <Compile Include="Assets/Main.cs" />
      <Compile Include="Assets/MainUi.cs" />
      <Compile Include="Assets/PointerEventBlocker.cs" />
+     <Compile Include="Assets/QuestionSubScene.cs" />
      <Compile Include="Assets/SoundPlayer.cs" />
+     <Compile Include="Assets/SubScene.cs" />
+     <Compile Include="Assets/TitleSubScene.cs" />
      <Compile Include="Assets/TouchDetector.cs" />
      <Compile Include="Assets/UiDigit.cs" />
      <Compile Include="Assets/UiNumber.cs" />

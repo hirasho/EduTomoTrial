@@ -194,7 +194,7 @@ System.IO.File.WriteAllBytes("ss.jpg", jpg);
 
 		var url = "https://vision.googleapis.com/v1/images:annotate?key=" + apiKey;
 		// requestBodyを作成
-		var requests = new RequestBody ();
+		var requests = new RequestBody();
 		requests.requests = new List<AnnotateImageRequest>();
 
 		var request = new AnnotateImageRequest();
@@ -202,7 +202,7 @@ System.IO.File.WriteAllBytes("ss.jpg", jpg);
 		request.image.content = base64Image;
 
 		request.features = new List<Feature>();
-		var feature = new Feature ();
+		var feature = new Feature();
 		feature.type = FeatureType.DOCUMENT_TEXT_DETECTION.ToString();
 		feature.maxResults = 10;
 		request.features.Add(feature);

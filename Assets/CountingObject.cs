@@ -7,27 +7,27 @@ public class CountingObject : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 {
 	[SerializeField] new Rigidbody rigidbody;
 
-	public void ManualStart(Main main, Vector3 initialPosition)
+	public void ManualStart(QuestionSubScene questionScene, Vector3 initialPosition)
 	{
-		this.main = main;
+		this.questionScene = questionScene;
 		rigidbody.MovePosition(initialPosition);
 	}
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		main.OnBeginDragCountingObject(rigidbody, eventData.position);
+		questionScene.OnBeginDragCountingObject(rigidbody, eventData.position);
 	}
 
 	public void OnDrag(PointerEventData eventData)
 	{
-		main.OnDragCountingObject(eventData.position);
+		questionScene.OnDragCountingObject(eventData.position);
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-		main.OnEndDragCountingObject();		
+		questionScene.OnEndDragCountingObject();		
 	}
 
 	// non public 
-	Main main;
+	QuestionSubScene questionScene;
 }
