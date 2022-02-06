@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class TitleSubScene : SubScene
 {
 	[SerializeField] Button startButton;
+	[SerializeField] Toggle allowCarryBorrowToggle;
+	[SerializeField] Toggle allowZeroToggle;
 
 	public void ManualStart(Main main)
 	{
@@ -28,7 +30,12 @@ public class TitleSubScene : SubScene
 	void OnClickStart()
 	{
 		var scene = SubScene.Instantiate<QuestionSubScene>(transform.parent);
-		scene.ManualStart(main);
+		scene.ManualStart(
+			main, 
+			QuestionSubScene.Operation.Addition, 
+			allowZeroToggle.isOn,
+			allowCarryBorrowToggle.isOn,
+			questionCount: 20);
 		nextSubScene = scene;
 	}
 }

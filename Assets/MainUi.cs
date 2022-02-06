@@ -8,6 +8,7 @@ public class MainUi : MonoBehaviour
 	[SerializeField] Canvas canvas;
 	[SerializeField] Button clearButton;
 	[SerializeField] Button nextButton;
+	[SerializeField] Text questionIndexText;
 	[SerializeField] Text debugInfoText;
 	[SerializeField] Text debugMessageText;
 
@@ -18,6 +19,11 @@ public class MainUi : MonoBehaviour
 	{
 		clearButton.onClick.AddListener(OnClickClear);
 		nextButton.onClick.AddListener(OnClickNext);
+	}
+
+	public void SetQuestionIndex(int current, int total)
+	{
+		questionIndexText.text = string.Format("{0} / {1}", current, total);
 	}
 
 	public void SetDebugMessage(string message)

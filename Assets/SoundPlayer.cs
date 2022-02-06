@@ -12,7 +12,6 @@ public class SoundPlayer : MonoBehaviour
 		AudioClip foundClip = null;
 		foreach (var clip in clips)
 		{
-Debug.Log(clip.name + " <-> " + name);
 			if (clip.name == name)
 			{
 				foundClip = clip;

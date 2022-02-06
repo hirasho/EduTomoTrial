@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class QuestionSubScene : SubScene
 {
+	public enum Operation
+	{
+		Addition,
+		Subtraction,
+	}
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
@@ -20,13 +25,19 @@ public class QuestionSubScene : SubScene
 	[SerializeField] Material rtLineMaterial;
 	[SerializeField] Camera rtCamera;
 
-	public void ManualStart(Main main)
+	public void ManualStart(Main main, Operation operation, bool allowZero, bool allowCarryBorrow, int questionCount)
 	{
 		this.main = main;
+		this.operation = operation;
+		this.allowCarryBorrow = allowCarryBorrow;
+		this.allowZero = allowZero;
+		this.questionCount = questionCount;
+
 		lines = new List<Line>();
 		countingObjects = new List<CountingObject>();
 		ui.ManualStart();
 		rtCamera.enabled = false;
+		startTime = System.DateTime.Now;
 
 		StartCoroutine(CoQuestionLoop());
 	}
@@ -53,7 +64,16 @@ public class QuestionSubScene : SubScene
 			var p = ray.origin + (ray.direction * t);
 			lines[lines.Count - 1].AddPoint(p);
 		}
-		return null;
+
+		SubScene nextScene = null;
+		if (end)
+		{
+			var result = SubScene.Instantiate<ResultSubScene>(transform.parent);
+			var time = (System.DateTime.Now - startTime).TotalSeconds;
+			result.ManualStart(main, (float)time);
+			nextScene = result;
+		}
+		return nextScene;
 	}
 
 	public override void OnPointerDown()
@@ -105,13 +125,21 @@ public class QuestionSubScene : SubScene
 	Color32[] prevRtTexels;
 	List<Line> lines;
 	bool pointerDown;
+	Operation operation;
+	bool allowZero;
+	bool allowCarryBorrow;
+	int questionCount;
+	int questionIndex;
+	bool end;
+	System.DateTime startTime;
 
 	IEnumerator CoQuestionLoop()
 	{
-		while (true)
+		while (questionIndex < questionCount)
 		{
 			yield return CoQuestion();
 		}
+		end = true;
 	}
 
 	void ClearLines()
@@ -280,11 +308,52 @@ public class QuestionSubScene : SubScene
 		}
 		countingObjects.Clear();
 
-		operand0Value = UnityEngine.Random.Range(1, 9);
-		operand1Value = UnityEngine.Random.Range(1, 9);
-		var ans = operand0Value + operand1Value;
+		questionIndex++;
+		ui.SetQuestionIndex(questionIndex, questionCount);
+
+		int op0Min, op0Max, op1Min, op1Max;
+		if (operation == Operation.Addition)
+		{
+			op0Min = allowZero ? 0 : 1;
+			op1Min = allowZero ? 0 : 1;
+			if (allowCarryBorrow)
+			{
+				op0Max = 9;
+				op1Max = 9;
+				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
+			}
+			else
+			{
+				op0Max = allowZero ? 10 : 9;
+				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
+				op1Max = 10 - operand0Value;				
+			}
+		}
+		else if (operation == Operation.Subtraction)
+		{
+			op0Min = allowZero ? 0 : 2;
+			if (allowCarryBorrow)
+			{
+				op0Max = 18;
+				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
+			}
+			else
+			{
+				op0Max = 10;
+				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
+			}
+			op1Min = allowZero ? 0 : 1;
+			op1Max = allowZero ? Mathf.Min(operand0Value, 9) : Mathf.Min(operand0Value - 1, 9);
+		}
+		else
+		{
+			Debug.Assert(false, "ARIENAI");
+			op1Min = op1Max = 0;
+		}
+		operand1Value = UnityEngine.Random.Range(op1Min, op1Max + 1);
 		operand0.SetValue(operand0Value);
 		operand1.SetValue(operand1Value);
+//		var ans = operand0Value + operand1Value;
 //		answer.SetValue(ans); 
 
 		var center = new Vector3(-0.7f, 1f, 0.3f);
