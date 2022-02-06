@@ -1,0 +1,7 @@
+Temp/
+Library/
+keys.json
+Recordings/
+.DS_Store
+*.aab
+*.apk
