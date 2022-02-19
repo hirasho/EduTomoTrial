@@ -24,6 +24,7 @@ public class QuestionSubScene : SubScene
 	[SerializeField] Transform rtLineRoot;
 	[SerializeField] Material rtLineMaterial;
 	[SerializeField] Camera rtCamera;
+	[SerializeField] Annotation annotationPrefab;
 
 	public void ManualStart(Main main, Operation operation, bool allowZero, bool allowCarryBorrow, int questionCount)
 	{
@@ -33,6 +34,7 @@ public class QuestionSubScene : SubScene
 		this.allowZero = allowZero;
 		this.questionCount = questionCount;
 
+		annotationViews = new List<Annotation>();
 		lines = new List<Line>();
 		countingObjects = new List<CountingObject>();
 		ui.ManualStart();
@@ -47,6 +49,7 @@ public class QuestionSubScene : SubScene
 		if (ui.ClearButtonClicked)
 		{
 			ClearLines();	
+			ClearAnnotations();
 		}
 
 		if (ui.NextButtonClicked)
@@ -132,6 +135,7 @@ public class QuestionSubScene : SubScene
 	int questionIndex;
 	bool end;
 	System.DateTime startTime;
+	List<Annotation> annotationViews;
 
 	IEnumerator CoQuestionLoop()
 	{
@@ -151,9 +155,19 @@ public class QuestionSubScene : SubScene
 		lines.Clear();
 	}
 
+	void ClearAnnotations()
+	{
+		foreach (var annotation in annotationViews)
+		{
+			Destroy(annotation.gameObject);
+		}
+		annotationViews.Clear();
+	}
+
 	IEnumerator CoQuestion()
 	{
 		ClearLines();
+		ClearAnnotations();
 		UpdateQuestion();
 		while (!nextRequested)
 		{
@@ -245,6 +259,7 @@ public class QuestionSubScene : SubScene
 
 	void CompleteEvaluation(VisionApi.BatchAnnotateImagesResponse body)
 	{
+		ClearAnnotations();
 		var answer = operand0Value + operand1Value;
 
 		// TODO: どうにかする
@@ -253,6 +268,36 @@ public class QuestionSubScene : SubScene
 			var annotations = response.textAnnotations;
 			foreach (var annotation in annotations)
 			{
+				// 頂点抽出
+				var srcVertices = annotation.boundingPoly.vertices;
+				var dstVertices = new Vector3[srcVertices.Count];
+				var center = Vector3.zero;
+				var min = Vector3.one * float.MaxValue;
+				var max = -min;
+				for (var i = 0; i < srcVertices.Count; i++)
+				{
+					var srcV = srcVertices[i];
+					var sp = new Vector3(srcV.x, rtCamera.targetTexture.height - srcV.y);
+					var ray = rtCamera.ScreenPointToRay(sp);
+					var t = (0f - ray.origin.y) / ray.direction.y;
+					var wp = ray.origin + (ray.direction * t);
+					center += wp;
+					min = Vector3.Min(min, wp);
+					max = Vector3.Max(max, wp);
+				}
+
+				var text = annotation.description;
+				if (
+					(text != "123456789") &&
+					!text.Contains("Hello") && 
+					!text.Contains("World"))
+				{
+					var obj = Instantiate(annotationPrefab, transform, false);
+					center /= srcVertices.Count;
+					obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, annotation.description);
+					annotationViews.Add(obj);
+				} 
+
 				long value = 0;
 				foreach (var c in annotation.description)
 				{
@@ -263,9 +308,10 @@ public class QuestionSubScene : SubScene
 						value += digit;
 					}
 				}
+
 				if (value == answer)
 				{
-					Debug.Log("正解: " + value);
+//					Debug.Log("正解: " + value);
 					nextRequested = true;
 					main.SoundPlayer.Play("クイズ正解2");
 				}
@@ -293,7 +339,7 @@ public class QuestionSubScene : SubScene
 		{
 			digit = 5;
 		}
-		else if ((c == 'q') || (c == '។') || (c == 'a'))
+		else if ((c == 'q') || (c == '។') || (c == 'a') || (c == '၄'))
 		{
 			digit = 9;
 		}
@@ -348,9 +394,10 @@ public class QuestionSubScene : SubScene
 		else
 		{
 			Debug.Assert(false, "ARIENAI");
-			op1Min = op1Max = 0;
+			op0Min = op0Max = op1Min = op1Max = 0;
 		}
 		operand1Value = UnityEngine.Random.Range(op1Min, op1Max + 1);
+Debug.Log(op0Min + " " + op0Max + " " + op1Min + " " + op1Max + " " + operand0Value + " " + operand1Value);
 		operand0.SetValue(operand0Value);
 		operand1.SetValue(operand1Value);
 //		var ans = operand0Value + operand1Value;

@@ -159,7 +159,7 @@ public class VisionApi
 				}
 				else 
 				{
-					Debug.Log("ResponseCode: " + webRequest.responseCode + " size=" + webRequest.downloadHandler.data.Length);
+//					Debug.Log("ResponseCode: " + webRequest.responseCode + " size=" + webRequest.downloadHandler.data.Length);
 #if UNITY_EDITOR
 System.IO.File.WriteAllText("response.json", webRequest.downloadHandler.text);
 #endif
@@ -171,6 +171,13 @@ System.IO.File.WriteAllText("response.json", webRequest.downloadHandler.text);
 			}
 		}
 		return ret;
+	}
+
+	public void Complete()
+	{
+		Debug.Assert(IsDone());
+		webRequest = null;	
+		Requested = false;
 	}
 
 	public void Abort()

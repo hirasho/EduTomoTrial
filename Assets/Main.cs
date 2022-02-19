@@ -68,6 +68,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		if ((visionApi != null) && visionApi.Requested && visionApi.IsDone())
 		{
 			subScene.OnVisionApiDone(visionApi.Response);
+			visionApi.Complete();
 		}
 	}
 
