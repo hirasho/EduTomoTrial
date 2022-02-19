@@ -7,18 +7,19 @@ public class MainUi : MonoBehaviour
 {
 	[SerializeField] Canvas canvas;
 	[SerializeField] Button clearButton;
-	[SerializeField] Button nextButton;
+	[SerializeField] ButtonEventsHandler eraserButton;
 	[SerializeField] Text questionIndexText;
 	[SerializeField] Text debugInfoText;
 	[SerializeField] Text debugMessageText;
 
 	public bool ClearButtonClicked { get; private set; }
-	public bool NextButtonClicked { get; private set; }
+	public bool EraserDown { get; private set; }
 
 	public void ManualStart()
 	{
 		clearButton.onClick.AddListener(OnClickClear);
-		nextButton.onClick.AddListener(OnClickNext);
+		eraserButton.OnDown = OnEraserDown;
+		eraserButton.OnUp = OnEraserUp;
 	}
 
 	public void SetQuestionIndex(int current, int total)
@@ -34,7 +35,6 @@ public class MainUi : MonoBehaviour
 	public void ManualUpdate(float deltaTime)
 	{
 		ClearButtonClicked = false;
-		NextButtonClicked = false;
 
 		UpdateDebugInfo();
 	}
@@ -45,9 +45,14 @@ public class MainUi : MonoBehaviour
 		ClearButtonClicked = true;
 	}
 
-	void OnClickNext()
+	void OnEraserDown()
 	{
-		NextButtonClicked = true;
+		EraserDown = true;
+	}
+
+	void OnEraserUp()
+	{
+		EraserDown = false;
 	}
 
 	void UpdateDebugInfo()

@@ -8,6 +8,7 @@ public class TitleSubScene : SubScene
 	[SerializeField] Button startButton;
 	[SerializeField] Toggle allowCarryBorrowToggle;
 	[SerializeField] Toggle allowZeroToggle;
+	[SerializeField] Toggle under1000Toggle;
 
 	public void ManualStart(Main main)
 	{
@@ -35,6 +36,7 @@ public class TitleSubScene : SubScene
 			QuestionSubScene.Operation.Addition, 
 			allowZeroToggle.isOn,
 			allowCarryBorrowToggle.isOn,
+			under1000Toggle.isOn,
 			questionCount: 20);
 		nextSubScene = scene;
 	}

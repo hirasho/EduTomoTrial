@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestionSubScene : SubScene
 {
@@ -13,6 +14,7 @@ public class QuestionSubScene : SubScene
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
 	[SerializeField] UiNumber operand0;
+	[SerializeField] Text operatorText;
 	[SerializeField] UiNumber operand1;
 	[SerializeField] UiNumber answer;
 	[SerializeField] CountingObject redCubePrefab;
@@ -25,14 +27,21 @@ public class QuestionSubScene : SubScene
 	[SerializeField] Material rtLineMaterial;
 	[SerializeField] Camera rtCamera;
 	[SerializeField] Annotation annotationPrefab;
-
-	public void ManualStart(Main main, Operation operation, bool allowZero, bool allowCarryBorrow, int questionCount)
+	
+	public void ManualStart(
+		Main main, 
+		Operation operation, 
+		bool allowZero, 
+		bool allowCarryBorrow, 
+		bool under1000,
+		int questionCount)
 	{
 		this.main = main;
 		this.operation = operation;
 		this.allowCarryBorrow = allowCarryBorrow;
 		this.allowZero = allowZero;
 		this.questionCount = questionCount;
+		this.under1000 = under1000;
 
 		annotationViews = new List<Annotation>();
 		lines = new List<Line>();
@@ -52,10 +61,6 @@ public class QuestionSubScene : SubScene
 			ClearAnnotations();
 		}
 
-		if (ui.NextButtonClicked)
-		{
-			nextRequested = true;
-		}
 		ui.ManualUpdate(deltaTime);
 
 		if (pointerDown)
@@ -116,7 +121,25 @@ public class QuestionSubScene : SubScene
 
 	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
 	{
-		CompleteEvaluation(response);
+		ClearAnnotations();
+		var answer = operand0Value;
+		if (operation == Operation.Addition)
+		{
+			answer += operand1Value;
+		}
+		else if (operation == Operation.Subtraction)
+		{
+			answer -= operand1Value;
+		}
+		bool correct;
+		var letters = Evaluator.Evaluate(response, answer, out correct);
+Debug.Log("Evaluated " + letters.Count + " " + correct);
+		if (correct)
+		{
+			nextRequested = true;
+			main.SoundPlayer.Play("クイズ正解2");
+		}
+		ShowAnnotations(letters);
 	}
 
 	// non public -------
@@ -131,6 +154,7 @@ public class QuestionSubScene : SubScene
 	Operation operation;
 	bool allowZero;
 	bool allowCarryBorrow;
+	bool under1000;
 	int questionCount;
 	int questionIndex;
 	bool end;
@@ -257,93 +281,34 @@ public class QuestionSubScene : SubScene
 		}
 	}
 
-	void CompleteEvaluation(VisionApi.BatchAnnotateImagesResponse body)
+	void ShowAnnotations(IList<Evaluator.Letter> letters)
 	{
-		ClearAnnotations();
-		var answer = operand0Value + operand1Value;
-
-		// TODO: どうにかする
-		foreach (var response in body.responses)
+		foreach (var letter in letters)
 		{
-			var annotations = response.textAnnotations;
-			foreach (var annotation in annotations)
+			// 頂点抽出
+			var srcVertices = letter.vertices;
+			var dstVertices = new Vector3[srcVertices.Count];
+			var center = Vector3.zero;
+			var min = Vector3.one * float.MaxValue;
+			var max = -min;
+			for (var i = 0; i < srcVertices.Count; i++)
 			{
-				// 頂点抽出
-				var srcVertices = annotation.boundingPoly.vertices;
-				var dstVertices = new Vector3[srcVertices.Count];
-				var center = Vector3.zero;
-				var min = Vector3.one * float.MaxValue;
-				var max = -min;
-				for (var i = 0; i < srcVertices.Count; i++)
-				{
-					var srcV = srcVertices[i];
-					var sp = new Vector3(srcV.x, rtCamera.targetTexture.height - srcV.y);
-					var ray = rtCamera.ScreenPointToRay(sp);
-					var t = (0f - ray.origin.y) / ray.direction.y;
-					var wp = ray.origin + (ray.direction * t);
-					center += wp;
-					min = Vector3.Min(min, wp);
-					max = Vector3.Max(max, wp);
-				}
-
-				var text = annotation.description;
-				if (
-					(text != "123456789") &&
-					!text.Contains("Hello") && 
-					!text.Contains("World"))
-				{
-					var obj = Instantiate(annotationPrefab, transform, false);
-					center /= srcVertices.Count;
-					obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, annotation.description);
-					annotationViews.Add(obj);
-				} 
-
-				long value = 0;
-				foreach (var c in annotation.description)
-				{
-					var digit = TryReadDigit(c);
-					if (digit >= 0)
-					{
-						value *= 10;
-						value += digit;
-					}
-				}
-
-				if (value == answer)
-				{
-//					Debug.Log("正解: " + value);
-					nextRequested = true;
-					main.SoundPlayer.Play("クイズ正解2");
-				}
-				ui.SetDebugMessage(annotation.description);					
+				var srcV = srcVertices[i];
+				var sp = new Vector3(srcV.x, rtCamera.targetTexture.height - srcV.y);
+				var ray = rtCamera.ScreenPointToRay(sp);
+				var t = (0f - ray.origin.y) / ray.direction.y;
+				var wp = ray.origin + (ray.direction * t);
+				center += wp;
+				min = Vector3.Min(min, wp);
+				max = Vector3.Max(max, wp);
 			}
-		}
-	}
 
-	int TryReadDigit(char c)
-	{
-		var digit = -1;
-		if ((c >= '0') && (c <= '9'))
-		{
-			digit = c - '0';
+			var obj = Instantiate(annotationPrefab, transform, false);
+			center /= srcVertices.Count;
+			obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, letter.text, letter.correct);
+//Debug.Log("\t " + letter.text + " " + letter.correct);
+			annotationViews.Add(obj);
 		}
-		else if ((c == 'o') || (c == 'O') || (c == 'D'))
-		{
-			digit = 0;
-		}
-		else if ((c == '|') || (c == 'i') || (c == 'I') || (c == 'l') || (c == ')') || (c == '('))
-		{
-			digit = 1;
-		}
-		else if ((c == 's') || (c == 'S'))
-		{
-			digit = 5;
-		}
-		else if ((c == 'q') || (c == '។') || (c == 'a') || (c == '၄'))
-		{
-			digit = 9;
-		}
-		return digit;
 	}
 
 	void UpdateQuestion()
@@ -358,8 +323,38 @@ public class QuestionSubScene : SubScene
 		ui.SetQuestionIndex(questionIndex, questionCount);
 
 		int op0Min, op0Max, op1Min, op1Max;
-		if (operation == Operation.Addition)
+		if (under1000)
 		{
+			operand0.SetHeight(120f);
+			operand1.SetHeight(120f);
+			operation = (UnityEngine.Random.value < 0.5f) ? Operation.Addition : Operation.Subtraction;
+			if (operation == Operation.Addition)
+			{
+				operatorText.text = "+";
+				op0Min = op1Min = 0;
+				op0Max = UnityEngine.Random.Range(0, 999);
+				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
+				op1Max = UnityEngine.Random.Range(0, 999 - operand0Value);
+			}
+			else if (operation == Operation.Subtraction)
+			{
+				operatorText.text = "-";
+				op0Min = op1Min = 0;
+				op0Max = UnityEngine.Random.Range(0, 999);
+				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
+				op1Max = UnityEngine.Random.Range(0, operand0Value);
+			}
+			else
+			{
+				Debug.Assert(false, "ARIENAI");
+				op0Min = op0Max = op1Min = op1Max = 0;
+			}
+		}
+		else if (operation == Operation.Addition)
+		{
+			operand0.SetHeight(300f);
+			operand1.SetHeight(300f);
+			operatorText.text = "+";
 			op0Min = allowZero ? 0 : 1;
 			op1Min = allowZero ? 0 : 1;
 			if (allowCarryBorrow)
@@ -377,6 +372,9 @@ public class QuestionSubScene : SubScene
 		}
 		else if (operation == Operation.Subtraction)
 		{
+			operand0.SetHeight(300f);
+			operand1.SetHeight(300f);
+			operatorText.text = "-";
 			op0Min = allowZero ? 0 : 2;
 			if (allowCarryBorrow)
 			{

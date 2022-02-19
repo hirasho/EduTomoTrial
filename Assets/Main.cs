@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 
 public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -14,7 +10,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	public TouchDetector TouchDetector { get => touchDetector; }
 	public SoundPlayer SoundPlayer { get => soundPlayer; }
-	public VisionApi VisionApi { get => visionApi; }
+	public VisionApi.Client VisionApi { get => visionApi; }
 	public Camera MainCamera { get => camera; }
 
 	public void OnPointerDown(PointerEventData eventData)
@@ -37,7 +33,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 				var keys = JsonUtility.FromJson<Keys>(jsonAsset.text);
 				if (!string.IsNullOrEmpty(keys.VisionApiKey))
 				{
-					visionApi = new VisionApi(keys.VisionApiKey);
+					visionApi = new VisionApi.Client(keys.VisionApiKey);
 				}
 			}
 			catch (System.Exception e)
@@ -73,7 +69,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	}
 
 	// non public -------
-	VisionApi visionApi;
+	VisionApi.Client visionApi;
 	SubScene subScene;
 
 	void AdjustCameraHeight()

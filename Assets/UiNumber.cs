@@ -16,6 +16,11 @@ public class UiNumber : MonoBehaviour
 		dirty = true;
 	}
 
+	public void SetHeight(float height)
+	{
+		this.height = height;
+	}
+
 	void Start()
 	{
 		digits = new List<UiDigit>();

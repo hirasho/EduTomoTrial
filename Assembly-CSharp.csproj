@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/Annotation.cs" />
+     <Compile Include="Assets/ButtonEventsHandler.cs" />
      <Compile Include="Assets/CountingObject.cs" />
      <Compile Include="Assets/Crane.cs" />
      <Compile Include="Assets/Evaluator.cs" />
@@ -53,7 +54,8 @@
      <Compile Include="Assets/TouchDetector.cs" />
      <Compile Include="Assets/UiDigit.cs" />
      <Compile Include="Assets/UiNumber.cs" />
-     <Compile Include="Assets/VisionApi.cs" />
+     <Compile Include="Assets/VisionApi/VisionApiClient.cs" />
+     <Compile Include="Assets/VisionApi/VisionApiData.cs" />
      <None Include="Assets/Shaders/TransparentColor.shader" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/2019.4.35f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

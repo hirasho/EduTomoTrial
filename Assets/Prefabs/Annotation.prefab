@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubeTransform: {fileID: 7736605953935907050}
+  cubeRenderer: {fileID: 175310295184660903}
   textMesh: {fileID: 1774766315039223737}
 --- !u!1 &6486106206980664453
 GameObject:
