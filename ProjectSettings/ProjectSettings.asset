@@ -175,7 +175,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier: {}
   buildNumber: {}
-  AndroidBundleVersionCode: 13
+  AndroidBundleVersionCode: 14
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 30
   AndroidPreferredInstallLocation: 1
@@ -254,7 +254,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{dedicated}: eduTomo.keystore'
+  AndroidKeystoreName: '{inproject}: eduTomo.keystore'
   AndroidKeyaliasName: alias
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

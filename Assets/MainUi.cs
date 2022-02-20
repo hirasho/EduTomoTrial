@@ -37,6 +37,9 @@ public class MainUi : MonoBehaviour
 		ClearButtonClicked = false;
 
 		UpdateDebugInfo();
+#if UNITY_EDITOR
+		EraserDown = Input.GetKey(KeyCode.LeftShift);
+#endif
 	}
 
 	// non public ------

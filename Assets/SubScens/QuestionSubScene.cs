@@ -13,10 +13,11 @@ public class QuestionSubScene : SubScene
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
-	[SerializeField] UiNumber operand0;
-	[SerializeField] Text operatorText;
-	[SerializeField] UiNumber operand1;
-	[SerializeField] UiNumber answer;
+	[SerializeField] Text questionText;
+//	[SerializeField] UiNumber operand0;
+//	[SerializeField] Text operatorText;
+//	[SerializeField] UiNumber operand1;
+//	[SerializeField] UiNumber answer;
 	[SerializeField] CountingObject redCubePrefab;
 	[SerializeField] CountingObject blueCubePrefab;
 	[SerializeField] Crane crane;
@@ -264,6 +265,7 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 					(newTexels[i].g != prevRtTexels[i].g) ||
 					(newTexels[i].b != prevRtTexels[i].b))
 				{
+Debug.Log("D: " + i + " " + (i % rtCamera.targetTexture.width) + " " + (i / rtCamera.targetTexture.width) + " " + newTexels[i] + " <> " + prevRtTexels[i]);
 					dirty = true;
 					break;
 				}
@@ -323,14 +325,16 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 		ui.SetQuestionIndex(questionIndex, questionCount);
 
 		int op0Min, op0Max, op1Min, op1Max;
+		char operatorChar;
 		if (under1000)
 		{
-			operand0.SetHeight(120f);
-			operand1.SetHeight(120f);
+//			operand0.SetHeight(120f);
+//			operand1.SetHeight(120f);
 			operation = (UnityEngine.Random.value < 0.5f) ? Operation.Addition : Operation.Subtraction;
 			if (operation == Operation.Addition)
 			{
-				operatorText.text = "+";
+				operatorChar = '+';
+//				operatorText.text = "+";
 				op0Min = op1Min = 0;
 				op0Max = UnityEngine.Random.Range(0, 999);
 				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
@@ -338,7 +342,8 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 			}
 			else if (operation == Operation.Subtraction)
 			{
-				operatorText.text = "-";
+				operatorChar = '-';
+//				operatorText.text = "-";
 				op0Min = op1Min = 0;
 				op0Max = UnityEngine.Random.Range(0, 999);
 				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
@@ -348,13 +353,15 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 			{
 				Debug.Assert(false, "ARIENAI");
 				op0Min = op0Max = op1Min = op1Max = 0;
+				operatorChar = '?';
 			}
 		}
 		else if (operation == Operation.Addition)
 		{
-			operand0.SetHeight(300f);
-			operand1.SetHeight(300f);
-			operatorText.text = "+";
+			operatorChar = '+';
+//			operand0.SetHeight(300f);
+//			operand1.SetHeight(300f);
+//			operatorText.text = "+";
 			op0Min = allowZero ? 0 : 1;
 			op1Min = allowZero ? 0 : 1;
 			if (allowCarryBorrow)
@@ -372,9 +379,10 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 		}
 		else if (operation == Operation.Subtraction)
 		{
-			operand0.SetHeight(300f);
-			operand1.SetHeight(300f);
-			operatorText.text = "-";
+			operatorChar = '-';
+//			operand0.SetHeight(300f);
+//			operand1.SetHeight(300f);
+//			operatorText.text = "-";
 			op0Min = allowZero ? 0 : 2;
 			if (allowCarryBorrow)
 			{
@@ -393,11 +401,13 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 		{
 			Debug.Assert(false, "ARIENAI");
 			op0Min = op0Max = op1Min = op1Max = 0;
+			operatorChar = '?';
 		}
 		operand1Value = UnityEngine.Random.Range(op1Min, op1Max + 1);
 Debug.Log(op0Min + " " + op0Max + " " + op1Min + " " + op1Max + " " + operand0Value + " " + operand1Value);
-		operand0.SetValue(operand0Value);
-		operand1.SetValue(operand1Value);
+		questionText.text = string.Format("{0} {1} {2} =", operand0Value, operatorChar, operand1Value);
+//		operand0.SetValue(operand0Value);
+//		operand1.SetValue(operand1Value);
 //		var ans = operand0Value + operand1Value;
 //		answer.SetValue(ans); 
 
