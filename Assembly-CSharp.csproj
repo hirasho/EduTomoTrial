@@ -50,6 +50,7 @@
      <Compile Include="Assets/Scripts/SaveDataPathUtil.cs" />
      <Compile Include="Assets/Scripts/SoundPlayer.cs" />
      <Compile Include="Assets/Scripts/SubScene.cs" />
+     <Compile Include="Assets/Scripts/SubScens/LogViewSubScene.cs" />
      <Compile Include="Assets/Scripts/SubScens/QuestionSubScene.cs" />
      <Compile Include="Assets/Scripts/SubScens/ResultSubScene.cs" />
      <Compile Include="Assets/Scripts/SubScens/TitleSubScene.cs" />

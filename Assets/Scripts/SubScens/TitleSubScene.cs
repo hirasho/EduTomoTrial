@@ -14,6 +14,7 @@ public class TitleSubScene : SubScene
 	[SerializeField] Button mul11Button;
 	[SerializeField] Button mul21Button;
 	[SerializeField] Button addSub33_3Button;
+	[SerializeField] Button LogButton;
 
 	public void ManualStart(Main main)
 	{
@@ -49,12 +50,20 @@ public class TitleSubScene : SubScene
 		{
 			questionSettings = new QuestionSubScene.Settings("xxx+-yyy=???", QuestionSubScene.Operation.AddAndSub, questionCount, 3, 3, 3, 3, false, false);
 		});
+
+		LogButton.onClick.AddListener(() => { toLog = true; });
 	}
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
 		SubScene ret = null;
-		if (questionSettings != null)
+		if (toLog)
+		{
+			var subScene = SubScene.Instantiate<LogViewSubScene>(transform.parent);
+			subScene.ManualStart(main);
+			ret = subScene;
+		}
+		else if (questionSettings != null)
 		{
 			var subScene = SubScene.Instantiate<QuestionSubScene>(transform.parent);
 			subScene.ManualStart(
@@ -69,6 +78,7 @@ public class TitleSubScene : SubScene
 	Main main;
 	QuestionSubScene.Settings questionSettings;
 	int questionCount;
+	bool toLog;
 
 	void OnClickCount()
 	{
