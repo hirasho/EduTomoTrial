@@ -291,6 +291,12 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 		UpdateQuestion();
 		while (!nextRequested)
 		{
+#if UNITY_EDITOR
+if (Input.GetKeyDown(KeyCode.S))
+{
+	nextRequested = true;
+}
+#endif
 			yield return null;
 		}
 		var seconds = (System.DateTime.Now - problemStartTime).TotalSeconds;
@@ -466,6 +472,10 @@ Debug.Log(min +  " " + max);
 		char operatorChar;
 		if (operation == Operation.Addition)
 		{
+			// op0の範囲をまず削る
+			op0Min = Mathf.Max(op0Min, ansMin - op1Max); // 答えの最大+op1の最大が最大
+			op0Max = Mathf.Min(op0Max, ansMax - op1Min); // 答えの最大+op1の最大が最大
+			operand0 = UnityEngine.Random.Range(op0Min, op0Max + 1);
 			// op1の範囲は、[ansMin - op0, ansMax - op0]
 			op1Min = Mathf.Max(op1Min, ansMin - operand0);
 			op1Max = Mathf.Min(op1Max, ansMax - operand0);

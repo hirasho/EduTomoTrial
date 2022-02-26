@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Line : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Line : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 	[SerializeField] float width;
 	[SerializeField] float baseY;
@@ -50,6 +50,11 @@ public class Line : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	{
 		subScene.OnLineUp();
 	}
+
+	// こいつらないと引っぱった時に即upが来てしまう
+	public void OnBeginDrag(PointerEventData eventData){}
+	public void OnDrag(PointerEventData eventData){}
+	public void OnEndDrag(PointerEventData eventData){}
 
 	// non public ------
 	Mesh mesh;
