@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TitleSubScene : SubScene
 {
+	[SerializeField] int defaultQuestionCount = 20;
 	[SerializeField] Button countButton;
 	[SerializeField] Button add11_2Button;
 	[SerializeField] Button sub21_1Button;
@@ -17,36 +18,36 @@ public class TitleSubScene : SubScene
 	public void ManualStart(Main main)
 	{
 		this.main = main;
-		questionCount = 20; // これどこから渡す?
+		questionCount = defaultQuestionCount; // これどこから渡す?
 
 		countButton.onClick.AddListener(OnClickCount);
 		add11_2Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, false);
+			questionSettings = new QuestionSubScene.Settings("x+y=?", QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, false);
 		});
 		sub21_1Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, false);
+			questionSettings = new QuestionSubScene.Settings("xx-y=?", QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, false);
 		});
 		invAdd11_2Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, true);
+			questionSettings = new QuestionSubScene.Settings("x+?=yy", QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, true);
 		});
 		invSub21_1Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, true);
+			questionSettings = new QuestionSubScene.Settings("xx-?=y", QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, true);
 		});
 		mul11Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Multiplication, questionCount, 1, 1, 1, 2, false, false);
+			questionSettings = new QuestionSubScene.Settings("x*y=??", QuestionSubScene.Operation.Multiplication, questionCount, 1, 1, 1, 2, false, false);
 		});
 		mul21Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Multiplication, questionCount, 2, 1, 2, 3, false, false);
+			questionSettings = new QuestionSubScene.Settings("xx*y=???", QuestionSubScene.Operation.Multiplication, questionCount, 2, 1, 2, 3, false, false);
 		});
 		addSub33_3Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.AddAndSub, questionCount, 3, 3, 3, 3, false, false);
+			questionSettings = new QuestionSubScene.Settings("xxx+-yyy=???", QuestionSubScene.Operation.AddAndSub, questionCount, 3, 3, 3, 3, false, false);
 		});
 	}
 

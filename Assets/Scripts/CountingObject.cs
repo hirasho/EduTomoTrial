@@ -11,6 +11,7 @@ public class CountingObject : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 	{
 		this.questionScene = questionScene;
 		rigidbody.MovePosition(initialPosition);
+		rigidbody.transform.position = initialPosition;
 	}
 
 	public void OnBeginDrag(PointerEventData eventData)

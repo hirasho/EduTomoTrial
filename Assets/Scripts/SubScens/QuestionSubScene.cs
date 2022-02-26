@@ -12,9 +12,11 @@ public class QuestionSubScene : SubScene
 		Multiplication,
 		AddAndSub,
 	}
+
 	public class Settings
 	{
 		public Settings(
+			string description,
 			Operation operation,
 			int questionCount,
 			int operand0Digits,
@@ -24,6 +26,7 @@ public class QuestionSubScene : SubScene
 			bool allowZero,
 			bool invertOperation)
 		{
+			this.description = description;
 			this.operation = operation;
 			this.questionCount = questionCount;
 			this.operand0Digits = operand0Digits;
@@ -34,6 +37,7 @@ public class QuestionSubScene : SubScene
 			this.invertOperation = invertOperation;
 		}
 			
+		public string description;
 		public Operation operation;
 		public int questionCount;
 		public int operand0Digits;
@@ -70,7 +74,14 @@ public class QuestionSubScene : SubScene
 		countingObjects = new List<CountingObject>();
 		ui.ManualStart();
 		rtCamera.enabled = false;
-		startTime = System.DateTime.Now;
+		sessionData = new SessionData(
+			settings.operand0Digits, 
+			settings.operand1Digits, 
+			settings.answerMaxDigits, 
+			settings.description,
+			main.UserName,
+			main.Birthday);
+		sessionStartTime = System.DateTime.Now;
 
 		StartCoroutine(CoQuestionLoop());
 	}
@@ -117,8 +128,10 @@ public class QuestionSubScene : SubScene
 		if (end)
 		{
 			var result = SubScene.Instantiate<ResultSubScene>(transform.parent);
-			var time = (System.DateTime.Now - startTime).TotalSeconds;
-			result.ManualStart(main, (float)time, settings.questionCount);
+			var duration = (System.DateTime.Now - sessionStartTime).TotalSeconds;
+			main.OnSessionEnd(sessionData);
+
+			result.ManualStart(main, (float)duration, settings.questionCount);
 			nextScene = result;
 		}
 		return nextScene;
@@ -132,6 +145,7 @@ public class QuestionSubScene : SubScene
 			line.ManualStart(this, main.MainCamera);
 			lines.Add(line);
 			drawing = true;
+			strokeCount++;
 		}
 		pointerDown = true;
 	}
@@ -216,8 +230,13 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 	bool drawing;
 	int questionIndex;
 	bool end;
-	System.DateTime startTime;
 	List<Annotation> annotationViews;
+	System.DateTime sessionStartTime;
+	System.DateTime problemStartTime;
+	SessionData sessionData;
+	int strokeCount;
+	int eraseCount;
+	string problemText;
 
 	void RemoveLine(Line line)
 	{
@@ -228,6 +247,7 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 			if (lines[i] == line)
 			{
 				Destroy(lines[i].gameObject);
+				eraseCount++;
 			}
 			else
 			{
@@ -273,6 +293,10 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 		{
 			yield return null;
 		}
+		var seconds = (System.DateTime.Now - problemStartTime).TotalSeconds;
+		var problem = new ProblemData(problemText, (float)seconds, strokeCount, eraseCount);
+		sessionData.AddProblemData(problem);
+
 		nextRequested = false;
 	}
 
@@ -510,6 +534,16 @@ Debug.Log(min +  " " + max);
 				countingObjects.Add(obj);
 			}
 		}
+		problemStartTime = System.DateTime.Now;
+		switch (operation)
+		{
+			case Operation.Addition: operatorChar = '+'; break;
+			case Operation.Subtraction: operatorChar = '-'; break;
+			case Operation.Multiplication: operatorChar = '*'; break;
+			default: operatorChar = '\0'; break;
+		}
+		problemText = string.Format("{0}{1}{2}", operand0, operatorChar, operand1);
+		strokeCount = eraseCount = 0;
 	}
 
 	static int Pow10(int e)

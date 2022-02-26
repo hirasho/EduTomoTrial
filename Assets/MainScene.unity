@@ -239,7 +239,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.5
-  far clip plane: 10
+  far clip plane: 50
   field of view: 15
   orthographic: 0
   orthographic size: 5
@@ -508,6 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31878e535ed004c379dc911a1c833f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultUserName: "\u5E73\u5C71\u30AA\u30C8\u30E2"
   subSceneRoot: {fileID: 1259723746}
   camera: {fileID: 963194227}
   touchDetector: {fileID: 1884839191}
