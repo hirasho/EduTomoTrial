@@ -38,7 +38,7 @@ public class MainUi : MonoBehaviour
 
 		UpdateDebugInfo();
 #if UNITY_EDITOR
-		EraserDown = Input.GetKey(KeyCode.LeftShift);
+		EraserDown = Input.GetKey(KeyCode.E);
 #endif
 	}
 

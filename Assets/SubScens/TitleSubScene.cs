@@ -5,39 +5,72 @@ using UnityEngine.UI;
 
 public class TitleSubScene : SubScene
 {
-	[SerializeField] Button startButton;
-	[SerializeField] Toggle allowCarryBorrowToggle;
-	[SerializeField] Toggle allowZeroToggle;
-	[SerializeField] Toggle under1000Toggle;
+	[SerializeField] Button countButton;
+	[SerializeField] Button add11_2Button;
+	[SerializeField] Button sub21_1Button;
+	[SerializeField] Button invAdd11_2Button;
+	[SerializeField] Button invSub21_1Button;
+	[SerializeField] Button mul11Button;
+	[SerializeField] Button mul21Button;
+	[SerializeField] Button addSub33_3Button;
 
 	public void ManualStart(Main main)
 	{
 		this.main = main;
-		startButton.onClick.AddListener(() => 
+		questionCount = 20; // これどこから渡す?
+
+		countButton.onClick.AddListener(OnClickCount);
+		add11_2Button.onClick.AddListener(() =>
 		{
-			OnClickStart();
+			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, false);
+		});
+		sub21_1Button.onClick.AddListener(() =>
+		{
+			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, false);
+		});
+		invAdd11_2Button.onClick.AddListener(() =>
+		{
+			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, true);
+		});
+		invSub21_1Button.onClick.AddListener(() =>
+		{
+			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, true);
+		});
+		mul11Button.onClick.AddListener(() =>
+		{
+			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Multiplication, questionCount, 1, 1, 1, 2, false, false);
+		});
+		mul21Button.onClick.AddListener(() =>
+		{
+			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.Multiplication, questionCount, 2, 1, 2, 3, false, false);
+		});
+		addSub33_3Button.onClick.AddListener(() =>
+		{
+			questionSettings = new QuestionSubScene.Settings(QuestionSubScene.Operation.AddAndSub, questionCount, 3, 3, 3, 3, false, false);
 		});
 	}
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
-		return nextSubScene;
+		SubScene ret = null;
+		if (questionSettings != null)
+		{
+			var subScene = SubScene.Instantiate<QuestionSubScene>(transform.parent);
+			subScene.ManualStart(
+				main,
+				questionSettings);
+			ret = subScene;
+		}
+		return ret;
 	}
 
 	// non public ---------
-	SubScene nextSubScene;
 	Main main;
+	QuestionSubScene.Settings questionSettings;
+	int questionCount;
 
-	void OnClickStart()
+	void OnClickCount()
 	{
-		var scene = SubScene.Instantiate<QuestionSubScene>(transform.parent);
-		scene.ManualStart(
-			main, 
-			QuestionSubScene.Operation.Addition, 
-			allowZeroToggle.isOn,
-			allowCarryBorrowToggle.isOn,
-			under1000Toggle.isOn,
-			questionCount: 20);
-		nextSubScene = scene;
+		// TODO:
 	}
 }

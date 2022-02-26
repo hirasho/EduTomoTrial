@@ -84,16 +84,23 @@ public static class Evaluator
 		var answerText = answer.ToString();
 
 		// 逆順マッチ。大抵1の位から書いて行くから。
-		for (var i = 0; i < wordLetters.Count; i++)
+		var answerIndex = answerText.Length - 1;
+		var writtenIndex = wordLetters.Count - 1;
+		var writtenDigitCount = 0;
+		while ((answerIndex >= 0) && (writtenIndex >= 0))
 		{
-			var letter = wordLetters[wordLetters.Count - 1 - i];
+			var letter = wordLetters[writtenIndex];
 			letter.correct = false;
-			if (((answerText.Length - 1 - i) >= 0) && (letter.text.Length == 1)) 
-			{				
-				var c0 = answerText[answerText.Length - 1 - i];
-				var c1 = letter.text[0];
-//Debug.Log("\t" + i + " " + c0 + " " + c1);
-				if (c0 == c1)
+			var ca = answerText[answerIndex];
+			var cw = letter.text[0];
+			if (cw == '?')
+			{
+				writtenIndex--;
+			}
+			else
+			{
+				writtenDigitCount++;
+				if (ca == cw)
 				{
 					letter.correct = true;
 				}
@@ -101,10 +108,8 @@ public static class Evaluator
 				{
 					correct = false;
 				}
-			}
-			else
-			{
-				correct = false;
+				answerIndex--;
+				writtenIndex--;
 			}
 		}
 
@@ -113,7 +118,7 @@ public static class Evaluator
 			letters.Add(letter);
 		}
 
-		if (answerText.Length != wordLetters.Count) // 長さが違えば違う
+		if (answerText.Length != writtenDigitCount) // 長さが違えば違う
 		{
 			correct = false;
 		}

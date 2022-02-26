@@ -44,7 +44,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		Application.targetFrameRate = 120;
 
 		var titleSubScene = SubScene.Instantiate<TitleSubScene>(subSceneRoot);
-		titleSubScene.ManualStart(main: this);
+		titleSubScene.ManualStart(this);
 		subScene = titleSubScene;
 	}
 
@@ -75,7 +75,9 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	void AdjustCameraHeight()
 	{
 		// カメラ位置調整
-		var y = 0.5f / Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * 0.5f);
+		var y0 = (1f * 9f / 16f) / Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * 0.5f);
+		var y1 = 1f / Mathf.Tan(camera.fieldOfView * camera.aspect * Mathf.Deg2Rad * 0.5f);
+		var y = Mathf.Max(y0, y1);
 		camera.transform.localPosition = new Vector3(0f, y, 0f);
 	}
 }

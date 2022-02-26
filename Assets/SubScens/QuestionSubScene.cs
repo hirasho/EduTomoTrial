@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class QuestionSubScene : SubScene
 {
@@ -9,15 +9,44 @@ public class QuestionSubScene : SubScene
 	{
 		Addition,
 		Subtraction,
+		Multiplication,
+		AddAndSub,
+	}
+	public class Settings
+	{
+		public Settings(
+			Operation operation,
+			int questionCount,
+			int operand0Digits,
+			int operand1Digits,
+			int answerMinDigits,
+			int answerMaxDigits,
+			bool allowZero,
+			bool invertOperation)
+		{
+			this.operation = operation;
+			this.questionCount = questionCount;
+			this.operand0Digits = operand0Digits;
+			this.operand1Digits = operand1Digits;
+			this.answerMinDigits = answerMinDigits;
+			this.answerMaxDigits = answerMaxDigits;
+			this.allowZero = allowZero;
+			this.invertOperation = invertOperation;
+		}
+			
+		public Operation operation;
+		public int questionCount;
+		public int operand0Digits;
+		public int operand1Digits;
+		public int answerMinDigits;
+		public int answerMaxDigits;
+		public bool allowZero;
+		public bool invertOperation;
 	}
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
 	[SerializeField] Text questionText;
-//	[SerializeField] UiNumber operand0;
-//	[SerializeField] Text operatorText;
-//	[SerializeField] UiNumber operand1;
-//	[SerializeField] UiNumber answer;
 	[SerializeField] CountingObject redCubePrefab;
 	[SerializeField] CountingObject blueCubePrefab;
 	[SerializeField] Crane crane;
@@ -31,18 +60,10 @@ public class QuestionSubScene : SubScene
 	
 	public void ManualStart(
 		Main main, 
-		Operation operation, 
-		bool allowZero, 
-		bool allowCarryBorrow, 
-		bool under1000,
-		int questionCount)
+		Settings settings)
 	{
 		this.main = main;
-		this.operation = operation;
-		this.allowCarryBorrow = allowCarryBorrow;
-		this.allowZero = allowZero;
-		this.questionCount = questionCount;
-		this.under1000 = under1000;
+		this.settings = settings;
 
 		annotationViews = new List<Annotation>();
 		lines = new List<Line>();
@@ -68,10 +89,28 @@ public class QuestionSubScene : SubScene
 		{
 			var pointer = main.TouchDetector.ScreenPosition;
 			var ray = main.MainCamera.ScreenPointToRay(pointer);
-			// y=0点を取得
-			var t = -ray.origin.y / ray.direction.y;
-			var p = ray.origin + (ray.direction * t);
-			lines[lines.Count - 1].AddPoint(p);
+			if (drawing)
+			{
+				if (lines.Count > 0)
+				{
+					// y=0点を取得
+					var t = -ray.origin.y / ray.direction.y;
+					var p = ray.origin + (ray.direction * t);
+					lines[lines.Count - 1].AddPoint(p);
+				}
+			}
+			else
+			{
+				var hits = Physics.RaycastAll(ray.origin, ray.direction, 1000f, Physics.AllLayers);
+				foreach (var hit in hits)
+				{
+					var line = hit.collider.gameObject.GetComponent<Line>();
+					if (line != null)
+					{
+						RemoveLine(line);
+					}
+				}
+			}
 		}
 
 		SubScene nextScene = null;
@@ -79,7 +118,7 @@ public class QuestionSubScene : SubScene
 		{
 			var result = SubScene.Instantiate<ResultSubScene>(transform.parent);
 			var time = (System.DateTime.Now - startTime).TotalSeconds;
-			result.ManualStart(main, (float)time);
+			result.ManualStart(main, (float)time, settings.questionCount);
 			nextScene = result;
 		}
 		return nextScene;
@@ -87,21 +126,50 @@ public class QuestionSubScene : SubScene
 
 	public override void OnPointerDown()
 	{
-		var line = Instantiate(linePrefab, lineRoot, false);
-		line.ManualStart();
-		lines.Add(line);
+		if (!ui.EraserDown)
+		{
+			var line = Instantiate(linePrefab, lineRoot, false);
+			line.ManualStart(this, main.MainCamera);
+			lines.Add(line);
+			drawing = true;
+		}
 		pointerDown = true;
+	}
+
+	public void OnLineDown(Line line)
+	{
+		if (ui.EraserDown)
+		{
+			RemoveLine(line);
+		}
+		else
+		{
+			OnPointerDown();
+		}
+	}
+
+	public void OnLineUp()
+	{
+		OnPointerUp();
 	}
 
 	public override void OnPointerUp()
 	{
-		StartCoroutine(CoRequestEvaluation());
+		if (drawing)
+		{
+			if (lines.Count > 0)
+			{
+				lines[lines.Count - 1].GenerateCollider();
+			}
+			StartCoroutine(CoRequestEvaluation());
+		}
+		drawing = false;
 		pointerDown = false;
 	}
 
 	public void OnBeginDragCountingObject(Rigidbody rigidbody, Vector2 screenPosition)
 	{
-		var ray = GetComponent<Camera>().ScreenPointToRay(screenPosition);
+		var ray = main.MainCamera.ScreenPointToRay(screenPosition);
 		var t = (countingObjectGrabY - ray.origin.y) / ray.direction.y;
 		var p = ray.origin + (ray.direction * t);
 		crane.Grab(rigidbody, p);
@@ -109,7 +177,7 @@ public class QuestionSubScene : SubScene
 
 	public void OnDragCountingObject(Vector2 screenPosition)
 	{
-		var ray = GetComponent<Camera>().ScreenPointToRay(screenPosition);
+		var ray = main.MainCamera.ScreenPointToRay(screenPosition);
 		var t = (countingObjectGrabY - ray.origin.y) / ray.direction.y;
 		var p = ray.origin + (ray.direction * t);
 		crane.SetPosition(p);		
@@ -123,15 +191,6 @@ public class QuestionSubScene : SubScene
 	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
 	{
 		ClearAnnotations();
-		var answer = operand0Value;
-		if (operation == Operation.Addition)
-		{
-			answer += operand1Value;
-		}
-		else if (operation == Operation.Subtraction)
-		{
-			answer -= operand1Value;
-		}
 		bool correct;
 		var letters = Evaluator.Evaluate(response, answer, out correct);
 Debug.Log("Evaluated " + letters.Count + " " + correct);
@@ -145,26 +204,42 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 
 	// non public -------
 	Main main;
-	int operand0Value;
-	int operand1Value;
+	Settings settings;
+	int operand0;
+	int operand1;
+	int answer;
 	List<CountingObject> countingObjects;
 	bool nextRequested;
 	Color32[] prevRtTexels;
 	List<Line> lines;
 	bool pointerDown;
-	Operation operation;
-	bool allowZero;
-	bool allowCarryBorrow;
-	bool under1000;
-	int questionCount;
+	bool drawing;
 	int questionIndex;
 	bool end;
 	System.DateTime startTime;
 	List<Annotation> annotationViews;
 
+	void RemoveLine(Line line)
+	{
+		var dst = 0;
+		for (var i = 0; i < lines.Count; i++)
+		{
+			lines[dst] = lines[i];
+			if (lines[i] == line)
+			{
+				Destroy(lines[i].gameObject);
+			}
+			else
+			{
+				dst++;
+			}
+		}
+		lines.RemoveRange(dst, lines.Count - dst);
+	}
+	
 	IEnumerator CoQuestionLoop()
 	{
-		while (questionIndex < questionCount)
+		while (questionIndex < settings.questionCount)
 		{
 			yield return CoQuestion();
 		}
@@ -217,10 +292,10 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 		}
 		var center = (min + max) * 0.5f;
 		center.y += 10f;
-
+Debug.Log(min +  " " + max);
 		rtCamera.transform.localPosition = center;
 		rtCamera.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-		rtCamera.orthographicSize = Mathf.Max(max.x - min.x, max.z - min.z);
+		rtCamera.orthographicSize = Mathf.Max((max.x - min.x) / rtCamera.aspect, max.z - min.z);
 
 		// Lineを全部コピー
 		var rtLines = new List<Line>();
@@ -265,7 +340,6 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 					(newTexels[i].g != prevRtTexels[i].g) ||
 					(newTexels[i].b != prevRtTexels[i].b))
 				{
-Debug.Log("D: " + i + " " + (i % rtCamera.targetTexture.width) + " " + (i / rtCamera.targetTexture.width) + " " + newTexels[i] + " <> " + prevRtTexels[i]);
 					dirty = true;
 					break;
 				}
@@ -293,9 +367,14 @@ Debug.Log("D: " + i + " " + (i % rtCamera.targetTexture.width) + " " + (i / rtCa
 			var center = Vector3.zero;
 			var min = Vector3.one * float.MaxValue;
 			var max = -min;
+			var inBox = false;
 			for (var i = 0; i < srcVertices.Count; i++)
 			{
 				var srcV = srcVertices[i];
+				if ((srcV.x >= 64) && (srcV.x < 192) && (srcV.y >= 48) && (srcV.y <= 144))
+				{
+					inBox = true;
+				}
 				var sp = new Vector3(srcV.x, rtCamera.targetTexture.height - srcV.y);
 				var ray = rtCamera.ScreenPointToRay(sp);
 				var t = (0f - ray.origin.y) / ray.direction.y;
@@ -305,11 +384,14 @@ Debug.Log("D: " + i + " " + (i % rtCamera.targetTexture.width) + " " + (i / rtCa
 				max = Vector3.Max(max, wp);
 			}
 
-			var obj = Instantiate(annotationPrefab, transform, false);
-			center /= srcVertices.Count;
-			obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, letter.text, letter.correct);
+			if (inBox)
+			{
+				var obj = Instantiate(annotationPrefab, transform, false);
+				center /= srcVertices.Count;
+				obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, letter.text, letter.correct);
 //Debug.Log("\t " + letter.text + " " + letter.correct);
-			annotationViews.Add(obj);
+				annotationViews.Add(obj);
+			}
 		}
 	}
 
@@ -322,113 +404,121 @@ Debug.Log("D: " + i + " " + (i % rtCamera.targetTexture.width) + " " + (i / rtCa
 		countingObjects.Clear();
 
 		questionIndex++;
-		ui.SetQuestionIndex(questionIndex, questionCount);
+		ui.SetQuestionIndex(questionIndex, settings.questionCount);
 
-		int op0Min, op0Max, op1Min, op1Max;
-		char operatorChar;
-		if (under1000)
+		int op0Min, op0Max, op1Min, op1Max, ansMin, ansMax;
+
+		// まず粗く範囲を狭める
+		op0Min = Pow10(settings.operand0Digits - 1);
+		if (!settings.allowZero && (op0Min == 0))
 		{
-//			operand0.SetHeight(120f);
-//			operand1.SetHeight(120f);
-			operation = (UnityEngine.Random.value < 0.5f) ? Operation.Addition : Operation.Subtraction;
-			if (operation == Operation.Addition)
-			{
-				operatorChar = '+';
-//				operatorText.text = "+";
-				op0Min = op1Min = 0;
-				op0Max = UnityEngine.Random.Range(0, 999);
-				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
-				op1Max = UnityEngine.Random.Range(0, 999 - operand0Value);
-			}
-			else if (operation == Operation.Subtraction)
-			{
-				operatorChar = '-';
-//				operatorText.text = "-";
-				op0Min = op1Min = 0;
-				op0Max = UnityEngine.Random.Range(0, 999);
-				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
-				op1Max = UnityEngine.Random.Range(0, operand0Value);
-			}
-			else
-			{
-				Debug.Assert(false, "ARIENAI");
-				op0Min = op0Max = op1Min = op1Max = 0;
-				operatorChar = '?';
-			}
+			op0Min = 1;
 		}
-		else if (operation == Operation.Addition)
+		op0Max = Pow10(settings.operand0Digits) - 1;
+
+		op1Min = Pow10(settings.operand1Digits - 1);
+		if (!settings.allowZero && (op1Min == 0))
 		{
-			operatorChar = '+';
-//			operand0.SetHeight(300f);
-//			operand1.SetHeight(300f);
-//			operatorText.text = "+";
-			op0Min = allowZero ? 0 : 1;
-			op1Min = allowZero ? 0 : 1;
-			if (allowCarryBorrow)
-			{
-				op0Max = 9;
-				op1Max = 9;
-				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
-			}
-			else
-			{
-				op0Max = allowZero ? 10 : 9;
-				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
-				op1Max = 10 - operand0Value;				
-			}
+			op1Min = 1;
+		}
+		op1Max = Pow10(settings.operand1Digits) - 1;
+
+		ansMin = Pow10(settings.answerMinDigits - 1);
+		if (!settings.allowZero && (ansMin == 0))
+		{
+			ansMin = 1;
+		}
+		ansMax = Pow10(settings.answerMaxDigits) - 1;
+		// operand0を雑に決定する
+		operand0 = Random.Range(op0Min, op0Max + 1);
+
+		var operation = settings.operation;
+		// 加減算両方なら今確定させる
+		if (operation == Operation.AddAndSub)
+		{
+			operation = (Random.value < 0.5f) ? Operation.Addition : Operation.Subtraction;
+		}
+
+		char operatorChar;
+		if (operation == Operation.Addition)
+		{
+			// op1の範囲は、[ansMin - op0, ansMax - op0]
+			op1Min = Mathf.Max(op1Min, ansMin - operand0);
+			op1Max = Mathf.Min(op1Max, ansMax - operand0);
+			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
+			answer = operand0 + operand1;
+			operatorChar = '＋';
 		}
 		else if (operation == Operation.Subtraction)
 		{
-			operatorChar = '-';
-//			operand0.SetHeight(300f);
-//			operand1.SetHeight(300f);
-//			operatorText.text = "-";
-			op0Min = allowZero ? 0 : 2;
-			if (allowCarryBorrow)
-			{
-				op0Max = 18;
-				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
-			}
-			else
-			{
-				op0Max = 10;
-				operand0Value = UnityEngine.Random.Range(op0Min, op0Max + 1);
-			}
-			op1Min = allowZero ? 0 : 1;
-			op1Max = allowZero ? Mathf.Min(operand0Value, 9) : Mathf.Min(operand0Value - 1, 9);
+			// op0の範囲をまず削る
+			op0Min = Mathf.Max(op0Min, ansMin + op1Min); // 答えの最大+op1の最大が最大
+			op0Max = Mathf.Min(op0Max, ansMax + op1Max); // 答えの最大+op1の最大が最大
+			operand0 = UnityEngine.Random.Range(op0Min, op0Max + 1);
+			// op0 - op1 >= ansMin
+			// op1の範囲は、[ansMin + op0, ansMax + op0]
+			op1Min = Mathf.Max(op1Min, operand0 - ansMax);
+			op1Max = Mathf.Min(op1Max, operand0 - ansMin);
+			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
+			answer = operand0 - operand1;
+			operatorChar = '−';
+		}
+		else if (operation == Operation.Multiplication)
+		{
+			// op0 * op1 >= ansMin
+			op1Min = Mathf.Max(op1Min, (ansMin + operand0 - 1) / operand0);
+			// op0 * op1 <= ansMax
+			op1Max = Mathf.Min(op1Max, ansMax / operand0);
+			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
+			answer = operand0 * operand1;
+			operatorChar = '×';
 		}
 		else
 		{
-			Debug.Assert(false, "ARIENAI");
-			op0Min = op0Max = op1Min = op1Max = 0;
+			Debug.Assert(false, "BUG.");
 			operatorChar = '?';
+			operand0 = operand1 = answer = 0;
 		}
-		operand1Value = UnityEngine.Random.Range(op1Min, op1Max + 1);
-Debug.Log(op0Min + " " + op0Max + " " + op1Min + " " + op1Max + " " + operand0Value + " " + operand1Value);
-		questionText.text = string.Format("{0} {1} {2} =", operand0Value, operatorChar, operand1Value);
-//		operand0.SetValue(operand0Value);
-//		operand1.SetValue(operand1Value);
-//		var ans = operand0Value + operand1Value;
-//		answer.SetValue(ans); 
+		Debug.LogFormat("{0}({1},{2})={3} op0=[{4},{5}] op1=[{6}.{7}]", operatorChar, operand0, operand1, answer, op0Min, op0Max, op1Min, op1Max);
+		Debug.Assert(operand0 >= op0Min);
+		Debug.Assert(operand0 <= op0Max);
+		Debug.Assert(operand1 >= op1Min);
+		Debug.Assert(operand1 <= op1Max);
+		Debug.Assert(answer >= ansMin);
+		Debug.Assert(answer <= ansMax);
 
-		var center = new Vector3(-0.7f, 1f, 0.3f);
-		for (var i = 0; i < operand0Value; i++)
-		{
-			var obj = Instantiate(redCubePrefab, countObjectRoot, false);
-			var p = center + new Vector3(0.15f * i, 0.5f * i, 0f);
-			obj.ManualStart(this, p);
-//Debug.Log(p);
-			countingObjects.Add(obj);
-		}
+		questionText.text = string.Format("{0} {1} {2} =", operand0, operatorChar, operand1);
 
-		center = new Vector3(-0.6f, 1f, -0.3f);
-		for (var i = 0; i < operand1Value; i++)
+		// 加算に限ってキューブ置く
+		if ((operation == Operation.Addition) && (settings.operand0Digits == 1) && (settings.operand1Digits == 1))
 		{
-			var obj = Instantiate(blueCubePrefab, countObjectRoot, false);
-			var p = center + new Vector3(0.15f * i, 0.5f * i, 0f);
-			obj.ManualStart(this, p);
-//Debug.Log(p);
-			countingObjects.Add(obj);
+			var center = new Vector3(-0.7f, 1f, 0.3f);
+			for (var i = 0; i < operand0; i++)
+			{
+				var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+				var p = center + new Vector3(0.15f * i, 0.5f * i, 0f);
+				obj.ManualStart(this, p);
+				countingObjects.Add(obj);
+			}
+
+			center = new Vector3(-0.6f, 1f, -0.3f);
+			for (var i = 0; i < operand1; i++)
+			{
+				var obj = Instantiate(blueCubePrefab, countObjectRoot, false);
+				var p = center + new Vector3(0.15f * i, 0.5f * i, 0f);
+				obj.ManualStart(this, p);
+				countingObjects.Add(obj);
+			}
 		}
+	}
+
+	static int Pow10(int e)
+	{
+		var ret = 1;
+		for (var i = 0; i < e; i++)
+		{
+			ret *= 10;
+		}
+		return ret;
 	}
 }
