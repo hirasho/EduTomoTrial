@@ -13,8 +13,11 @@ public class TitleSubScene : SubScene
 	[SerializeField] Button invSub21_1Button;
 	[SerializeField] Button mul11Button;
 	[SerializeField] Button mul21Button;
+	[SerializeField] Button mul32Button;
 	[SerializeField] Button addSub33_3Button;
 	[SerializeField] Button LogButton;
+	[SerializeField] Text problemCountText;
+	[SerializeField] Slider problemCountSlider;
 
 	public void ManualStart(Main main)
 	{
@@ -46,6 +49,10 @@ public class TitleSubScene : SubScene
 		{
 			questionSettings = new QuestionSubScene.Settings("xx*y=???", QuestionSubScene.Operation.Multiplication, questionCount, 2, 1, 2, 3, false, false);
 		});
+		mul32Button.onClick.AddListener(() =>
+		{
+			questionSettings = new QuestionSubScene.Settings("xxx*yy=?????", QuestionSubScene.Operation.Multiplication, questionCount, 3, 2, 4, 5, false, false);
+		});
 		addSub33_3Button.onClick.AddListener(() =>
 		{
 			questionSettings = new QuestionSubScene.Settings("xxx+-yyy=???", QuestionSubScene.Operation.AddAndSub, questionCount, 3, 3, 3, 3, false, false);
@@ -56,6 +63,10 @@ public class TitleSubScene : SubScene
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
+		var sliderValue = problemCountSlider.value;
+		questionCount = (int)sliderValue * 10;
+		problemCountText.text = questionCount.ToString();
+
 		SubScene ret = null;
 		if (toLog)
 		{

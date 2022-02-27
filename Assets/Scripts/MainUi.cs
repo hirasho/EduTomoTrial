@@ -7,17 +7,21 @@ public class MainUi : MonoBehaviour
 {
 	[SerializeField] Canvas canvas;
 	[SerializeField] Button clearButton;
+	[SerializeField] Image eraserButtonImage;
 	[SerializeField] ButtonEventsHandler eraserButton;
 	[SerializeField] Text questionIndexText;
 	[SerializeField] Text debugInfoText;
 	[SerializeField] Text debugMessageText;
+	[SerializeField] Image loadingIcon;
 
 	public bool ClearButtonClicked { get; private set; }
-	public bool EraserDown { get; private set; }
+	public bool EraserEnabled { get => (!eraserDown && eraserOn); } // down中は何であれ有効,それ以外はonなら有効
 
 	public void ManualStart()
 	{
+		loadingIcon.enabled = false;
 		clearButton.onClick.AddListener(OnClickClear);
+
 		eraserButton.OnDown = OnEraserDown;
 		eraserButton.OnUp = OnEraserUp;
 	}
@@ -32,17 +36,49 @@ public class MainUi : MonoBehaviour
 		debugMessageText.text = message;
 	}
 
+	public void BeginLoading()
+	{
+		loadingIcon.enabled = true;
+	}
+
+	public void EndLoading()
+	{
+		loadingIcon.enabled = false;
+	}
+
 	public void ManualUpdate(float deltaTime)
 	{
 		ClearButtonClicked = false;
 
 		UpdateDebugInfo();
 #if UNITY_EDITOR
-		EraserDown = Input.GetKey(KeyCode.E);
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			eraserOn = !eraserOn;
+		}
 #endif
+		if (loadingIcon.enabled)
+		{
+			var iconTransform = loadingIcon.transform;
+			var dq = Quaternion.AngleAxis(360f * deltaTime, new Vector3(0f, 0f, 1f));
+			iconTransform.localRotation = dq * iconTransform.localRotation;
+		}
+
+		eraserButtonImage.color = EraserEnabled ? new Color(0.75f, 0.75f, 0.75f, 1f) : new Color(1f, 1f, 1f, 1f);
+	}
+
+	public void SetEraserOff()
+	{
+		if (eraserOn)
+		{
+			OnEraserDown();
+		}
 	}
 
 	// non public ------
+	bool eraserDown;
+	bool eraserOn;
+
 	void OnClickClear()
 	{
 		ClearButtonClicked = true;
@@ -50,12 +86,13 @@ public class MainUi : MonoBehaviour
 
 	void OnEraserDown()
 	{
-		EraserDown = true;
+		eraserOn = !eraserOn;
+		eraserDown = true;
 	}
 
 	void OnEraserUp()
 	{
-		EraserDown = false;
+		eraserDown = false;
 	}
 
 	void UpdateDebugInfo()

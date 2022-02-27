@@ -47,6 +47,7 @@ public class QuestionSubScene : SubScene
 		public bool allowZero;
 		public bool invertOperation;
 	}
+	[SerializeField] int pathDivision = 4;
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
@@ -99,11 +100,11 @@ public class QuestionSubScene : SubScene
 		if (pointerDown)
 		{
 			var pointer = main.TouchDetector.ScreenPosition;
-			var ray = main.MainCamera.ScreenPointToRay(pointer);
 			if (drawing)
 			{
 				if (lines.Count > 0)
 				{
+					var ray = main.MainCamera.ScreenPointToRay(pointer);
 					// y=0点を取得
 					var t = -ray.origin.y / ray.direction.y;
 					var p = ray.origin + (ray.direction * t);
@@ -112,16 +113,23 @@ public class QuestionSubScene : SubScene
 			}
 			else
 			{
-				var hits = Physics.RaycastAll(ray.origin, ray.direction, 1000f, Physics.AllLayers);
-				foreach (var hit in hits)
+				for (var i = 0; i < pathDivision; i++)
 				{
-					var line = hit.collider.gameObject.GetComponent<Line>();
-					if (line != null)
+					var t = (float)(i + 1) / (float)pathDivision;
+					var p = Vector2.Lerp(prevPointer, pointer, t);
+					var ray = main.MainCamera.ScreenPointToRay(p);
+					var hits = Physics.RaycastAll(ray.origin, ray.direction, 1000f, Physics.AllLayers);
+					foreach (var hit in hits)
 					{
-						RemoveLine(line);
+						var line = hit.collider.gameObject.GetComponent<Line>();
+						if (line != null)
+						{
+							RemoveLine(line);
+						}
 					}
 				}
 			}
+			prevPointer = pointer;
 		}
 
 		SubScene nextScene = null;
@@ -139,27 +147,25 @@ public class QuestionSubScene : SubScene
 
 	public override void OnPointerDown()
 	{
-		if (!ui.EraserDown)
+		if (!ui.EraserEnabled)
 		{
 			var line = Instantiate(linePrefab, lineRoot, false);
-			line.ManualStart(this, main.MainCamera);
+			line.ManualStart(this, main.MainCamera, main.DefaultLineWidth);
 			lines.Add(line);
 			drawing = true;
 			strokeCount++;
 		}
 		pointerDown = true;
+		prevPointer = main.TouchDetector.ScreenPosition;
 	}
 
 	public void OnLineDown(Line line)
 	{
-		if (ui.EraserDown)
+		if (ui.EraserEnabled)
 		{
 			RemoveLine(line);
 		}
-		else
-		{
-			OnPointerDown();
-		}
+		OnPointerDown();
 	}
 
 	public void OnLineUp()
@@ -179,6 +185,7 @@ public class QuestionSubScene : SubScene
 		}
 		drawing = false;
 		pointerDown = false;
+		ui.SetEraserOff();
 	}
 
 	public void OnBeginDragCountingObject(Rigidbody rigidbody, Vector2 screenPosition)
@@ -204,6 +211,7 @@ public class QuestionSubScene : SubScene
 
 	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
 	{
+		ui.EndLoading();
 		ClearAnnotations();
 		bool correct;
 		var letters = Evaluator.Evaluate(response, answer, out correct);
@@ -226,6 +234,7 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 	bool nextRequested;
 	Color32[] prevRtTexels;
 	List<Line> lines;
+	Vector2 prevPointer;
 	bool pointerDown;
 	bool drawing;
 	int questionIndex;
@@ -384,6 +393,7 @@ Debug.Log(min +  " " + max);
 				main.VisionApi.Abort();
 			}
 			main.VisionApi.Request(texture2d);
+			ui.BeginLoading();
 		}
 	}
 
@@ -526,7 +536,7 @@ Debug.Log(min +  " " + max);
 		// 加算に限ってキューブ置く
 		if ((operation == Operation.Addition) && (settings.operand0Digits == 1) && (settings.operand1Digits == 1))
 		{
-			var center = new Vector3(-0.7f, 1f, 0.3f);
+			var center = new Vector3(-0.85f, 1f, 0.375f);
 			for (var i = 0; i < operand0; i++)
 			{
 				var obj = Instantiate(redCubePrefab, countObjectRoot, false);
@@ -535,7 +545,7 @@ Debug.Log(min +  " " + max);
 				countingObjects.Add(obj);
 			}
 
-			center = new Vector3(-0.6f, 1f, -0.3f);
+			center = new Vector3(-0.85f, 1f, 0.25f);
 			for (var i = 0; i < operand1; i++)
 			{
 				var obj = Instantiate(blueCubePrefab, countObjectRoot, false);

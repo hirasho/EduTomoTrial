@@ -3,6 +3,9 @@ using UnityEngine.EventSystems;
 
 public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+	[SerializeField] float lineWidthMm = 1f; 
+	[SerializeField] float minDpi = 100f; 
+	[SerializeField] float maxDpi = 500f;
 	[SerializeField] string defaultUserName = "平山オトモ";
 	[SerializeField] System.DateTime defaultBirthday = new System.DateTime(2015, 12, 20);
 	[SerializeField] Transform subSceneRoot;
@@ -18,6 +21,8 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	public string UserName { get => defaultUserName; }
 	public System.DateTime Birthday { get => defaultBirthday; }
 
+	public float DefaultLineWidth { get => ConvertMilliMeterToWorldUnit(lineWidthMm); }
+
 	public void OnPointerDown(PointerEventData eventData)
 	{
 		subScene.OnPointerDown();
@@ -31,11 +36,14 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	public void OnSessionEnd(SessionData session)
 	{
 		LogData.sessions.Add(session);
-		TrySaveLog();		
+		TrySaveLog();
 	}
 
 	void Start()
 	{
+		dpi = Mathf.Clamp(Screen.dpi, minDpi, maxDpi);
+		Debug.Log("DPI: " + Screen.dpi + " -> " + dpi);
+
 		var jsonAsset = Resources.Load<TextAsset>("keys");
 		if (jsonAsset != null)
 		{
@@ -84,6 +92,20 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	// non public -------
 	VisionApi.Client visionApi;
 	SubScene subScene;
+	float dpi;
+
+	float ConvertMilliMeterToWorldUnit(float milliMeter)
+	{
+		// 画面は幅2000mmでこれがScreen.widthに当たる。
+		// ピクセルの大きさは2000/Screen.width
+		// 現実世界のピクセルの大きさはdpiの逆数で、1/dpiインチ。ミリに直すと25.4/dpi
+		// これが何倍かを見れば何分の1すればいいかわかるので、
+		// 2000 / Screen.width * dpi / 25.4
+		var scale = (2000f / Screen.width) / (25.4f / dpi);
+		// 例えばこれが10なら、リアルで0.5mm幅にしたければ5mmにすれば良いことになる。5mm=0.005。
+Debug.Log("Scale: " + scale + " DPI=" + dpi);
+		return milliMeter * scale * 0.001f;
+	}
 
 	void TrySaveLog()
 	{

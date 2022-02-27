@@ -3,16 +3,15 @@ using UnityEngine.EventSystems;
 
 public class Line : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-	[SerializeField] float width;
 	[SerializeField] float baseY;
 	[SerializeField] new LineRenderer renderer;
 	[SerializeField] new MeshCollider collider;
 
-	public void ManualStart(QuestionSubScene subScene, Camera camera)
+	public void ManualStart(QuestionSubScene subScene, Camera camera, float lineWidth)
 	{
 		this.subScene = subScene;
 		this.camera = camera;
-		renderer.startWidth = renderer.endWidth = width;
+		renderer.startWidth = renderer.endWidth = lineWidth;
 		renderer.positionCount = 0;
 		transform.localPosition = new Vector3(0f, baseY, 0f);
 	}

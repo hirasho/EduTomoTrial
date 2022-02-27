@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
-  m_DragThreshold: 10
+  m_DragThreshold: 0
 --- !u!4 &429295872
 Transform:
   m_ObjectHideFlags: 0
@@ -508,6 +508,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31878e535ed004c379dc911a1c833f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineWidthMm: 1
+  minDpi: 100
+  maxDpi: 500
   defaultUserName: "\u5E73\u5C71\u30AA\u30C8\u30E2"
   subSceneRoot: {fileID: 1259723746}
   camera: {fileID: 963194227}
