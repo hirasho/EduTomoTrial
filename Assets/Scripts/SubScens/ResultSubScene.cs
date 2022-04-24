@@ -15,7 +15,7 @@ public class ResultSubScene : SubScene
 		var min = Mathf.FloorToInt(minF);
 		var sec = time - (min * 60);
 		var avg = time / (float)questionCount;
-		timeText.text = string.Format("{0}ふん{1}びょう!\nへいきん{2}びょう!", min, sec.ToString("F0"), avg.ToString("F1"));
+		timeText.text = string.Format("もんだいのかず:{0}\n{1}ふん{2}びょう!\n(平均{3}秒)", questionCount, min, sec.ToString("F0"), avg.ToString("F2"));
 		toTitleButton.onClick.AddListener(() => 
 		{
 			OnClickToTitle();

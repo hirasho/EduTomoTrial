@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class TitleSubScene : SubScene
 {
-	[SerializeField] int defaultQuestionCount = 20;
 	[SerializeField] Button countButton;
 	[SerializeField] Button add11_2Button;
 	[SerializeField] Button sub21_1Button;
@@ -13,64 +12,65 @@ public class TitleSubScene : SubScene
 	[SerializeField] Button invSub21_1Button;
 	[SerializeField] Button mul11Button;
 	[SerializeField] Button mul21Button;
-	[SerializeField] Button mul32Button;
+	[SerializeField] Button madd11Button;
 	[SerializeField] Button addSub33_3Button;
-	[SerializeField] Button LogButton;
-	[SerializeField] Text problemCountText;
-	[SerializeField] Slider problemCountSlider;
+	[SerializeField] Button logButton;
+	[SerializeField] Button settingsButton;
 
 	public void ManualStart(Main main)
 	{
 		this.main = main;
-		questionCount = defaultQuestionCount; // これどこから渡す?
 
 		countButton.onClick.AddListener(OnClickCount);
 		add11_2Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("x+y=?", QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, false);
+			questionSettings = new QuestionSubScene.Settings("x+y=?", QuestionSubScene.Operation.Addition, 1, 1, 2, 2, false, false);
 		});
 		sub21_1Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("xx-y=?", QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, false);
+			questionSettings = new QuestionSubScene.Settings("xx-y=?", QuestionSubScene.Operation.Subtraction, 2, 1, 1, 1, false, false);
 		});
 		invAdd11_2Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("x+?=yy", QuestionSubScene.Operation.Addition, questionCount, 1, 1, 2, 2, false, true);
+			questionSettings = new QuestionSubScene.Settings("x+?=yy", QuestionSubScene.Operation.Addition, 1, 1, 2, 2, false, true);
 		});
 		invSub21_1Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("xx-?=y", QuestionSubScene.Operation.Subtraction, questionCount, 2, 1, 1, 1, false, true);
+			questionSettings = new QuestionSubScene.Settings("xx-?=y", QuestionSubScene.Operation.Subtraction, 2, 1, 1, 1, false, true);
 		});
 		mul11Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("x*y=??", QuestionSubScene.Operation.Multiplication, questionCount, 1, 1, 1, 2, false, false);
+			questionSettings = new QuestionSubScene.Settings("x*y=??", QuestionSubScene.Operation.Multiplication, 1, 1, 1, 2, false, false);
 		});
 		mul21Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("xx*y=???", QuestionSubScene.Operation.Multiplication, questionCount, 2, 1, 2, 3, false, false);
+			questionSettings = new QuestionSubScene.Settings("xx*y=???", QuestionSubScene.Operation.Multiplication, 2, 1, 2, 3, false, false);
 		});
-		mul32Button.onClick.AddListener(() =>
+		madd11Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("xxx*yy=?????", QuestionSubScene.Operation.Multiplication, questionCount, 3, 2, 4, 5, false, false);
+			questionSettings = new QuestionSubScene.Settings("x*?+y=zz", QuestionSubScene.Operation.Madd, 1, 1, 1, 2, false, true);
 		});
 		addSub33_3Button.onClick.AddListener(() =>
 		{
-			questionSettings = new QuestionSubScene.Settings("xxx+-yyy=???", QuestionSubScene.Operation.AddAndSub, questionCount, 3, 3, 3, 3, false, false);
+			questionSettings = new QuestionSubScene.Settings("xxx+-yyy=???", QuestionSubScene.Operation.AddAndSub, 3, 3, 3, 3, false, false);
 		});
 
-		LogButton.onClick.AddListener(() => { toLog = true; });
+		logButton.onClick.AddListener(() => { toLog = true; });
+		settingsButton.onClick.AddListener(() => { toSettings = true; });
 	}
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
-		var sliderValue = problemCountSlider.value;
-		questionCount = (int)sliderValue * 10;
-		problemCountText.text = questionCount.ToString();
-
 		SubScene ret = null;
 		if (toLog)
 		{
 			var subScene = SubScene.Instantiate<LogViewSubScene>(transform.parent);
+			subScene.ManualStart(main);
+			ret = subScene;
+		}
+		else if (toSettings)
+		{
+			var subScene = SubScene.Instantiate<SettingsSubScene>(transform.parent);
 			subScene.ManualStart(main);
 			ret = subScene;
 		}
@@ -88,8 +88,8 @@ public class TitleSubScene : SubScene
 	// non public ---------
 	Main main;
 	QuestionSubScene.Settings questionSettings;
-	int questionCount;
 	bool toLog;
+	bool toSettings;
 
 	void OnClickCount()
 	{

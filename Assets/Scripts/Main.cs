@@ -20,6 +20,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	public LogData LogData { get; private set; }
 	public string UserName { get => defaultUserName; }
 	public System.DateTime Birthday { get => defaultBirthday; }
+	public SaveData SaveData { get => saveData; }
 
 	public float DefaultLineWidth { get => ConvertMilliMeterToWorldUnit(lineWidthMm); }
 
@@ -41,6 +42,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	void Start()
 	{
+		saveData = SaveData.Load();
 		dpi = Mathf.Clamp(Screen.dpi, minDpi, maxDpi);
 		Debug.Log("DPI: " + Screen.dpi + " -> " + dpi);
 
@@ -93,6 +95,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	VisionApi.Client visionApi;
 	SubScene subScene;
 	float dpi;
+	SaveData saveData;
 
 	float ConvertMilliMeterToWorldUnit(float milliMeter)
 	{

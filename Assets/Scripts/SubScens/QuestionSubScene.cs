@@ -10,6 +10,7 @@ public class QuestionSubScene : SubScene
 		Addition,
 		Subtraction,
 		Multiplication,
+		Madd,
 		AddAndSub,
 	}
 
@@ -18,7 +19,6 @@ public class QuestionSubScene : SubScene
 		public Settings(
 			string description,
 			Operation operation,
-			int questionCount,
 			int operand0Digits,
 			int operand1Digits,
 			int answerMinDigits,
@@ -28,7 +28,6 @@ public class QuestionSubScene : SubScene
 		{
 			this.description = description;
 			this.operation = operation;
-			this.questionCount = questionCount;
 			this.operand0Digits = operand0Digits;
 			this.operand1Digits = operand1Digits;
 			this.answerMinDigits = answerMinDigits;
@@ -39,7 +38,6 @@ public class QuestionSubScene : SubScene
 			
 		public string description;
 		public Operation operation;
-		public int questionCount;
 		public int operand0Digits;
 		public int operand1Digits;
 		public int answerMinDigits;
@@ -51,11 +49,10 @@ public class QuestionSubScene : SubScene
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
-	[SerializeField] Text questionText;
 	[SerializeField] CountingObject redCubePrefab;
 	[SerializeField] CountingObject blueCubePrefab;
 	[SerializeField] Crane crane;
-	[SerializeField] Transform[] answerZoneTransforms;
+	[SerializeField] Formula[] formulae;
 	[SerializeField] Transform lineRoot;
 	[SerializeField] Line linePrefab;
 	[SerializeField] Transform rtLineRoot;
@@ -83,6 +80,12 @@ public class QuestionSubScene : SubScene
 			main.UserName,
 			main.Birthday);
 		sessionStartTime = System.DateTime.Now;
+
+		activeFormula = settings.invertOperation ? formulae[1] : formulae[0];
+		foreach (var formula in formulae)
+		{
+			formula.gameObject.SetActive(formula == activeFormula);
+		}
 
 		StartCoroutine(CoQuestionLoop());
 	}
@@ -139,7 +142,7 @@ public class QuestionSubScene : SubScene
 			var duration = (System.DateTime.Now - sessionStartTime).TotalSeconds;
 			main.OnSessionEnd(sessionData);
 
-			result.ManualStart(main, (float)duration, settings.questionCount);
+			result.ManualStart(main, (float)duration, questionIndex);
 			nextScene = result;
 		}
 		return nextScene;
@@ -211,17 +214,20 @@ public class QuestionSubScene : SubScene
 
 	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
 	{
-		ui.EndLoading();
-		ClearAnnotations();
-		bool correct;
-		var letters = Evaluator.Evaluate(response, answer, out correct);
-Debug.Log("Evaluated " + letters.Count + " " + correct);
-		if (correct)
+		if (response != null)
 		{
-			nextRequested = true;
-			main.SoundPlayer.Play("クイズ正解2");
+			ui.EndLoading();
+			ClearAnnotations();
+			bool correct;
+			var correctValue = settings.invertOperation ? operand1 : answer;
+			var letters = Evaluator.Evaluate(response, correctValue, out correct);
+			if (correct)
+			{
+				nextRequested = true;
+				main.SoundPlayer.Play("クイズ正解2");
+			}
+			ShowAnnotations(letters);
 		}
-		ShowAnnotations(letters);
 	}
 
 	// non public -------
@@ -229,6 +235,7 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 	Settings settings;
 	int operand0;
 	int operand1;
+	int? operand2;
 	int answer;
 	List<CountingObject> countingObjects;
 	bool nextRequested;
@@ -246,6 +253,7 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 	int strokeCount;
 	int eraseCount;
 	string problemText;
+	Formula activeFormula;
 
 	void RemoveLine(Line line)
 	{
@@ -268,8 +276,23 @@ Debug.Log("Evaluated " + letters.Count + " " + correct);
 	
 	IEnumerator CoQuestionLoop()
 	{
-		while (questionIndex < settings.questionCount)
+		while (true)
 		{
+			var sd = main.SaveData;
+			var duration = ((byte)(System.DateTime.Now - sessionStartTime).TotalSeconds) / 60.0;
+
+			// 最大問題数を消化
+			if ((questionIndex >= sd.maxProblemCount) && (duration >= sd.minTimeMinute))
+			{
+				Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.maxProblemCount + " " + sd.minTimeMinute);
+				break;
+			} 
+			// 最大時間が経過
+			if ((questionIndex >= sd.minProblemCount) && (duration >= sd.maxTimeMinute))
+			{
+				Debug.Log("Break2 " + questionIndex + " " + duration + " " + sd.minProblemCount + " " + sd.maxTimeMinute);
+				break;
+			} 
 			yield return CoQuestion();
 		}
 		end = true;
@@ -324,7 +347,7 @@ if (Input.GetKeyDown(KeyCode.S))
 		// カメラ位置合わせ
 		var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
 		var max = -min;
-		foreach (var t in answerZoneTransforms)
+		foreach (var t in activeFormula.AnswerZone.RectTransforms)
 		{
 			min = Vector3.Min(min, t.position);
 			max = Vector3.Max(max, t.position);
@@ -444,9 +467,10 @@ Debug.Log(min +  " " + max);
 		countingObjects.Clear();
 
 		questionIndex++;
-		ui.SetQuestionIndex(questionIndex, settings.questionCount);
+		ui.SetQuestionIndex(questionIndex, main.SaveData.maxProblemCount);
 
 		int op0Min, op0Max, op1Min, op1Max, ansMin, ansMax;
+		operand2 = null;
 
 		// まず粗く範囲を狭める
 		op0Min = Pow10(settings.operand0Digits - 1);
@@ -480,6 +504,7 @@ Debug.Log(min +  " " + max);
 		}
 
 		char operatorChar;
+		char? operatorChar1 = null;
 		if (operation == Operation.Addition)
 		{
 			// op0の範囲をまず削る
@@ -517,6 +542,14 @@ Debug.Log(min +  " " + max);
 			answer = operand0 * operand1;
 			operatorChar = '×';
 		}
+		else if (operation == Operation.Madd) // まだ一桁しか対応してない
+		{
+			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
+			operand2 = UnityEngine.Random.Range(1, operand1);
+			answer = (operand0 * operand1) + operand2.Value;
+			operatorChar = '×';
+			operatorChar1 = '＋';
+		}
 		else
 		{
 			Debug.Assert(false, "BUG.");
@@ -531,7 +564,36 @@ Debug.Log(min +  " " + max);
 		Debug.Assert(answer >= ansMin);
 		Debug.Assert(answer <= ansMax);
 
-		questionText.text = string.Format("{0} {1} {2} =", operand0, operatorChar, operand1);
+		if (settings.invertOperation)
+		{
+			if (operatorChar1.HasValue && operand2.HasValue)
+			{
+				activeFormula.SetFormulaText(
+					string.Format("{0} {1}", operand0, operatorChar),
+					string.Format(" {0} {1} = {2}", operatorChar1.Value, operand2.Value, answer));
+			}
+			else
+			{
+				activeFormula.SetFormulaText(
+					string.Format("{0} {1}", operand0, operatorChar),
+					string.Format(" = {0}", answer));
+			}
+		}
+		else
+		{
+			if (operatorChar1.HasValue && operand2.HasValue)
+			{
+				activeFormula.SetFormulaText(
+					string.Format("{0} {1} {2} {3} {4} =", operand0, operatorChar, operand1, operatorChar1.Value, operand2.Value),
+					null);
+			}
+			else
+			{
+				activeFormula.SetFormulaText(
+					string.Format("{0} {1} {2} =", operand0, operatorChar, operand1),
+					null);
+			}
+		}
 
 		// 加算に限ってキューブ置く
 		if ((operation == Operation.Addition) && (settings.operand0Digits == 1) && (settings.operand1Digits == 1))

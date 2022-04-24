@@ -37,26 +37,31 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/Scripts/Annotation.cs" />
+     <Compile Include="Assets/Scripts/AnswerZone.cs" />
      <Compile Include="Assets/Scripts/ButtonEventsHandler.cs" />
      <Compile Include="Assets/Scripts/CountingObject.cs" />
      <Compile Include="Assets/Scripts/Crane.cs" />
      <Compile Include="Assets/Scripts/Data/LogData.cs" />
      <Compile Include="Assets/Scripts/Evaluator.cs" />
+     <Compile Include="Assets/Scripts/Formula.cs" />
      <Compile Include="Assets/Scripts/Keys.cs" />
      <Compile Include="Assets/Scripts/Line.cs" />
      <Compile Include="Assets/Scripts/Main.cs" />
-     <Compile Include="Assets/Scripts/MainUi.cs" />
      <Compile Include="Assets/Scripts/PointerEventBlocker.cs" />
+     <Compile Include="Assets/Scripts/SaveData.cs" />
      <Compile Include="Assets/Scripts/SaveDataPathUtil.cs" />
      <Compile Include="Assets/Scripts/SoundPlayer.cs" />
      <Compile Include="Assets/Scripts/SubScene.cs" />
      <Compile Include="Assets/Scripts/SubScens/LogViewSubScene.cs" />
      <Compile Include="Assets/Scripts/SubScens/QuestionSubScene.cs" />
      <Compile Include="Assets/Scripts/SubScens/ResultSubScene.cs" />
+     <Compile Include="Assets/Scripts/SubScens/SettingsSubScene.cs" />
      <Compile Include="Assets/Scripts/SubScens/TitleSubScene.cs" />
      <Compile Include="Assets/Scripts/TouchDetector.cs" />
-     <Compile Include="Assets/Scripts/UiDigit.cs" />
-     <Compile Include="Assets/Scripts/UiNumber.cs" />
+     <Compile Include="Assets/Scripts/Ui/MainUi.cs" />
+     <Compile Include="Assets/Scripts/Ui/UiDigit.cs" />
+     <Compile Include="Assets/Scripts/Ui/UiNumber.cs" />
+     <Compile Include="Assets/Scripts/Ui/UiSlider.cs" />
      <Compile Include="Assets/VisionApi/VisionApiClient.cs" />
      <Compile Include="Assets/VisionApi/VisionApiData.cs" />
      <None Include="Assets/Shaders/TransparentColor.shader" />

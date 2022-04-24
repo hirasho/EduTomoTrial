@@ -278,7 +278,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 800, y: 200}
+  m_SizeDelta: {x: 800, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1165487261381439978
 CanvasRenderer:
@@ -320,7 +320,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "99\u3075\u309399\u3073\u3087\u3046"
+  m_Text: "\u3082\u3093\u3060\u3044\u306E\u304B\u305A:20\n99\u3075\u309399\u3073\u3087\u3046\n(\u5E73\u57472.44\u79D2)"
 --- !u!1 &8912640407341058123
 GameObject:
   m_ObjectHideFlags: 0

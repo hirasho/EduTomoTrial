@@ -58,7 +58,15 @@ public class LogViewSubScene : SubScene
 				{
 					var date = pair.Key;
 					var session = pair.Value;
-					var line = string.Format(date.Month + "/" + date.Day + "\t " + date.Hour + ":" + date.Minute + "\t " + session.description + "\t " + session.duration.ToString("F0") + "秒/" + session.problemCount + "問(平均" + session.averageDuration.ToString("F1") + "秒)\n");
+					var line = string.Format("{0:00}/{1:00}\t{2:00}:{3:00}\t{4}\t{5}問/{6:F0}秒(平均{7:F1}秒)\n",
+						date.Month,
+						date.Day,
+						date.Hour,
+						date.Minute, 
+						session.description, 
+						session.problemCount,
+						session.duration,
+						session.averageDuration);
 					sb.Insert(0, line); // 逆順化
 				}
 				text.text = sb.ToString();
