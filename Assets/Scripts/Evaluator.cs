@@ -10,6 +10,17 @@ public static class Evaluator
 		public string text;
 		public bool correct;
 	}
+
+	// 評価はしない。文字のリストを全部取ってくる
+	public static IList<Letter> GetLetters(VisionApi.BatchAnnotateImagesResponse batchResponses)
+	{
+		var ret = new List<Letter>();
+		foreach (var response in batchResponses.responses)
+		{
+			ProcessTextAnnotation(response.fullTextAnnotation, ret);
+		}
+		return ret;
+	}
 	
 	public static IList<Letter> Evaluate(VisionApi.BatchAnnotateImagesResponse batchResponses, double answer, out bool correct)
 	{
@@ -27,6 +38,14 @@ public static class Evaluator
 		return ret;
 	}
 
+	static void ProcessTextAnnotation(VisionApi.TextAnnotation textAnnotation, List<Letter> letters)
+	{
+		foreach (var page in textAnnotation.pages)
+		{
+			ProcessPage(page, letters);
+		}
+	}
+
 	static void ProcessTextAnnotation(VisionApi.TextAnnotation textAnnotation, List<Letter> letters, out bool correct, double answer)
 	{
 //Debug.Log("\tTA");
@@ -39,6 +58,14 @@ public static class Evaluator
 			{
 				correct = true;
 			}
+		}
+	}
+
+	static void ProcessPage(VisionApi.Page page, List<Letter> letters)
+	{
+		foreach (var block in page.blocks)
+		{
+			ProcessBlock(block, letters);
 		}
 	}
 
@@ -57,6 +84,14 @@ public static class Evaluator
 		}
 	}
 
+	static void ProcessBlock(VisionApi.Block block, List<Letter> letters)
+	{
+		foreach (var paragraph in block.paragraphs)
+		{
+			ProcessParagraphs(paragraph, letters);
+		}
+	}
+
 	static void ProcessBlock(VisionApi.Block block, List<Letter> letters, out bool correct, double answer)
 	{
 //Debug.Log("\t\t\tBlock");
@@ -72,12 +107,20 @@ public static class Evaluator
 		}
 	}
 
+	static void ProcessParagraphs(VisionApi.Paragraph paragraph, List<Letter> letters)
+	{
+		foreach (var word in paragraph.words)
+		{
+			ProcessWord(word, letters, readAsNumber: false);
+		}
+	}
+
 	static void ProcessParagraphs(VisionApi.Paragraph paragraph, List<Letter> letters, out bool correct, double answer)
 	{
 		var wordLetters = new List<Letter>();
 		foreach (var word in paragraph.words)
 		{
-			ProcessWord(word, wordLetters);
+			ProcessWord(word, wordLetters, readAsNumber: true);
 		}
 	
 		correct = true;
@@ -124,18 +167,17 @@ public static class Evaluator
 		}
 	}
 
-	static void ProcessWord(VisionApi.Word word, List<Letter> letters)
+	static void ProcessWord(VisionApi.Word word, List<Letter> letters, bool readAsNumber)
 	{
 		foreach (var symbol in word.symbols)
 		{
-			var letter = ProcessSymbol(symbol);
+			var letter = ProcessSymbol(symbol, readAsNumber);
 			letters.Add(letter);
 		}
 	}
 
-	static Letter ProcessSymbol(VisionApi.Symbol symbol)
+	static Letter ProcessSymbol(VisionApi.Symbol symbol, bool readAsNumber)
 	{
-//Debug.Log("\t\t\t\t\t\tSymbol");
 		var letter = new Letter();
 		letter.vertices = new List<Vector2>();
 		// 頂点抽出
@@ -150,7 +192,14 @@ public static class Evaluator
 			letter.vertices.Add(new Vector2(srcV.x, srcV.y));
 		}
 
-		letter.text = ReadNumber(symbol.text);
+		if (readAsNumber)
+		{
+			letter.text = ReadNumber(symbol.text);
+		}
+		else
+		{
+			letter.text = symbol.text;
+		}
 		return letter;
 	}
 

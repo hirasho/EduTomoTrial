@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 
-public class QuestionSubScene : SubScene
+public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 {
 	public enum Operation
 	{
@@ -12,6 +13,7 @@ public class QuestionSubScene : SubScene
 		Multiplication,
 		Madd,
 		AddAndSub,
+		Count,
 	}
 
 	public class Settings
@@ -87,6 +89,8 @@ public class QuestionSubScene : SubScene
 			formula.gameObject.SetActive(formula == activeFormula);
 		}
 
+		MakeQuestions();
+
 		StartCoroutine(CoQuestionLoop());
 	}
 
@@ -154,26 +158,16 @@ public class QuestionSubScene : SubScene
 		{
 			var line = Instantiate(linePrefab, lineRoot, false);
 			line.ManualStart(this, main.MainCamera, main.DefaultLineWidth);
+			if (lines.Count > 0)
+			{
+				lines[lines.Count - 1].GenerateCollider();
+			}
 			lines.Add(line);
 			drawing = true;
 			strokeCount++;
 		}
 		pointerDown = true;
 		prevPointer = main.TouchDetector.ScreenPosition;
-	}
-
-	public void OnLineDown(Line line)
-	{
-		if (ui.EraserEnabled)
-		{
-			RemoveLine(line);
-		}
-		OnPointerDown();
-	}
-
-	public void OnLineUp()
-	{
-		OnPointerUp();
 	}
 
 	public override void OnPointerUp()
@@ -189,6 +183,20 @@ public class QuestionSubScene : SubScene
 		drawing = false;
 		pointerDown = false;
 		ui.SetEraserOff();
+	}
+
+	public void OnLineDown(Line line)
+	{
+		if (ui.EraserEnabled)
+		{
+			RemoveLine(line);
+		}
+		OnPointerDown();
+	}
+
+	public void OnLineUp()
+	{
+		OnPointerUp();
 	}
 
 	public void OnBeginDragCountingObject(Rigidbody rigidbody, Vector2 screenPosition)
@@ -255,6 +263,25 @@ public class QuestionSubScene : SubScene
 	string problemText;
 	Formula activeFormula;
 
+	struct Question
+	{
+		public Question(int op0, int op1, int op2, int ans, Operation op)
+		{
+			this.op0 = op0;
+			this.op1 = op1;
+			this.op2 = op2;
+			this.ans = ans;
+			this.op = op;
+		}
+		public int op0;
+		public int op1;
+		public int op2;
+		public int ans;
+		public Operation op;
+	}
+	List<Question> questions;
+	
+
 	void RemoveLine(Line line)
 	{
 		var dst = 0;
@@ -281,18 +308,22 @@ public class QuestionSubScene : SubScene
 			var sd = main.SaveData;
 			var duration = ((byte)(System.DateTime.Now - sessionStartTime).TotalSeconds) / 60.0;
 
-			// 最大問題数を消化
-			if ((questionIndex >= sd.maxProblemCount) && (duration >= sd.minTimeMinute))
+			// 1. 最小問題数終わって規定時間を過ぎていれば終わっていい。
+			// 2. 最大問題数終わってれば終わっていい
+			// 最小問題数を消化
+			if (questionIndex >= sd.maxProblemCount)
 			{
-				Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.maxProblemCount + " " + sd.minTimeMinute);
+				Debug.Log("Break2 " + questionIndex + " " + duration + " " + sd.maxProblemCount);
 				break;
 			} 
-			// 最大時間が経過
-			if ((questionIndex >= sd.minProblemCount) && (duration >= sd.maxTimeMinute))
+			else if (questionIndex >= sd.minProblemCount)
 			{
-				Debug.Log("Break2 " + questionIndex + " " + duration + " " + sd.minProblemCount + " " + sd.maxTimeMinute);
-				break;
-			} 
+				if (duration >= sd.timeMinute)
+				{
+					Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.minProblemCount + " " + sd.timeMinute);
+					break;
+				}
+			}
 			yield return CoQuestion();
 		}
 		end = true;
@@ -458,6 +489,127 @@ Debug.Log(min +  " " + max);
 		}
 	}
 
+	int GetMax(int digitCount)
+	{
+		var r = 1;
+		for (var i = 0; i < digitCount; i++)
+		{
+			r *= 10;
+		}
+		return r - 1;
+	}
+
+	void MakeQuestions()
+	{
+		var questionSet = new HashSet<Question>();
+		var op0min = (settings.operand0Digits == 1) ? 0 : ((GetMax(settings.operand0Digits) + 1) / 10);
+		var op0max = GetMax(settings.operand0Digits);
+
+		var op1min = (settings.operand1Digits == 1) ? 0 : ((GetMax(settings.operand1Digits) + 1) / 10);
+		var op1max = GetMax(settings.operand1Digits);
+
+		var ansMin = (settings.answerMinDigits == 1) ? 0 : ((GetMax(settings.answerMinDigits) + 1) / 10);
+		var ansMax = GetMax(settings.answerMaxDigits);
+		if (settings.operation == Operation.Count)
+		{
+			for (var v0 = 0; v0 <= 10; v0++)
+			{
+				questionSet.Add(new Question(v0, 0, 0, v0, Operation.Count));
+			}
+		}
+		else if (settings.operation == Operation.Addition)
+		{
+			for (var v0 = op0min; v0 <= op0max; v0++)
+			{
+				for (var v1 = op1min; v1 <= op1max; v1++)
+				{
+					var ans = v0 + v1;
+					if ((ans >= ansMin) && (ans <= ansMax))
+					{
+						if (questionSet.Add(new Question(v0, v1, 0, ans, Operation.Addition)))
+						{
+Debug.LogFormat("{0}\t {1} + {2} = {3}", questionSet.Count, v0, v1, ans);
+						}
+					}
+				}
+			}
+		}
+		else if (settings.operation == Operation.Subtraction)
+		{
+			for (var v0 = op0min; v0 <= op0max; v0++)
+			{
+				for (var v1 = op1min; v1 <= op1max; v1++)
+				{
+					var ans = v0 - v1;
+					if ((ans >= ansMin) && (ans <= ansMax))
+					{
+						if (questionSet.Add(new Question(v0, v1, 0, ans, Operation.Subtraction)))
+						{
+Debug.LogFormat("{0}\t {1} - {2} = {3}", questionSet.Count, v0, v1, ans);
+						}
+
+					}
+				}
+			}
+		}
+		else if (settings.operation == Operation.AddAndSub)
+		{
+			for (var v0 = op0min; v0 <= op0max; v0++)
+			{
+				for (var v1 = op1min; v1 <= op1max; v1++)
+				{
+					var ans = v0 + v1;
+					if ((ans >= ansMin) && (ans <= ansMax))
+					{
+						questions.Add(new Question(v0, v1, 0, ans, Operation.Addition));
+					}
+					ans = v0 - v1;
+					if ((ans >= ansMin) && (ans <= ansMax))
+					{
+						questionSet.Add(new Question(v0, v1, 0, ans, Operation.Subtraction));
+					}
+				}
+			}
+		}
+		else if (settings.operation == Operation.Multiplication)
+		{
+			for (var v0 = op0min; v0 <= op0max; v0++)
+			{
+				for (var v1 = op1min; v1 <= op1max; v1++)
+				{
+					var ans = v0 * v1;
+					if ((ans >= ansMin) && (ans <= ansMax))
+					{
+						if (questionSet.Add(new Question(v0, v1, 0, ans, Operation.Multiplication)))
+						{
+Debug.LogFormat("{0}\t {1} * {2} = {3}", questionSet.Count, v0, v1, ans);
+						}
+					}
+				}
+			}
+		}
+		else if (settings.operation == Operation.Madd)
+		{
+			for (var v0 = op0min; v0 <= op0max; v0++)
+			{
+				for (var v1 = op1min; v1 <= op1max; v1++)
+				{
+					for (var v2 = 0; v2 < v0; v2++)
+					{
+						var ans = (v0 * v1) + v2;
+						if ((ans >= ansMin) && (ans <= ansMax))
+						{
+							questionSet.Add(new Question(v0, v1, v2, ans, Operation.Madd));
+						}
+					}
+				}
+			}
+		}
+
+		this.questions = questionSet.ToList();
+		Debug.Log("MakeQuestions: count=" + this.questions.Count);
+	}
+
 	void UpdateQuestion()
 	{
 		for (var i = 0; i < countingObjects.Count; i++)
@@ -469,30 +621,41 @@ Debug.Log(min +  " " + max);
 		questionIndex++;
 		ui.SetQuestionIndex(questionIndex, main.SaveData.maxProblemCount);
 
+/*
 		int op0Min, op0Max, op1Min, op1Max, ansMin, ansMax;
+		op0Min = op0Max = op1Min = op1Max = ansMin = ansMax = 0;
 		operand2 = null;
 
 		// まず粗く範囲を狭める
-		op0Min = Pow10(settings.operand0Digits - 1);
-		if (!settings.allowZero && (op0Min == 0))
+		if (settings.operand0Digits > 0)
 		{
-			op0Min = 1;
+			op0Min = Pow10(settings.operand0Digits - 1);
+			if (!settings.allowZero && (op0Min == 0))
+			{
+				op0Min = 1;
+			}
+			op0Max = Pow10(settings.operand0Digits) - 1;
 		}
-		op0Max = Pow10(settings.operand0Digits) - 1;
 
-		op1Min = Pow10(settings.operand1Digits - 1);
-		if (!settings.allowZero && (op1Min == 0))
+		if (settings.operand1Digits > 0)
 		{
-			op1Min = 1;
+			op1Min = Pow10(settings.operand1Digits - 1);
+			if (!settings.allowZero && (op1Min == 0))
+			{
+				op1Min = 1;
+			}
+			op1Max = Pow10(settings.operand1Digits) - 1;
 		}
-		op1Max = Pow10(settings.operand1Digits) - 1;
 
-		ansMin = Pow10(settings.answerMinDigits - 1);
-		if (!settings.allowZero && (ansMin == 0))
+		if (settings.answerMinDigits > 0)
 		{
-			ansMin = 1;
+			ansMin = Pow10(settings.answerMinDigits - 1);
+			if (!settings.allowZero && (ansMin == 0))
+			{
+				ansMin = 1;
+			}
+			ansMax = Pow10(settings.answerMaxDigits) - 1;
 		}
-		ansMax = Pow10(settings.answerMaxDigits) - 1;
 		// operand0を雑に決定する
 		operand0 = Random.Range(op0Min, op0Max + 1);
 
@@ -503,9 +666,15 @@ Debug.Log(min +  " " + max);
 			operation = (Random.value < 0.5f) ? Operation.Addition : Operation.Subtraction;
 		}
 
-		char operatorChar;
+		char operatorChar = '\0';
 		char? operatorChar1 = null;
-		if (operation == Operation.Addition)
+		if (operation == Operation.Count)
+		{
+			ansMin = 1;
+			ansMax = 10;
+			answer = UnityEngine.Random.Range(ansMin, ansMax + 1);
+		}
+		else if (operation == Operation.Addition)
 		{
 			// op0の範囲をまず削る
 			op0Min = Mathf.Max(op0Min, ansMin - op1Max); // 答えの最大+op1の最大が最大
@@ -563,6 +732,37 @@ Debug.Log(min +  " " + max);
 		Debug.Assert(operand1 <= op1Max);
 		Debug.Assert(answer >= ansMin);
 		Debug.Assert(answer <= ansMax);
+*/
+		var q = questions[Random.Range(0, questions.Count - 1)];
+
+		operand0 = q.op0;
+		operand1 = q.op1;
+		answer = q.ans;
+		var operatorChar = '\0';
+		char? operatorChar1 = null;
+		if (q.op == Operation.Addition)
+		{
+			operatorChar = '＋';
+		}
+		else if (q.op == Operation.Subtraction)
+		{
+			operatorChar = '−';
+		}
+		else if (q.op == Operation.Multiplication)
+		{
+			operatorChar = '×';
+		}
+		else if (q.op == Operation.Madd) // まだ一桁しか対応してない
+		{
+			operatorChar = '×';
+			operatorChar1 = '＋';
+			operand2 = q.op2;
+		}
+		else
+		{
+			Debug.Assert(false, "BUG.");
+			operatorChar = '?';
+		}
 
 		if (settings.invertOperation)
 		{
@@ -595,8 +795,161 @@ Debug.Log(min +  " " + max);
 			}
 		}
 
-		// 加算に限ってキューブ置く
-		if ((operation == Operation.Addition) && (settings.operand0Digits == 1) && (settings.operand1Digits == 1))
+		// キューブ置く
+		if (q.op == Operation.Count)
+		{
+			activeFormula.SetFormulaText("", "");
+			var shapeType = UnityEngine.Random.Range(0, 4);
+Debug.Log("ShapeType: " + shapeType + " " + answer);
+			if (shapeType == 0) // 直列5分け
+			{
+				var start = new Vector3(-0.85f, 1f, 0f);
+				if (answer > 5)
+				{
+					start.z += 0.1f;
+				}
+
+				for (var i = 0; i < Mathf.Min(5, answer); i++)
+				{
+					var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+					var p = start + new Vector3(0.15f * i, 0f, 0f);
+					obj.ManualStart(this, p);
+					countingObjects.Add(obj);
+				}
+
+				start.z -= 0.2f;
+				for (var i = 5; i < answer; i++)
+				{
+					var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+					var p = start + new Vector3(0.15f * (i - 5), 0f, 0f);
+					obj.ManualStart(this, p);
+					countingObjects.Add(obj);
+				}
+			}
+			else if (shapeType == 1) // 2列
+			{
+				var start = new Vector3(-0.85f, 1f, 0f);
+				if ((answer % 2) == 1)
+				{
+					start.x += 0.075f;
+				}
+
+				for (var i = 0; i < (answer / 2); i++)
+				{
+					var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+					var p = start + new Vector3(0.15f * i, 0f, 0.1f);
+					Debug.Log(i + "\t" + p);
+					obj.ManualStart(this, p);
+					countingObjects.Add(obj);
+				}
+
+				if ((answer % 2) == 1)
+				{
+					start.x -= 0.075f;
+				}
+				for (var i = (answer / 2); i < answer; i++)
+				{
+					var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+					var p = start + new Vector3(0.15f * (i - (answer / 2)), 0f, -0.1f);
+					Debug.Log(i + "\t" + p);
+					obj.ManualStart(this, p);
+					countingObjects.Add(obj);
+				}
+			}
+			else if (shapeType == 2) // ランダム
+			{
+				// 5x5に割ってそのうちのanswer個に配置し、
+				// 多少散らす
+				var indices = new int[25];
+				for (var i = 0; i < 25; i++)
+				{
+					indices[i] = i;
+				}
+				for (var i = 0; i < 100; i++) // 雑すぎシャッフル
+				{
+					var i0 = Random.Range(0, 25);
+					var i1 = Random.Range(0, 25);
+					var t = indices[i0];
+					indices[i0] = indices[i1];
+					indices[i1] = t;
+				}
+
+				var start = new Vector3(-0.85f, 1f, -0.3f);
+				for (var i = 0; i < answer; i++)
+				{
+					var x = indices[i] / 5;
+					var y = indices[i] % 5;
+					var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+					var p = start + new Vector3(0.15f * x, 0f, 0.15f * y);
+					obj.ManualStart(this, p);
+					countingObjects.Add(obj);
+				}
+			}
+			else if (shapeType == 3) // 円形か3列
+			{
+				if (answer > 6)
+				{
+					var start = new Vector3(-0.8f, 1f, 0.15f);
+					var begin = 0;
+					var end = (answer / 3);
+					var offset = ((end - begin) > (answer / 3)) ? -0.075f : 0f;
+					for (var i = begin; i < end; i++)
+					{
+						var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+						var p = start + new Vector3((i - begin) * 0.15f + offset, 0f, 0f);
+						obj.ManualStart(this, p);
+						countingObjects.Add(obj);
+					}
+
+					start.z -= 0.15f;
+					begin = end;
+					end = (answer - (answer / 3));
+					offset = ((end - begin) > (answer / 3)) ? -0.075f : 0f;
+					for (var i = begin; i < end; i++)
+					{
+						var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+						var p = start + new Vector3((i - begin) * 0.15f + offset, 0f, 0f);
+						obj.ManualStart(this, p);
+						countingObjects.Add(obj);
+					}
+
+					start.z -= 0.15f;
+					begin = end;
+					end = answer;
+					offset = ((end - begin) > (answer / 3)) ? -0.075f : 0f;
+					for (var i = begin; i < end; i++)
+					{
+						var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+						var p = start + new Vector3((i - begin) * 0.15f + offset, 0f, 0f);
+						obj.ManualStart(this, p);
+						countingObjects.Add(obj);
+					}
+				}
+				else
+				{
+					var n = answer;
+					var center = new Vector3(-0.4f, 1f, 0f);
+					var rad = (0.2f * n) / (2f * Mathf.PI); // 距離0.15で×nが円周。これを2piで割ると半径
+					var theta = Random.Range(0f, Mathf.PI * 2f);
+					for (var i = 0; i < n; i++)
+					{
+						theta += (Mathf.PI * 2) / n;
+						var x = Mathf.Sin(theta) * rad;
+						var y = Mathf.Cos(theta) * rad;
+						var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+						var p = center + new Vector3(x, 0f, y);
+						obj.ManualStart(this, p);
+						obj.transform.localRotation = Quaternion.Euler(0f, theta, 0f);
+						countingObjects.Add(obj);
+					}
+				}
+			}
+		}
+		else if (
+			((q.op == Operation.Addition) || (q.op == Operation.Subtraction)) && 
+			(settings.operand0Digits == 1) && 
+			(settings.operand1Digits == 1) && 
+			!settings.invertOperation)
 		{
 			var center = new Vector3(-0.85f, 1f, 0.375f);
 			for (var i = 0; i < operand0; i++)
@@ -617,7 +970,7 @@ Debug.Log(min +  " " + max);
 			}
 		}
 		problemStartTime = System.DateTime.Now;
-		switch (operation)
+		switch (q.op)
 		{
 			case Operation.Addition: operatorChar = '+'; break;
 			case Operation.Subtraction: operatorChar = '-'; break;

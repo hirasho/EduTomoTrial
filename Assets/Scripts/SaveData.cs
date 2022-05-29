@@ -7,8 +7,7 @@ public class SaveData : MonoBehaviour
 {
 	public int minProblemCount = 10;
 	public int maxProblemCount = 50;
-	public int minTimeMinute = 3;
-	public int maxTimeMinute = 15;
+	public int timeMinute = 3;
 
 	public static SaveData Load()
 	{

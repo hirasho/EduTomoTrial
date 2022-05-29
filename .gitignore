@@ -1,7 +1,9 @@
 Temp/
+Logs/
 Library/
 keys.json
 Recordings/
 .DS_Store
 *.aab
 *.apk
+*_BackUpThisFolder_ButDontShipItWithYourGame

@@ -8,8 +8,7 @@ public class SettingsSubScene : SubScene
 	[SerializeField] float saveIntervalSecond = 5f;
 	[SerializeField] UiSlider minProblemCountSlider;
 	[SerializeField] UiSlider maxProblemCountSlider;
-	[SerializeField] UiSlider minTimeSlider;
-	[SerializeField] UiSlider maxTimeSlider;
+	[SerializeField] UiSlider timeSlider;
 	[SerializeField] Button backButton;
 
 	public void ManualStart(Main main)
@@ -20,8 +19,7 @@ public class SettingsSubScene : SubScene
 		var sd = main.SaveData;
 		minProblemCountSlider.ManualStart(OnChange, sd.minProblemCount);
 		maxProblemCountSlider.ManualStart(OnChange, sd.maxProblemCount);
-		minTimeSlider.ManualStart(OnChange, sd.minTimeMinute);
-		maxTimeSlider.ManualStart(OnChange, sd.maxTimeMinute);
+		timeSlider.ManualStart(OnChange, sd.timeMinute);
 		saveTimer = saveIntervalSecond;
 	}
 
@@ -29,8 +27,7 @@ public class SettingsSubScene : SubScene
 	{
 		minProblemCountSlider.ManualUpdate(deltaTime);
 		maxProblemCountSlider.ManualUpdate(deltaTime);
-		minTimeSlider.ManualUpdate(deltaTime);
-		maxTimeSlider.ManualUpdate(deltaTime);
+		timeSlider.ManualUpdate(deltaTime);
 
 		SubScene ret = null;
 		if (toTitle)
@@ -64,8 +61,7 @@ public class SettingsSubScene : SubScene
 			var sd = main.SaveData;
 			sd.maxProblemCount = maxProblemCountSlider.IntValue;
 			sd.minProblemCount = minProblemCountSlider.IntValue;
-			sd.maxTimeMinute = maxTimeSlider.IntValue;
-			sd.minTimeMinute = minTimeSlider.IntValue;
+			sd.timeMinute = timeSlider.IntValue;
 			sd.Save();
 			dirty = false;
 		}
