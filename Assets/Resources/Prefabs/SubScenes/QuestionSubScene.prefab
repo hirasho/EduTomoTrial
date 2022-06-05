@@ -456,7 +456,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 123456789 HelloWorld
+  m_Text: A0123456789 ABCEFGK
 --- !u!1 &4962801402578902158
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88589aad8832141e3b2c37893d79dffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathDivision: 4
+  pathDivision: 16
   countingObjectGrabY: 0.1
   ui: {fileID: 5771841646468099107}
   countObjectRoot: {fileID: 6100707196339535863}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Line : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Line : MonoBehaviour//, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 	[SerializeField] float minimumStep = 0.01f;
 	[SerializeField] float baseY;
@@ -53,7 +53,7 @@ public class Line : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBegi
 		collider.sharedMesh = mesh;
 */
 	}
-
+/*
 	public void OnPointerDown(PointerEventData eventData)
 	{
 		if (eventReceiver != null)
@@ -74,7 +74,7 @@ public class Line : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBegi
 	public void OnBeginDrag(PointerEventData eventData){}
 	public void OnDrag(PointerEventData eventData){}
 	public void OnEndDrag(PointerEventData eventData){}
-
+*/
 	// non public ------
 	Mesh mesh;
 	ILinePointerEventReceiver eventReceiver;

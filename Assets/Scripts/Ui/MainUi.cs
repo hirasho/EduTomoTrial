@@ -51,12 +51,7 @@ public class MainUi : MonoBehaviour
 		ClearButtonClicked = false;
 
 		UpdateDebugInfo();
-#if UNITY_EDITOR
-		if (Input.GetKeyDown(KeyCode.E))
-		{
-			eraserOn = !eraserOn;
-		}
-#endif
+
 		if (loadingIcon.enabled)
 		{
 			var iconTransform = loadingIcon.transform;

@@ -73,6 +73,16 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	void Update()
 	{
+#if UNITY_EDITOR
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			OnPointerDown(null);
+		}
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			OnPointerUp(null);
+		}
+#endif
 		var dt = Time.deltaTime;
 
 		var nextSubScene = subScene.ManualUpdate(dt);

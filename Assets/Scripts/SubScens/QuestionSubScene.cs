@@ -47,7 +47,7 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 		public bool allowZero;
 		public bool invertOperation;
 	}
-	[SerializeField] int pathDivision = 4;
+	[SerializeField] int pathDivision = 16;
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
@@ -172,6 +172,7 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 
 	public override void OnPointerUp()
 	{
+Debug.Log("Up!");
 		if (drawing)
 		{
 			if (lines.Count > 0)
@@ -187,10 +188,10 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 
 	public void OnLineDown(Line line)
 	{
-		if (ui.EraserEnabled)
-		{
-			RemoveLine(line);
-		}
+//		if (ui.EraserEnabled)
+//		{
+//			RemoveLine(line);
+//		}
 		OnPointerDown();
 	}
 
@@ -365,6 +366,7 @@ if (Input.GetKeyDown(KeyCode.S))
 		var seconds = (System.DateTime.Now - problemStartTime).TotalSeconds;
 		var problem = new ProblemData(problemText, (float)seconds, strokeCount, eraseCount);
 		sessionData.AddProblemData(problem);
+		questionIndex++;
 
 		nextRequested = false;
 	}
@@ -385,7 +387,7 @@ if (Input.GetKeyDown(KeyCode.S))
 		}
 		var center = (min + max) * 0.5f;
 		center.y += 10f;
-Debug.Log(min +  " " + max);
+
 		rtCamera.transform.localPosition = center;
 		rtCamera.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 		rtCamera.orthographicSize = Mathf.Max((max.x - min.x) / rtCamera.aspect, max.z - min.z);
@@ -607,6 +609,7 @@ Debug.LogFormat("{0}\t {1} * {2} = {3}", questionSet.Count, v0, v1, ans);
 		}
 
 		this.questions = questionSet.ToList();
+		Utils.Shuffle(this.questions);
 		Debug.Log("MakeQuestions: count=" + this.questions.Count);
 	}
 
@@ -618,123 +621,10 @@ Debug.LogFormat("{0}\t {1} * {2} = {3}", questionSet.Count, v0, v1, ans);
 		}
 		countingObjects.Clear();
 
-		questionIndex++;
-		ui.SetQuestionIndex(questionIndex, main.SaveData.maxProblemCount);
+		ui.SetQuestionIndex(questionIndex + 1, main.SaveData.maxProblemCount);
 
-/*
-		int op0Min, op0Max, op1Min, op1Max, ansMin, ansMax;
-		op0Min = op0Max = op1Min = op1Max = ansMin = ansMax = 0;
-		operand2 = null;
-
-		// まず粗く範囲を狭める
-		if (settings.operand0Digits > 0)
-		{
-			op0Min = Pow10(settings.operand0Digits - 1);
-			if (!settings.allowZero && (op0Min == 0))
-			{
-				op0Min = 1;
-			}
-			op0Max = Pow10(settings.operand0Digits) - 1;
-		}
-
-		if (settings.operand1Digits > 0)
-		{
-			op1Min = Pow10(settings.operand1Digits - 1);
-			if (!settings.allowZero && (op1Min == 0))
-			{
-				op1Min = 1;
-			}
-			op1Max = Pow10(settings.operand1Digits) - 1;
-		}
-
-		if (settings.answerMinDigits > 0)
-		{
-			ansMin = Pow10(settings.answerMinDigits - 1);
-			if (!settings.allowZero && (ansMin == 0))
-			{
-				ansMin = 1;
-			}
-			ansMax = Pow10(settings.answerMaxDigits) - 1;
-		}
-		// operand0を雑に決定する
-		operand0 = Random.Range(op0Min, op0Max + 1);
-
-		var operation = settings.operation;
-		// 加減算両方なら今確定させる
-		if (operation == Operation.AddAndSub)
-		{
-			operation = (Random.value < 0.5f) ? Operation.Addition : Operation.Subtraction;
-		}
-
-		char operatorChar = '\0';
-		char? operatorChar1 = null;
-		if (operation == Operation.Count)
-		{
-			ansMin = 1;
-			ansMax = 10;
-			answer = UnityEngine.Random.Range(ansMin, ansMax + 1);
-		}
-		else if (operation == Operation.Addition)
-		{
-			// op0の範囲をまず削る
-			op0Min = Mathf.Max(op0Min, ansMin - op1Max); // 答えの最大+op1の最大が最大
-			op0Max = Mathf.Min(op0Max, ansMax - op1Min); // 答えの最大+op1の最大が最大
-			operand0 = UnityEngine.Random.Range(op0Min, op0Max + 1);
-			// op1の範囲は、[ansMin - op0, ansMax - op0]
-			op1Min = Mathf.Max(op1Min, ansMin - operand0);
-			op1Max = Mathf.Min(op1Max, ansMax - operand0);
-			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
-			answer = operand0 + operand1;
-			operatorChar = '＋';
-		}
-		else if (operation == Operation.Subtraction)
-		{
-			// op0の範囲をまず削る
-			op0Min = Mathf.Max(op0Min, ansMin + op1Min); // 答えの最大+op1の最大が最大
-			op0Max = Mathf.Min(op0Max, ansMax + op1Max); // 答えの最大+op1の最大が最大
-			operand0 = UnityEngine.Random.Range(op0Min, op0Max + 1);
-			// op0 - op1 >= ansMin
-			// op1の範囲は、[ansMin + op0, ansMax + op0]
-			op1Min = Mathf.Max(op1Min, operand0 - ansMax);
-			op1Max = Mathf.Min(op1Max, operand0 - ansMin);
-			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
-			answer = operand0 - operand1;
-			operatorChar = '−';
-		}
-		else if (operation == Operation.Multiplication)
-		{
-			// op0 * op1 >= ansMin
-			op1Min = Mathf.Max(op1Min, (ansMin + operand0 - 1) / operand0);
-			// op0 * op1 <= ansMax
-			op1Max = Mathf.Min(op1Max, ansMax / operand0);
-			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
-			answer = operand0 * operand1;
-			operatorChar = '×';
-		}
-		else if (operation == Operation.Madd) // まだ一桁しか対応してない
-		{
-			operand1 = UnityEngine.Random.Range(op1Min, op1Max + 1);
-			operand2 = UnityEngine.Random.Range(1, operand1);
-			answer = (operand0 * operand1) + operand2.Value;
-			operatorChar = '×';
-			operatorChar1 = '＋';
-		}
-		else
-		{
-			Debug.Assert(false, "BUG.");
-			operatorChar = '?';
-			operand0 = operand1 = answer = 0;
-		}
-		Debug.LogFormat("{0}({1},{2})={3} op0=[{4},{5}] op1=[{6}.{7}]", operatorChar, operand0, operand1, answer, op0Min, op0Max, op1Min, op1Max);
-		Debug.Assert(operand0 >= op0Min);
-		Debug.Assert(operand0 <= op0Max);
-		Debug.Assert(operand1 >= op1Min);
-		Debug.Assert(operand1 <= op1Max);
-		Debug.Assert(answer >= ansMin);
-		Debug.Assert(answer <= ansMax);
-*/
-		var q = questions[Random.Range(0, questions.Count - 1)];
-
+		var q = questions[questionIndex];
+		
 		operand0 = q.op0;
 		operand1 = q.op1;
 		answer = q.ans;

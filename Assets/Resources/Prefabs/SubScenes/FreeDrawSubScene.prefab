@@ -386,7 +386,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: kg
+  m_Text: "\u68EE"
 --- !u!1 &4351705615462862450
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +466,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 123456789 HelloWorld
+  m_Text: "0123456789  \u3042\u3044\u3046\u3048\u304A"
 --- !u!1 &4962801402578902158
 GameObject:
   m_ObjectHideFlags: 0

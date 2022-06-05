@@ -125,7 +125,6 @@ public static class Evaluator
 	
 		correct = true;
 		var answerText = answer.ToString();
-
 		// 逆順マッチ。大抵1の位から書いて行くから。
 		var answerIndex = answerText.Length - 1;
 		var writtenIndex = wordLetters.Count - 1;

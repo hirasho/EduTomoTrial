@@ -67,6 +67,7 @@
      <Compile Include="Assets/Scripts/SoundPlayer.cs" />
      <Compile Include="Assets/Scripts/Crane.cs" />
      <Compile Include="Assets/Scripts/Line.cs" />
+     <Compile Include="Assets/Scripts/Utils.cs" />
      <None Include="Assets/Shaders/TransparentColor.shader" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/2021.3.3f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
