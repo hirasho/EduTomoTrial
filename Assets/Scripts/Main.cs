@@ -116,7 +116,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		// 2000 / Screen.width * dpi / 25.4
 		var scale = (2000f / Screen.width) / (25.4f / dpi);
 		// 例えばこれが10なら、リアルで0.5mm幅にしたければ5mmにすれば良いことになる。5mm=0.005。
-Debug.Log("Scale: " + scale + " DPI=" + dpi);
+//Debug.Log("Scale: " + scale + " DPI=" + dpi);
 		return milliMeter * scale * 0.001f;
 	}
 

@@ -27,6 +27,10 @@ public class SettingsSubScene : SubScene
 	{
 		minProblemCountSlider.ManualUpdate(deltaTime);
 		maxProblemCountSlider.ManualUpdate(deltaTime);
+		if (minProblemCountSlider.IntValue > maxProblemCountSlider.IntValue)
+		{
+			maxProblemCountSlider.SetValue(minProblemCountSlider.IntValue);
+		}
 		timeSlider.ManualUpdate(deltaTime);
 
 		SubScene ret = null;
@@ -64,6 +68,7 @@ public class SettingsSubScene : SubScene
 			sd.timeMinute = timeSlider.IntValue;
 			sd.Save();
 			dirty = false;
+Debug.Log("Save: " + sd.minProblemCount + " " + sd.maxProblemCount);
 		}
 		saveTimer = saveIntervalSecond;
 	}

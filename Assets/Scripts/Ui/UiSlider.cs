@@ -26,11 +26,15 @@ public class UiSlider : MonoBehaviour
 
 		label.text = labelText;
 
-		var t = (initialValue - min) / (max - min);
-//Debug.LogError("Slider: " + initialValue + " " + min + " " + max + " " + t);
-		slider.value = t;
+		SetValue(initialValue);
 
 		UpdateValueText();
+	}
+
+	public void SetValue(float value)
+	{
+		var t = (value - min) / (max - min);
+		slider.value = t;
 	}
 
 	public void ManualUpdate(float deltaTime)

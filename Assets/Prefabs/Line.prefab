@@ -175,7 +175,6 @@ GameObject:
   - component: {fileID: 5842974470606375912}
   - component: {fileID: 8115673178347541374}
   - component: {fileID: 3365513026445958769}
-  - component: {fileID: 180952436282827119}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -264,17 +263,3 @@ MonoBehaviour:
   normal: {x: 0, y: 1, z: 0}
   meshRenderer: {fileID: 5842974470606375912}
   meshFilter: {fileID: 8115673178347541374}
---- !u!64 &180952436282827119
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8240823918999943063}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}

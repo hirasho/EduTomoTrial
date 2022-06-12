@@ -117,42 +117,45 @@ public static class Evaluator
 
 	static void ProcessParagraphs(VisionApi.Paragraph paragraph, List<Letter> letters, out bool correct, double answer)
 	{
+		correct = true;
 		var wordLetters = new List<Letter>();
 		foreach (var word in paragraph.words)
 		{
 			ProcessWord(word, wordLetters, readAsNumber: true);
 		}
-	
-		correct = true;
+/*
+var str = "";
+foreach (var letter in wordLetters)
+{
+	str += letter.text;
+}	
+Debug.Log("ProcessParagraphs: " + wordLetters.Count + " str=" + str);
+*/
 		var answerText = answer.ToString();
 		// 逆順マッチ。大抵1の位から書いて行くから。
 		var answerIndex = answerText.Length - 1;
 		var writtenIndex = wordLetters.Count - 1;
-		var writtenDigitCount = 0;
-		while ((answerIndex >= 0) && (writtenIndex >= 0))
+		var matchCount = 0;
+		while (writtenIndex >= 0)
 		{
 			var letter = wordLetters[writtenIndex];
 			letter.correct = false;
-			var ca = answerText[answerIndex];
+			var ca = (answerIndex >= 0) ? answerText[answerIndex] : '\0';
 			var cw = letter.text[0];
-			if (cw == '?')
+			if (cw != '?')
 			{
-				writtenIndex--;
-			}
-			else
-			{
-				writtenDigitCount++;
 				if (ca == cw)
 				{
 					letter.correct = true;
+					matchCount++;
 				}
 				else
 				{
 					correct = false;
 				}
 				answerIndex--;
-				writtenIndex--;
 			}
+			writtenIndex--;
 		}
 
 		foreach (var letter in wordLetters)
@@ -160,7 +163,7 @@ public static class Evaluator
 			letters.Add(letter);
 		}
 
-		if (answerText.Length != writtenDigitCount) // 長さが違えば違う
+		if (answerText.Length != matchCount) // 長さが違えば違う
 		{
 			correct = false;
 		}

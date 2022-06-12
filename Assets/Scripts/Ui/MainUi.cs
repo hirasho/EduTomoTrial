@@ -6,21 +6,24 @@ using UnityEngine.UI;
 public class MainUi : MonoBehaviour
 {
 	[SerializeField] Canvas canvas;
-	[SerializeField] Button clearButton;
+	[SerializeField] Button abortButton;
 	[SerializeField] Image eraserButtonImage;
 	[SerializeField] ButtonEventsHandler eraserButton;
 	[SerializeField] Text questionIndexText;
 	[SerializeField] Text debugInfoText;
 	[SerializeField] Text debugMessageText;
 	[SerializeField] Image loadingIcon;
+	[SerializeField] Image hanamaru;
 
-	public bool ClearButtonClicked { get; private set; }
-	public bool EraserEnabled { get => (!eraserDown && eraserOn); } // down中は何であれ有効,それ以外はonなら有効
+	public bool AbortButtonClicked { get; private set; }
+//	public bool EraserEnabled { get => (!eraserDown && eraserOn); } // down中は何であれ有効,それ以外はonなら有効
 
 	public void ManualStart()
 	{
 		loadingIcon.enabled = false;
-		clearButton.onClick.AddListener(OnClickClear);
+		hanamaru.enabled = false;
+		abortButton.onClick.AddListener(OnClickAbort);
+eraserButton.gameObject.SetActive(false); // 3Dケシゴム実験中
 
 		eraserButton.OnDown = OnEraserDown;
 		eraserButton.OnUp = OnEraserUp;
@@ -48,7 +51,7 @@ public class MainUi : MonoBehaviour
 
 	public void ManualUpdate(float deltaTime)
 	{
-		ClearButtonClicked = false;
+		AbortButtonClicked = false;
 
 		UpdateDebugInfo();
 
@@ -59,7 +62,7 @@ public class MainUi : MonoBehaviour
 			iconTransform.localRotation = dq * iconTransform.localRotation;
 		}
 
-		eraserButtonImage.color = EraserEnabled ? new Color(0.75f, 0.75f, 0.75f, 1f) : new Color(1f, 1f, 1f, 1f);
+//		eraserButtonImage.color = EraserEnabled ? new Color(0.75f, 0.75f, 0.75f, 1f) : new Color(1f, 1f, 1f, 1f);
 	}
 
 	public void SetEraserOff()
@@ -70,13 +73,23 @@ public class MainUi : MonoBehaviour
 		}
 	}
 
+	public void ShowHanamaru()
+	{
+		hanamaru.enabled = true;
+	}
+
+	public void HideHanamaru()
+	{
+		hanamaru.enabled = false;
+	}
+
 	// non public ------
 	bool eraserDown;
 	bool eraserOn;
 
-	void OnClickClear()
+	void OnClickAbort()
 	{
-		ClearButtonClicked = true;
+		AbortButtonClicked = true;
 	}
 
 	void OnEraserDown()

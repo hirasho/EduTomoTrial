@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Linq;
 
-public class QuestionSubScene : SubScene, ILinePointerEventReceiver
+public class QuestionSubScene : SubScene, IEraserEventReceiver
 {
 	public enum Operation
 	{
@@ -47,7 +47,7 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 		public bool allowZero;
 		public bool invertOperation;
 	}
-	[SerializeField] int pathDivision = 16;
+	[SerializeField] Eraser eraser;
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
 	[SerializeField] Transform countObjectRoot;
@@ -68,6 +68,7 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 	{
 		this.main = main;
 		this.settings = settings;
+		eraser.ManualStart(this);
 
 		annotationViews = new List<Annotation>();
 		lines = new List<Line>();
@@ -96,14 +97,10 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
-		if (ui.ClearButtonClicked)
-		{
-			ClearLines();	
-			ClearAnnotations();
-		}
-
+		var aborted = ui.AbortButtonClicked;
 		ui.ManualUpdate(deltaTime);
 
+		var eraserPosition = eraser.DefaultPosition;
 		if (pointerDown)
 		{
 			var pointer = main.TouchDetector.ScreenPosition;
@@ -120,24 +117,16 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 			}
 			else
 			{
-				for (var i = 0; i < pathDivision; i++)
+				if (eraser.PointerDown)
 				{
-					var t = (float)(i + 1) / (float)pathDivision;
-					var p = Vector2.Lerp(prevPointer, pointer, t);
-					var ray = main.MainCamera.ScreenPointToRay(p);
-					var hits = Physics.RaycastAll(ray.origin, ray.direction, 1000f, Physics.AllLayers);
-					foreach (var hit in hits)
-					{
-						var line = hit.collider.gameObject.GetComponent<Line>();
-						if (line != null)
-						{
-							RemoveLine(line);
-						}
-					}
+					var ray = main.MainCamera.ScreenPointToRay(pointer);
+					var t = (0f - ray.origin.y) / ray.direction.y;
+					eraserPosition = ray.origin + (ray.direction * t);
 				}
 			}
 			prevPointer = pointer;
 		}
+		eraser.transform.position = eraserPosition;
 
 		SubScene nextScene = null;
 		if (end)
@@ -149,15 +138,21 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 			result.ManualStart(main, (float)duration, questionIndex);
 			nextScene = result;
 		}
+		else if (aborted)
+		{
+			var title = SubScene.Instantiate<TitleSubScene>(transform.parent);
+			title.ManualStart(main);
+			nextScene = title;
+		}
 		return nextScene;
 	}
 
 	public override void OnPointerDown()
 	{
-		if (!ui.EraserEnabled)
+		if (!eraser.PointerDown)
 		{
 			var line = Instantiate(linePrefab, lineRoot, false);
-			line.ManualStart(this, main.MainCamera, main.DefaultLineWidth);
+			line.ManualStart(main.MainCamera, main.DefaultLineWidth);
 			if (lines.Count > 0)
 			{
 				lines[lines.Count - 1].GenerateCollider();
@@ -172,32 +167,38 @@ public class QuestionSubScene : SubScene, ILinePointerEventReceiver
 
 	public override void OnPointerUp()
 	{
-Debug.Log("Up!");
+		var eval = justErased;
 		if (drawing)
 		{
 			if (lines.Count > 0)
 			{
 				lines[lines.Count - 1].GenerateCollider();
 			}
-			StartCoroutine(CoRequestEvaluation());
+			eval = true;
 		}
 		drawing = false;
 		pointerDown = false;
 		ui.SetEraserOff();
+		if (eval)
+		{
+			StartCoroutine(CoRequestEvaluation());
+		}
+		justErased = false;
 	}
 
-	public void OnLineDown(Line line)
+	public void OnEraserDown()
 	{
-//		if (ui.EraserEnabled)
-//		{
-//			RemoveLine(line);
-//		}
 		OnPointerDown();
 	}
 
-	public void OnLineUp()
+	public void OnEraserUp()
 	{
 		OnPointerUp();
+	}
+
+	public void OnEraserHitLine(Line line)
+	{
+		RemoveLine(line);
 	}
 
 	public void OnBeginDragCountingObject(Rigidbody rigidbody, Vector2 screenPosition)
@@ -230,10 +231,10 @@ Debug.Log("Up!");
 			bool correct;
 			var correctValue = settings.invertOperation ? operand1 : answer;
 			var letters = Evaluator.Evaluate(response, correctValue, out correct);
+//Debug.Log("Evaluate: " + letters[0].text + " " + correct + " Answer=" + correctValue);
 			if (correct)
 			{
 				nextRequested = true;
-				main.SoundPlayer.Play("クイズ正解2");
 			}
 			ShowAnnotations(letters);
 		}
@@ -263,6 +264,7 @@ Debug.Log("Up!");
 	int eraseCount;
 	string problemText;
 	Formula activeFormula;
+	bool justErased;
 
 	struct Question
 	{
@@ -293,6 +295,7 @@ Debug.Log("Up!");
 			{
 				Destroy(lines[i].gameObject);
 				eraseCount++;
+				justErased = true;
 			}
 			else
 			{
@@ -309,15 +312,12 @@ Debug.Log("Up!");
 			var sd = main.SaveData;
 			var duration = ((byte)(System.DateTime.Now - sessionStartTime).TotalSeconds) / 60.0;
 
-			// 1. 最小問題数終わって規定時間を過ぎていれば終わっていい。
-			// 2. 最大問題数終わってれば終わっていい
-			// 最小問題数を消化
-			if (questionIndex >= sd.maxProblemCount)
+			if (questionIndex >= sd.maxProblemCount) // 1. 最大問題数終わってれば終わっていい
 			{
 				Debug.Log("Break2 " + questionIndex + " " + duration + " " + sd.maxProblemCount);
 				break;
 			} 
-			else if (questionIndex >= sd.minProblemCount)
+			else if (questionIndex >= sd.minProblemCount) // 2. 最小問題数終わって規定時間を過ぎていれば終わっていい。
 			{
 				if (duration >= sd.timeMinute)
 				{
@@ -350,6 +350,7 @@ Debug.Log("Up!");
 
 	IEnumerator CoQuestion()
 	{
+		ui.HideHanamaru();
 		ClearLines();
 		ClearAnnotations();
 		UpdateQuestion();
@@ -363,6 +364,11 @@ if (Input.GetKeyDown(KeyCode.S))
 #endif
 			yield return null;
 		}
+
+		main.SoundPlayer.Play("クイズ正解2");
+		ui.ShowHanamaru();
+		yield return new WaitForSeconds(0.5f);
+
 		var seconds = (System.DateTime.Now - problemStartTime).TotalSeconds;
 		var problem = new ProblemData(problemText, (float)seconds, strokeCount, eraseCount);
 		sessionData.AddProblemData(problem);
@@ -530,7 +536,7 @@ if (Input.GetKeyDown(KeyCode.S))
 					{
 						if (questionSet.Add(new Question(v0, v1, 0, ans, Operation.Addition)))
 						{
-Debug.LogFormat("{0}\t {1} + {2} = {3}", questionSet.Count, v0, v1, ans);
+//Debug.LogFormat("{0}\t {1} + {2} = {3}", questionSet.Count, v0, v1, ans);
 						}
 					}
 				}
@@ -547,7 +553,7 @@ Debug.LogFormat("{0}\t {1} + {2} = {3}", questionSet.Count, v0, v1, ans);
 					{
 						if (questionSet.Add(new Question(v0, v1, 0, ans, Operation.Subtraction)))
 						{
-Debug.LogFormat("{0}\t {1} - {2} = {3}", questionSet.Count, v0, v1, ans);
+//Debug.LogFormat("{0}\t {1} - {2} = {3}", questionSet.Count, v0, v1, ans);
 						}
 
 					}
@@ -584,7 +590,7 @@ Debug.LogFormat("{0}\t {1} - {2} = {3}", questionSet.Count, v0, v1, ans);
 					{
 						if (questionSet.Add(new Question(v0, v1, 0, ans, Operation.Multiplication)))
 						{
-Debug.LogFormat("{0}\t {1} * {2} = {3}", questionSet.Count, v0, v1, ans);
+//Debug.LogFormat("{0}\t {1} * {2} = {3}", questionSet.Count, v0, v1, ans);
 						}
 					}
 				}
@@ -609,7 +615,6 @@ Debug.LogFormat("{0}\t {1} * {2} = {3}", questionSet.Count, v0, v1, ans);
 		}
 
 		this.questions = questionSet.ToList();
-		Utils.Shuffle(this.questions);
 		Debug.Log("MakeQuestions: count=" + this.questions.Count);
 	}
 
@@ -623,7 +628,11 @@ Debug.LogFormat("{0}\t {1} * {2} = {3}", questionSet.Count, v0, v1, ans);
 
 		ui.SetQuestionIndex(questionIndex + 1, main.SaveData.maxProblemCount);
 
-		var q = questions[questionIndex];
+		if ((questionIndex % questions.Count) == 0)
+		{
+			Utils.Shuffle(questions);
+		}
+		var q = questions[questionIndex % questions.Count];
 		
 		operand0 = q.op0;
 		operand1 = q.op1;
@@ -836,27 +845,30 @@ Debug.Log("ShapeType: " + shapeType + " " + answer);
 			}
 		}
 		else if (
-			((q.op == Operation.Addition) || (q.op == Operation.Subtraction)) && 
-			(settings.operand0Digits == 1) && 
-			(settings.operand1Digits == 1) && 
-			!settings.invertOperation)
+			((q.op == Operation.Addition) || (q.op == Operation.Subtraction)))
 		{
-			var center = new Vector3(-0.85f, 1f, 0.375f);
-			for (var i = 0; i < operand0; i++)
+			if (settings.operand0Digits == 1)
 			{
-				var obj = Instantiate(redCubePrefab, countObjectRoot, false);
-				var p = center + new Vector3(0.15f * i, 0.5f * i, 0f);
-				obj.ManualStart(this, p);
-				countingObjects.Add(obj);
+				var center = new Vector3(-0.85f, 1f, 0.375f);
+				for (var i = 0; i < operand0; i++)
+				{
+					var obj = Instantiate(redCubePrefab, countObjectRoot, false);
+					var p = center + new Vector3(0.14f * i, 0.5f * i, 0f);
+					obj.ManualStart(this, p);
+					countingObjects.Add(obj);
+				}
 			}
 
-			center = new Vector3(-0.85f, 1f, 0.25f);
-			for (var i = 0; i < operand1; i++)
+			if ((settings.operand1Digits == 1) && !settings.invertOperation)
 			{
-				var obj = Instantiate(blueCubePrefab, countObjectRoot, false);
-				var p = center + new Vector3(0.15f * i, 0.5f * i, 0f);
-				obj.ManualStart(this, p);
-				countingObjects.Add(obj);
+				var center = new Vector3(-0.85f, 1f, 0.25f);
+				for (var i = 0; i < operand1; i++)
+				{
+					var obj = Instantiate(blueCubePrefab, countObjectRoot, false);
+					var p = center + new Vector3(0.14f * i, 0.5f * i, 0f);
+					obj.ManualStart(this, p);
+					countingObjects.Add(obj);
+				}
 			}
 		}
 		problemStartTime = System.DateTime.Now;

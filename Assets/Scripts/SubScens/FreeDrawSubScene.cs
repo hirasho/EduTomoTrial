@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class FreeDrawSubScene : SubScene, ILinePointerEventReceiver
+public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 {
 	[SerializeField] Transform lineRoot;
 	[SerializeField] Line linePrefab;
@@ -11,12 +11,15 @@ public class FreeDrawSubScene : SubScene, ILinePointerEventReceiver
 	[SerializeField] Material rtLineMaterial;
 	[SerializeField] Camera rtCamera;
 	[SerializeField] Button clearButton;
+	[SerializeField] Button abortButton;
 	[SerializeField] AnswerZone answerZone;
 	[SerializeField] Annotation annotationPrefab;
+	[SerializeField] Eraser eraser;
 	
 	public void ManualStart(Main main)
 	{
 		this.main = main;
+		eraser.ManualStart(this);
 
 		annotationViews = new List<Annotation>();
 		lines = new List<Line>();
@@ -26,10 +29,16 @@ public class FreeDrawSubScene : SubScene, ILinePointerEventReceiver
 		{
 			clearButtonClicked = true;
 		});
+
+		abortButton.onClick.AddListener(() =>
+		{
+			abortButtonClicked = true;
+		});
 	}
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
+		SubScene nextScene = null;
 		if (clearButtonClicked)
 		{
 			clearButtonClicked = false;
@@ -37,6 +46,14 @@ public class FreeDrawSubScene : SubScene, ILinePointerEventReceiver
 			ClearAnnotations();
 		}
 
+		if (abortButtonClicked)
+		{
+			var title = SubScene.Instantiate<TitleSubScene>(transform.parent);
+			title.ManualStart(main);
+			nextScene = title;
+		}
+
+		var eraserPosition = eraser.DefaultPosition;
 		if (pointerDown)
 		{
 			var pointer = main.TouchDetector.ScreenPosition;
@@ -51,49 +68,86 @@ public class FreeDrawSubScene : SubScene, ILinePointerEventReceiver
 					lines[lines.Count - 1].AddPoint(p);
 				}
 			}
+			else
+			{
+				if (eraser.PointerDown)
+				{
+					var ray = main.MainCamera.ScreenPointToRay(pointer);
+					var t = (0f - ray.origin.y) / ray.direction.y;
+					eraserPosition = ray.origin + (ray.direction * t);
+				}
+			}
 			prevPointer = pointer;
 		}
+		eraser.transform.position = eraserPosition;
 
-		SubScene nextScene = null;
 		return nextScene;
 	}
 
 	public override void OnPointerDown()
 	{
-		var line = Instantiate(linePrefab, lineRoot, false);
-		line.ManualStart(this, main.MainCamera, main.DefaultLineWidth);
-		if (lines.Count > 0)
+		if (!eraser.PointerDown)
 		{
-			lines[lines.Count - 1].GenerateCollider();
+			var line = Instantiate(linePrefab, lineRoot, false);
+			line.ManualStart(main.MainCamera, main.DefaultLineWidth);
+			if (lines.Count > 0)
+			{
+				lines[lines.Count - 1].GenerateCollider();
+			}
+			lines.Add(line);
+			drawing = true;
 		}
-		lines.Add(line);
 		pointerDown = true;
-		drawing = true;
 		prevPointer = main.TouchDetector.ScreenPosition;
 	}
 
 	public override void OnPointerUp()
 	{
+		var eval = justErased;
 		if (drawing)
 		{
 			if (lines.Count > 0)
 			{
 				lines[lines.Count - 1].GenerateCollider();
 			}
-			StartCoroutine(CoRequestEvaluation());
+			eval = true;
 		}
 		drawing = false;
 		pointerDown = false;
+		if (eval)
+		{
+			StartCoroutine(CoRequestEvaluation());
+		}
+		justErased = false;
 	}
 
-	public void OnLineDown(Line line)
+	public void OnEraserDown()
 	{
 		OnPointerDown();
 	}
 
-	public void OnLineUp()
+	public void OnEraserUp()
 	{
 		OnPointerUp();
+	}
+
+	public void OnEraserHitLine(Line line)
+	{
+		var dst = 0;
+		for (var i = 0; i < lines.Count; i++)
+		{
+			lines[dst] = lines[i];
+			if (lines[i] == line)
+			{
+				Destroy(lines[i].gameObject);
+				justErased = true;
+			}
+			else
+			{
+				dst++;
+			}
+		}
+		lines.RemoveRange(dst, lines.Count - dst);
 	}
 	
 	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
@@ -115,6 +169,8 @@ public class FreeDrawSubScene : SubScene, ILinePointerEventReceiver
 	bool drawing;
 	List<Annotation> annotationViews;
 	bool clearButtonClicked;
+	bool abortButtonClicked;
+	bool justErased;
 
 	void ClearLines()
 	{
@@ -150,7 +206,6 @@ public class FreeDrawSubScene : SubScene, ILinePointerEventReceiver
 		}
 		var center = (min + max) * 0.5f;
 		center.y += 10f;
-Debug.Log(min +  " " + max);
 		rtCamera.transform.localPosition = center;
 		rtCamera.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 		rtCamera.orthographicSize = Mathf.Max((max.x - min.x) / rtCamera.aspect, max.z - min.z);
@@ -246,7 +301,7 @@ Debug.Log(min +  " " + max);
 			{
 				var obj = Instantiate(annotationPrefab, transform, false);
 				center /= srcVertices.Count;
-				obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, letter.text, letter.correct);
+				obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, letter.text, ok: true); // 自由帳に不正解はない
 //Debug.Log("\t " + letter.text + " " + letter.correct);
 				annotationViews.Add(obj);
 			}
