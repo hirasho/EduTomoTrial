@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class MainUi : MonoBehaviour
 {
 	[SerializeField] Button abortButton;
-	[SerializeField] ButtonEventsHandler eraserButton;
 	[SerializeField] Text questionIndexText;
 	[SerializeField] Text debugInfoText;
 	[SerializeField] Text debugMessageText;
@@ -16,17 +15,12 @@ public class MainUi : MonoBehaviour
 	[SerializeField] Image timeGauge;
 
 	public bool AbortButtonClicked { get; private set; }
-//	public bool EraserEnabled { get => (!eraserDown && eraserOn); } // down中は何であれ有効,それ以外はonなら有効
 
 	public void ManualStart()
 	{
 		loadingIcon.enabled = false;
 		hanamaru.enabled = false;
 		abortButton.onClick.AddListener(OnClickAbort);
-eraserButton.gameObject.SetActive(false); // 3Dケシゴム実験中
-
-		eraserButton.OnDown = OnEraserDown;
-		eraserButton.OnUp = OnEraserUp;
 	}
 
 	public void SetQuestionIndex(int current, int min, int max)
@@ -69,14 +63,6 @@ eraserButton.gameObject.SetActive(false); // 3Dケシゴム実験中
 //		eraserButtonImage.color = EraserEnabled ? new Color(0.75f, 0.75f, 0.75f, 1f) : new Color(1f, 1f, 1f, 1f);
 	}
 
-	public void SetEraserOff()
-	{
-		if (eraserOn)
-		{
-			OnEraserDown();
-		}
-	}
-
 	public void ShowHanamaru()
 	{
 		hanamaru.enabled = true;
@@ -94,17 +80,6 @@ eraserButton.gameObject.SetActive(false); // 3Dケシゴム実験中
 	void OnClickAbort()
 	{
 		AbortButtonClicked = true;
-	}
-
-	void OnEraserDown()
-	{
-		eraserOn = !eraserOn;
-		eraserDown = true;
-	}
-
-	void OnEraserUp()
-	{
-		eraserDown = false;
 	}
 
 	void UpdateDebugInfo()

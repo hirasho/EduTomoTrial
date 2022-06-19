@@ -178,7 +178,6 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		}
 		drawing = false;
 		pointerDown = false;
-		ui.SetEraserOff();
 		if (eval)
 		{
 			StartCoroutine(CoRequestEvaluation());
