@@ -97,8 +97,9 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
+		var currentTime = (System.DateTime.Now - sessionStartTime).TotalSeconds;
 		var aborted = ui.AbortButtonClicked;
-		ui.ManualUpdate(deltaTime);
+		ui.ManualUpdate(deltaTime, (float)currentTime, (float)(main.SaveData.timeMinute * 60));
 
 		var eraserPosition = eraser.DefaultPosition;
 		if (pointerDown)
@@ -132,10 +133,9 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		if (end)
 		{
 			var result = SubScene.Instantiate<ResultSubScene>(transform.parent);
-			var duration = (System.DateTime.Now - sessionStartTime).TotalSeconds;
 			main.OnSessionEnd(sessionData);
 
-			result.ManualStart(main, (float)duration, questionIndex);
+			result.ManualStart(main, (float)currentTime, questionIndex);
 			nextScene = result;
 		}
 		else if (aborted)
@@ -310,8 +310,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		while (true)
 		{
 			var sd = main.SaveData;
-			var duration = ((byte)(System.DateTime.Now - sessionStartTime).TotalSeconds) / 60.0;
-
+			var duration = (System.DateTime.Now - sessionStartTime).TotalSeconds / 60.0;
 			if (questionIndex >= sd.maxProblemCount) // 1. 最大問題数終わってれば終わっていい
 			{
 				Debug.Log("Break2 " + questionIndex + " " + duration + " " + sd.maxProblemCount);
@@ -626,7 +625,10 @@ if (Input.GetKeyDown(KeyCode.S))
 		}
 		countingObjects.Clear();
 
-		ui.SetQuestionIndex(questionIndex + 1, main.SaveData.maxProblemCount);
+		ui.SetQuestionIndex(
+			questionIndex + 1, 
+			main.SaveData.minProblemCount,
+			main.SaveData.maxProblemCount);
 
 		if ((questionIndex % questions.Count) == 0)
 		{

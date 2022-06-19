@@ -7,3 +7,4 @@ Recordings/
 *.aab
 *.apk
 *_BackUpThisFolder_ButDontShipItWithYourGame
+*_mapping.txt

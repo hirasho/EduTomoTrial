@@ -1,5 +1,5 @@
 {
-    "minProblemCount": 5,
-    "maxProblemCount": 80,
-    "timeMinute": 0
+    "minProblemCount": 15,
+    "maxProblemCount": 50,
+    "timeMinute": 3
 }

@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class MainUi : MonoBehaviour
 {
-	[SerializeField] Canvas canvas;
 	[SerializeField] Button abortButton;
-	[SerializeField] Image eraserButtonImage;
 	[SerializeField] ButtonEventsHandler eraserButton;
 	[SerializeField] Text questionIndexText;
 	[SerializeField] Text debugInfoText;
 	[SerializeField] Text debugMessageText;
 	[SerializeField] Image loadingIcon;
 	[SerializeField] Image hanamaru;
+	[SerializeField] RectTransform gaugeTransform;
+	[SerializeField] Image timeGauge;
 
 	public bool AbortButtonClicked { get; private set; }
 //	public bool EraserEnabled { get => (!eraserDown && eraserOn); } // down中は何であれ有効,それ以外はonなら有効
@@ -29,9 +29,11 @@ eraserButton.gameObject.SetActive(false); // 3Dケシゴム実験中
 		eraserButton.OnUp = OnEraserUp;
 	}
 
-	public void SetQuestionIndex(int current, int total)
+	public void SetQuestionIndex(int current, int min, int max)
 	{
-		questionIndexText.text = string.Format("{0} / {1}", current, total);
+		var ratio = (float)(current - 1) / (float)min;
+		gaugeTransform.localScale = new Vector3(ratio, 1f, 1f);
+		questionIndexText.text = string.Format("{0} / {1}", current, min);
 	}
 
 	public void SetDebugMessage(string message)
@@ -49,7 +51,7 @@ eraserButton.gameObject.SetActive(false); // 3Dケシゴム実験中
 		loadingIcon.enabled = false;
 	}
 
-	public void ManualUpdate(float deltaTime)
+	public void ManualUpdate(float deltaTime, float currentTime, float duration)
 	{
 		AbortButtonClicked = false;
 
@@ -61,6 +63,8 @@ eraserButton.gameObject.SetActive(false); // 3Dケシゴム実験中
 			var dq = Quaternion.AngleAxis(360f * deltaTime, new Vector3(0f, 0f, 1f));
 			iconTransform.localRotation = dq * iconTransform.localRotation;
 		}
+
+		timeGauge.fillAmount = Mathf.Clamp01((duration - currentTime) / duration);
 
 //		eraserButtonImage.color = EraserEnabled ? new Color(0.75f, 0.75f, 0.75f, 1f) : new Color(1f, 1f, 1f, 1f);
 	}
