@@ -8,6 +8,8 @@ public class SaveData
 	public int minProblemCount = 10;
 	public int maxProblemCount = 50;
 	public int timeMinute = 3;
+	public bool allowZero = true;
+	public bool showCubes = true;
 
 	public static SaveData Load()
 	{

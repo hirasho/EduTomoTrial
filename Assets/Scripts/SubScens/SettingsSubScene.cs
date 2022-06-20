@@ -9,6 +9,8 @@ public class SettingsSubScene : SubScene
 	[SerializeField] UiSlider minProblemCountSlider;
 	[SerializeField] UiSlider maxProblemCountSlider;
 	[SerializeField] UiSlider timeSlider;
+	[SerializeField] Toggle allowZeroToggle;
+	[SerializeField] Toggle showCubesToggle;
 	[SerializeField] Button backButton;
 
 	public void ManualStart(Main main)
@@ -20,6 +22,9 @@ public class SettingsSubScene : SubScene
 		minProblemCountSlider.ManualStart(OnChange, sd.minProblemCount);
 		maxProblemCountSlider.ManualStart(OnChange, sd.maxProblemCount);
 		timeSlider.ManualStart(OnChange, sd.timeMinute);
+		allowZeroToggle.isOn = sd.allowZero;
+		showCubesToggle.isOn = sd.showCubes;
+
 		saveTimer = saveIntervalSecond;
 	}
 
@@ -66,9 +71,10 @@ public class SettingsSubScene : SubScene
 			sd.maxProblemCount = maxProblemCountSlider.IntValue;
 			sd.minProblemCount = minProblemCountSlider.IntValue;
 			sd.timeMinute = timeSlider.IntValue;
+			sd.allowZero = allowZeroToggle.isOn;
+			sd.showCubes = showCubesToggle.isOn;
 			sd.Save();
 			dirty = false;
-Debug.Log("Save: " + sd.minProblemCount + " " + sd.maxProblemCount);
 		}
 		saveTimer = saveIntervalSecond;
 	}

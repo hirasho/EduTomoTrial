@@ -1,22 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class TitleSubScene : SubScene
 {
-	[SerializeField] Button countButton;
-	[SerializeField] Button add11_1Button;
-	[SerializeField] Button invAdd11_1Button;
-	[SerializeField] Button sub11_1Button;
-	[SerializeField] Button add11_2Button;
-	[SerializeField] Button sub21_1Button;
-	[SerializeField] Button invAdd11_2Button;
-	[SerializeField] Button invSub21_1Button;
-	[SerializeField] Button mul11Button;
-	[SerializeField] Button madd11Button;
-	[SerializeField] Button mul21Button;
-	[SerializeField] Button addSub33_3Button;
+	[SerializeField] CategoryButton[] buttons;
 	[SerializeField] Button freeDrawButton;
 	[SerializeField] Button logButton;
 	[SerializeField] Button settingsButton;
@@ -25,61 +12,14 @@ public class TitleSubScene : SubScene
 	{
 		this.main = main;
 
-		countButton.onClick.AddListener(() =>
+		foreach (var button in buttons)
 		{
-			questionSettings = new QuestionSubScene.Settings("count", QuestionSubScene.Operation.Count, 0, 0, 1, 1, false, false);
-		});
-		add11_1Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x+y=?", QuestionSubScene.Operation.Addition, 1, 1, 1, 1, false, false);
-		});
-		invAdd11_1Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x+?=y", QuestionSubScene.Operation.Addition, 1, 1, 1, 1, false, true);
-		});
+			button.Button.onClick.AddListener(() =>
+			{
+				questionSettings = button.MakeSettings();
+			});
+		}
 
-		sub11_1Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x-y=?", QuestionSubScene.Operation.Subtraction, 1, 1, 1, 1, false, false);
-		});
-		add11_2Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x+y=?", QuestionSubScene.Operation.Addition, 1, 1, 2, 2, false, false);
-		});
-		sub21_1Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("xx-y=?", QuestionSubScene.Operation.Subtraction, 2, 1, 1, 1, false, false);
-		});
-
-		invAdd11_2Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x+?=yy", QuestionSubScene.Operation.Addition, 1, 1, 2, 2, false, true);
-		});
-		invSub21_1Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("xx-?=y", QuestionSubScene.Operation.Subtraction, 2, 1, 1, 1, false, true);
-		});
-		mul11Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x*y=??", QuestionSubScene.Operation.Multiplication, 1, 1, 1, 2, false, false);
-		});
-
-		madd11Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x*?+y=zz", QuestionSubScene.Operation.Madd, 1, 1, 1, 2, false, true);
-		});
-		mul21Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("xx*y=???", QuestionSubScene.Operation.Multiplication, 2, 1, 2, 3, false, false);
-		});
-		madd11Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("x*?+y=zz", QuestionSubScene.Operation.Madd, 1, 1, 1, 2, false, true);
-		});
-		addSub33_3Button.onClick.AddListener(() =>
-		{
-			questionSettings = new QuestionSubScene.Settings("xxx+-yyy=???", QuestionSubScene.Operation.AddAndSub, 3, 3, 3, 3, false, false);
-		});
 		freeDrawButton.onClick.AddListener(() =>
 		{
 			toFreeDraw = true;	

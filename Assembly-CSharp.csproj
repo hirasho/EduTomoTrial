@@ -39,6 +39,7 @@
      <Compile Include="Assets/Scripts/Utils.cs" />
      <Compile Include="Assets/Scripts/Formula.cs" />
      <Compile Include="Assets/Scripts/Ui/MainUi.cs" />
+     <Compile Include="Assets/Scripts/Ui/CategoryButton.cs" />
      <Compile Include="Assets/Scripts/CountingObject.cs" />
      <Compile Include="Assets/Scripts/SubScene.cs" />
      <Compile Include="Assets/Scripts/Keys.cs" />

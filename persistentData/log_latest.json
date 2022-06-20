@@ -127,9 +127,12 @@
             "time": "2/26/2022 6:00:56 PM",
             "duration": 52.50295639038086,
             "averageDuration": 2.625147819519043,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -261,9 +264,12 @@
             "time": "2/26/2022 6:12:36 PM",
             "duration": 64.21292114257813,
             "averageDuration": 3.210646152496338,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -395,9 +401,12 @@
             "time": "2/26/2022 6:36:55 PM",
             "duration": 79.49459075927735,
             "averageDuration": 3.974729537963867,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -529,9 +538,12 @@
             "time": "2/26/2022 9:44:11 PM",
             "duration": 18.792539596557618,
             "averageDuration": 0.9396269917488098,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -663,9 +675,12 @@
             "time": "2/26/2022 9:44:11 PM",
             "duration": 18.792539596557618,
             "averageDuration": 0.9396269917488098,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -797,9 +812,12 @@
             "time": "2/26/2022 9:44:31 PM",
             "duration": 20.892093658447267,
             "averageDuration": 1.0446046590805054,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -931,9 +949,12 @@
             "time": "2/26/2022 9:44:11 PM",
             "duration": 18.792539596557618,
             "averageDuration": 0.9396269917488098,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1065,9 +1086,12 @@
             "time": "2/26/2022 9:44:31 PM",
             "duration": 20.892093658447267,
             "averageDuration": 1.0446046590805054,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1199,9 +1223,12 @@
             "time": "2/26/2022 9:44:54 PM",
             "duration": 12.74406909942627,
             "averageDuration": 0.6372034549713135,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1333,9 +1360,12 @@
             "time": "2/26/2022 9:44:11 PM",
             "duration": 18.792539596557618,
             "averageDuration": 0.9396269917488098,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1467,9 +1497,12 @@
             "time": "2/26/2022 9:44:31 PM",
             "duration": 20.892093658447267,
             "averageDuration": 1.0446046590805054,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1601,9 +1634,12 @@
             "time": "2/26/2022 9:44:54 PM",
             "duration": 12.74406909942627,
             "averageDuration": 0.6372034549713135,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1735,9 +1771,12 @@
             "time": "2/26/2022 9:45:14 PM",
             "duration": 7.9439592361450199,
             "averageDuration": 0.397197961807251,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1809,9 +1848,12 @@
             "time": "3/12/2022 3:31:43 PM",
             "duration": 23.50333595275879,
             "averageDuration": 2.3503336906433107,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1829,9 +1871,12 @@
             "time": "3/12/2022 3:33:18 PM",
             "duration": 3.3343710899353029,
             "averageDuration": 3.3343710899353029,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1849,9 +1894,12 @@
             "time": "3/12/2022 3:34:54 PM",
             "duration": 2.0343780517578127,
             "averageDuration": 2.0343780517578127,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -1983,9 +2031,12 @@
             "time": "3/12/2022 3:35:50 PM",
             "duration": 61.3180046081543,
             "averageDuration": 3.0659003257751467,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2129,9 +2180,12 @@
             "time": "3/12/2022 3:38:20 PM",
             "duration": 60.2105827331543,
             "averageDuration": 2.736844778060913,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2227,9 +2281,12 @@
             "time": "3/12/2022 7:58:12 PM",
             "duration": 66.35041809082031,
             "averageDuration": 4.739315509796143,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2337,9 +2394,12 @@
             "time": "3/12/2022 8:02:51 PM",
             "duration": 62.34978103637695,
             "averageDuration": 3.8968613147735597,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2501,9 +2561,12 @@
             "time": "3/13/2022 11:57:40 AM",
             "duration": 62.768131256103519,
             "averageDuration": 2.510725259780884,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=yy",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2665,9 +2728,12 @@
             "time": "3/13/2022 11:57:40 AM",
             "duration": 62.768131256103519,
             "averageDuration": 2.510725259780884,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=yy",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2823,9 +2889,12 @@
             "time": "3/13/2022 11:58:50 AM",
             "duration": 61.82082748413086,
             "averageDuration": 2.5758678913116457,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2861,9 +2930,12 @@
             "time": "3/13/2022 12:17:40 PM",
             "duration": 7550.93505859375,
             "averageDuration": 1887.7337646484375,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*?+y=zz",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2899,9 +2971,12 @@
             "time": "3/13/2022 12:17:40 PM",
             "duration": 7550.93505859375,
             "averageDuration": 1887.7337646484375,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*?+y=zz",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -2955,9 +3030,12 @@
             "time": "3/13/2022 2:23:48 PM",
             "duration": 72.57054901123047,
             "averageDuration": 10.367220878601075,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*?+y=zz",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -3035,9 +3113,12 @@
             "time": "4/24/2022 3:03:18 PM",
             "duration": 61.49683380126953,
             "averageDuration": 5.590621471405029,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -3205,9 +3286,12 @@
             "time": "4/24/2022 3:07:51 PM",
             "duration": 61.66280746459961,
             "averageDuration": 2.3716464042663576,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -3363,9 +3447,12 @@
             "time": "4/24/2022 3:16:11 PM",
             "duration": 62.004356384277347,
             "averageDuration": 2.583514928817749,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -3503,9 +3590,12 @@
             "time": "4/24/2022 3:25:21 PM",
             "duration": 61.92441177368164,
             "averageDuration": 2.9487814903259279,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -3673,9 +3763,12 @@
             "time": "4/24/2022 3:26:46 PM",
             "duration": 62.305755615234378,
             "averageDuration": 2.3963751792907717,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -3843,9 +3936,12 @@
             "time": "4/24/2022 3:26:46 PM",
             "duration": 62.305755615234378,
             "averageDuration": 2.3963751792907717,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -4031,9 +4127,12 @@
             "time": "4/24/2022 3:27:50 PM",
             "duration": 61.62422561645508,
             "averageDuration": 2.1249732971191408,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -4183,9 +4282,12 @@
             "time": "4/24/2022 3:30:53 PM",
             "duration": 61.38771438598633,
             "averageDuration": 2.6690311431884767,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -4203,9 +4305,12 @@
             "time": "4/26/2022 1:47:33 PM",
             "duration": 1856.577880859375,
             "averageDuration": 1856.577880859375,
-            "operand0Digits": 3,
-            "operand1Digits": 3,
-            "answerMaxDigits": 3,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xxx+-yyy=???",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -4517,9 +4622,12 @@
             "time": "5/1/2022 12:53:49 AM",
             "duration": 91.24103546142578,
             "averageDuration": 1.8248207569122315,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -4651,9 +4759,12 @@
             "time": "5/1/2022 1:09:00 AM",
             "duration": 49.403358459472659,
             "averageDuration": 2.470167875289917,
-            "operand0Digits": 0,
-            "operand1Digits": 0,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "count",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -4785,9 +4896,12 @@
             "time": "5/29/2022 5:59:50 PM",
             "duration": 42.56344985961914,
             "averageDuration": 2.1281723976135256,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -4919,9 +5033,12 @@
             "time": "5/29/2022 6:01:08 PM",
             "duration": 49.3105354309082,
             "averageDuration": 2.465526819229126,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5053,9 +5170,12 @@
             "time": "5/29/2022 6:43:57 PM",
             "duration": 39.49937438964844,
             "averageDuration": 1.974968671798706,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5187,9 +5307,12 @@
             "time": "5/29/2022 6:45:25 PM",
             "duration": 45.771217346191409,
             "averageDuration": 2.2885608673095705,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5321,9 +5444,12 @@
             "time": "5/29/2022 6:48:01 PM",
             "duration": 78.8714599609375,
             "averageDuration": 3.943572998046875,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5455,9 +5581,12 @@
             "time": "5/29/2022 6:48:01 PM",
             "duration": 78.8714599609375,
             "averageDuration": 3.943572998046875,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5589,9 +5718,12 @@
             "time": "5/29/2022 6:49:24 PM",
             "duration": 45.03231430053711,
             "averageDuration": 2.2516157627105715,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5723,9 +5855,12 @@
             "time": "5/29/2022 6:50:23 PM",
             "duration": 48.352169036865237,
             "averageDuration": 2.4176084995269777,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5857,9 +5992,12 @@
             "time": "5/29/2022 6:50:23 PM",
             "duration": 48.352169036865237,
             "averageDuration": 2.4176084995269777,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -5991,9 +6129,12 @@
             "time": "5/29/2022 6:51:15 PM",
             "duration": 112.71826171875,
             "averageDuration": 5.635912895202637,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -6125,9 +6266,12 @@
             "time": "5/29/2022 6:50:23 PM",
             "duration": 48.352169036865237,
             "averageDuration": 2.4176084995269777,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -6259,9 +6403,12 @@
             "time": "5/29/2022 6:51:15 PM",
             "duration": 112.71826171875,
             "averageDuration": 5.635912895202637,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -6393,9 +6540,12 @@
             "time": "5/29/2022 6:53:10 PM",
             "duration": 55.30034255981445,
             "averageDuration": 2.765017032623291,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -6527,9 +6677,12 @@
             "time": "5/29/2022 6:58:02 PM",
             "duration": 46.18244934082031,
             "averageDuration": 2.3091225624084474,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -6661,9 +6814,12 @@
             "time": "5/29/2022 6:58:02 PM",
             "duration": 46.18244934082031,
             "averageDuration": 2.3091225624084474,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -6795,9 +6951,12 @@
             "time": "5/29/2022 6:58:53 PM",
             "duration": 34.28501510620117,
             "averageDuration": 1.7142508029937745,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=yy",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -6929,9 +7088,12 @@
             "time": "5/29/2022 6:58:02 PM",
             "duration": 46.18244934082031,
             "averageDuration": 2.3091225624084474,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -7063,9 +7225,12 @@
             "time": "5/29/2022 6:58:53 PM",
             "duration": 34.28501510620117,
             "averageDuration": 1.7142508029937745,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=yy",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -7197,9 +7362,12 @@
             "time": "5/29/2022 6:59:29 PM",
             "duration": 48.433677673339847,
             "averageDuration": 2.4216837882995607,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -7331,9 +7499,12 @@
             "time": "5/29/2022 6:58:02 PM",
             "duration": 46.18244934082031,
             "averageDuration": 2.3091225624084474,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -7465,9 +7636,12 @@
             "time": "5/29/2022 6:58:53 PM",
             "duration": 34.28501510620117,
             "averageDuration": 1.7142508029937745,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=yy",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -7599,9 +7773,12 @@
             "time": "5/29/2022 6:59:29 PM",
             "duration": 48.433677673339847,
             "averageDuration": 2.4216837882995607,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -7733,9 +7910,12 @@
             "time": "5/29/2022 7:00:25 PM",
             "duration": 45.76968765258789,
             "averageDuration": 2.2884843349456789,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -7867,9 +8047,12 @@
             "time": "5/29/2022 6:58:02 PM",
             "duration": 46.18244934082031,
             "averageDuration": 2.3091225624084474,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8001,9 +8184,12 @@
             "time": "5/29/2022 6:58:53 PM",
             "duration": 34.28501510620117,
             "averageDuration": 1.7142508029937745,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=yy",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8135,9 +8321,12 @@
             "time": "5/29/2022 6:59:29 PM",
             "duration": 48.433677673339847,
             "averageDuration": 2.4216837882995607,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8269,9 +8458,12 @@
             "time": "5/29/2022 7:00:25 PM",
             "duration": 45.76968765258789,
             "averageDuration": 2.2884843349456789,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8403,9 +8595,12 @@
             "time": "5/29/2022 7:01:19 PM",
             "duration": 55.4352912902832,
             "averageDuration": 2.7717645168304445,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8537,9 +8732,12 @@
             "time": "5/29/2022 7:03:37 PM",
             "duration": 58.485084533691409,
             "averageDuration": 2.9242541790008547,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8671,9 +8869,12 @@
             "time": "6/5/2022 7:19:59 PM",
             "duration": 122.3913345336914,
             "averageDuration": 6.119566917419434,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8805,9 +9006,12 @@
             "time": "6/5/2022 7:52:35 PM",
             "duration": 53.661903381347659,
             "averageDuration": 2.6830952167510988,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -8939,9 +9143,12 @@
             "time": "6/5/2022 10:20:28 PM",
             "duration": 34.24979782104492,
             "averageDuration": 1.7124898433685303,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -9073,9 +9280,12 @@
             "time": "6/5/2022 10:20:28 PM",
             "duration": 34.24979782104492,
             "averageDuration": 1.7124898433685303,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -9207,9 +9417,12 @@
             "time": "6/5/2022 10:21:26 PM",
             "duration": 31.429828643798829,
             "averageDuration": 1.5714914798736573,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -9341,9 +9554,12 @@
             "time": "6/5/2022 10:20:28 PM",
             "duration": 34.24979782104492,
             "averageDuration": 1.7124898433685303,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -9475,9 +9691,12 @@
             "time": "6/5/2022 10:21:26 PM",
             "duration": 31.429828643798829,
             "averageDuration": 1.5714914798736573,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -9609,9 +9828,12 @@
             "time": "6/5/2022 10:22:59 PM",
             "duration": 51.617061614990237,
             "averageDuration": 2.58085298538208,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -9743,9 +9965,12 @@
             "time": "6/5/2022 10:20:28 PM",
             "duration": 34.24979782104492,
             "averageDuration": 1.7124898433685303,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -9877,9 +10102,12 @@
             "time": "6/5/2022 10:21:26 PM",
             "duration": 31.429828643798829,
             "averageDuration": 1.5714914798736573,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10011,9 +10239,12 @@
             "time": "6/5/2022 10:22:59 PM",
             "duration": 51.617061614990237,
             "averageDuration": 2.58085298538208,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10145,9 +10376,12 @@
             "time": "6/5/2022 10:23:53 PM",
             "duration": 62.00602340698242,
             "averageDuration": 3.1003012657165529,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10279,9 +10513,12 @@
             "time": "6/5/2022 10:48:09 PM",
             "duration": 66.3838882446289,
             "averageDuration": 3.3191943168640138,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10359,9 +10596,12 @@
             "time": "6/6/2022 1:38:20 AM",
             "duration": 243.5924835205078,
             "averageDuration": 22.144771575927736,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10493,9 +10733,12 @@
             "time": "6/8/2022 9:06:22 PM",
             "duration": 42.72386932373047,
             "averageDuration": 2.1361935138702394,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10735,9 +10978,12 @@
             "time": "6/8/2022 9:09:45 PM",
             "duration": 60.38713455200195,
             "averageDuration": 1.5891351699829102,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10748,9 +10994,12 @@
             "time": "6/8/2022 9:12:53 PM",
             "duration": 0.0,
             "averageDuration": 0.0,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10792,9 +11041,12 @@
             "time": "6/8/2022 9:13:23 PM",
             "duration": 7.6876420974731449,
             "averageDuration": 1.537528395652771,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -10836,9 +11088,12 @@
             "time": "6/8/2022 9:13:23 PM",
             "duration": 7.6876420974731449,
             "averageDuration": 1.537528395652771,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11018,9 +11273,12 @@
             "time": "6/8/2022 9:13:49 PM",
             "duration": 63.60820770263672,
             "averageDuration": 2.271721601486206,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11194,9 +11452,12 @@
             "time": "6/8/2022 9:15:45 PM",
             "duration": 66.10386657714844,
             "averageDuration": 2.448291301727295,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11370,9 +11631,12 @@
             "time": "6/8/2022 9:15:45 PM",
             "duration": 66.10386657714844,
             "averageDuration": 2.448291301727295,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11414,9 +11678,12 @@
             "time": "6/8/2022 9:17:02 PM",
             "duration": 10.790284156799317,
             "averageDuration": 2.1580567359924318,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11458,9 +11725,12 @@
             "time": "6/11/2022 4:40:04 PM",
             "duration": 14.963019371032715,
             "averageDuration": 2.9926037788391115,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11502,9 +11772,12 @@
             "time": "6/11/2022 4:41:05 PM",
             "duration": 15.24550724029541,
             "averageDuration": 3.0491013526916506,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11546,9 +11819,12 @@
             "time": "6/11/2022 4:41:42 PM",
             "duration": 26.512107849121095,
             "averageDuration": 5.302421569824219,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11590,9 +11866,12 @@
             "time": "6/11/2022 4:41:42 PM",
             "duration": 26.512107849121095,
             "averageDuration": 5.302421569824219,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*y=??",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11634,9 +11913,12 @@
             "time": "6/11/2022 4:42:11 PM",
             "duration": 27.345861434936525,
             "averageDuration": 5.469172477722168,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x*?+y=zz",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11678,9 +11960,12 @@
             "time": "6/11/2022 4:43:58 PM",
             "duration": 14.645483016967774,
             "averageDuration": 2.9290966987609865,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11722,9 +12007,12 @@
             "time": "6/11/2022 4:43:58 PM",
             "duration": 14.645483016967774,
             "averageDuration": 2.9290966987609865,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11766,9 +12054,12 @@
             "time": "6/11/2022 4:44:21 PM",
             "duration": 12.695490837097168,
             "averageDuration": 2.5390982627868654,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11810,9 +12101,12 @@
             "time": "6/11/2022 4:52:20 PM",
             "duration": 12.212570190429688,
             "averageDuration": 2.442513942718506,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11854,9 +12148,12 @@
             "time": "6/11/2022 4:52:20 PM",
             "duration": 12.212570190429688,
             "averageDuration": 2.442513942718506,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11898,9 +12195,12 @@
             "time": "6/11/2022 4:52:43 PM",
             "duration": 18.81466293334961,
             "averageDuration": 3.762932538986206,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11942,9 +12242,12 @@
             "time": "6/12/2022 10:56:08 AM",
             "duration": 15.6788969039917,
             "averageDuration": 3.13577938079834,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 2,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -11986,9 +12289,12 @@
             "time": "6/12/2022 11:04:30 AM",
             "duration": 37.75130081176758,
             "averageDuration": 7.550260066986084,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -12030,9 +12336,12 @@
             "time": "6/12/2022 11:10:37 AM",
             "duration": 14.982626914978028,
             "averageDuration": 2.996525287628174,
-            "operand0Digits": 2,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "xx-y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -12074,9 +12383,12 @@
             "time": "6/18/2022 3:08:28 PM",
             "duration": 17.075767517089845,
             "averageDuration": 3.4151535034179689,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -12226,9 +12538,12 @@
             "time": "6/18/2022 3:35:39 PM",
             "duration": 64.87699127197266,
             "averageDuration": 2.8207387924194338,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+?=y",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -12384,9 +12699,12 @@
             "time": "6/19/2022 11:06:54 AM",
             "duration": 62.114036560058597,
             "averageDuration": 2.5880849361419679,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -12542,9 +12860,12 @@
             "time": "6/19/2022 11:06:54 AM",
             "duration": 62.114036560058597,
             "averageDuration": 2.5880849361419679,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -12688,9 +13009,12 @@
             "time": "6/19/2022 11:08:09 AM",
             "duration": 62.07547378540039,
             "averageDuration": 2.8216123580932619,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
@@ -12912,10 +13236,1150 @@
             "time": "6/19/2022 11:13:04 AM",
             "duration": 182.23306274414063,
             "averageDuration": 5.206658840179443,
-            "operand0Digits": 1,
-            "operand1Digits": 1,
-            "answerMaxDigits": 1,
+            "operand0min": 0,
+            "operand0max": 0,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 0,
             "description": "x+y=?",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "4+3",
+                    "duration": 2.7889111042022707,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 3.955941915512085,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5+4",
+                    "duration": 2.356487989425659,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 2.566287040710449,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+5",
+                    "duration": 2.4659969806671144,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+2",
+                    "duration": 2.666706085205078,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+8",
+                    "duration": 2.4315710067749025,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+1",
+                    "duration": 2.5192151069641115,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+1",
+                    "duration": 2.2158710956573488,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+2",
+                    "duration": 2.182966947555542,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+6",
+                    "duration": 5.832743167877197,
+                    "strokes": 3,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 2.418304920196533,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+7",
+                    "duration": 2.7992351055145265,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+3",
+                    "duration": 3.1005361080169679,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 2.797497034072876,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 15,
+            "time": "6/19/2022 12:24:27 PM",
+            "duration": 43.57623291015625,
+            "averageDuration": 2.9050822257995607,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y<=10",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "4+3",
+                    "duration": 2.7889111042022707,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 3.955941915512085,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5+4",
+                    "duration": 2.356487989425659,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 2.566287040710449,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+5",
+                    "duration": 2.4659969806671144,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+2",
+                    "duration": 2.666706085205078,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+8",
+                    "duration": 2.4315710067749025,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+1",
+                    "duration": 2.5192151069641115,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+1",
+                    "duration": 2.2158710956573488,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+2",
+                    "duration": 2.182966947555542,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+6",
+                    "duration": 5.832743167877197,
+                    "strokes": 3,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 2.418304920196533,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+7",
+                    "duration": 2.7992351055145265,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+3",
+                    "duration": 3.1005361080169679,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 2.797497034072876,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 15,
+            "time": "6/19/2022 12:24:27 PM",
+            "duration": 43.57623291015625,
+            "averageDuration": 2.9050822257995607,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y<=10",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "3+7",
+                    "duration": 3.1662020683288576,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+2",
+                    "duration": 2.5821399688720705,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 2.6837620735168459,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+3",
+                    "duration": 2.6313719749450685,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+5",
+                    "duration": 2.4001998901367189,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+6",
+                    "duration": 2.271667957305908,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+4",
+                    "duration": 2.530550956726074,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+4",
+                    "duration": 2.766408920288086,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3+1",
+                    "duration": 1.9168330430984498,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+1",
+                    "duration": 4.151785850524902,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+3",
+                    "duration": 2.231442928314209,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+5",
+                    "duration": 2.616624116897583,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 2.197345018386841,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+2",
+                    "duration": 2.217552900314331,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+3",
+                    "duration": 3.7683029174804689,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 15,
+            "time": "6/19/2022 12:26:16 PM",
+            "duration": 40.196407318115237,
+            "averageDuration": 2.679760456085205,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+?=y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "4+2",
+                    "duration": 2.914854049682617,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+5",
+                    "duration": 2.6508450508117677,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+0",
+                    "duration": 2.431349039077759,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+0",
+                    "duration": 2.2307679653167726,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+1",
+                    "duration": 2.319179058074951,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 3.1326029300689699,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "0+10",
+                    "duration": 3.4029769897460939,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+7",
+                    "duration": 2.614677906036377,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+2",
+                    "duration": 2.4141030311584474,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 2.792512893676758,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+1",
+                    "duration": 2.6673319339752199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 5.062265872955322,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+5",
+                    "duration": 2.5520029067993166,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+4",
+                    "duration": 2.4996631145477297,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+2",
+                    "duration": 2.5178780555725099,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+6",
+                    "duration": 2.330881118774414,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 3.149477958679199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+0",
+                    "duration": 3.1160690784454347,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+4",
+                    "duration": 2.483125925064087,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+1",
+                    "duration": 2.730212926864624,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+0",
+                    "duration": 3.270737886428833,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+0",
+                    "duration": 2.230026960372925,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 22,
+            "time": "6/20/2022 7:29:54 AM",
+            "duration": 61.89783477783203,
+            "averageDuration": 2.813537836074829,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y<=10",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "4+2",
+                    "duration": 2.914854049682617,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+5",
+                    "duration": 2.6508450508117677,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+0",
+                    "duration": 2.431349039077759,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+0",
+                    "duration": 2.2307679653167726,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+1",
+                    "duration": 2.319179058074951,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 3.1326029300689699,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "0+10",
+                    "duration": 3.4029769897460939,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+7",
+                    "duration": 2.614677906036377,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+2",
+                    "duration": 2.4141030311584474,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 2.792512893676758,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+1",
+                    "duration": 2.6673319339752199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 5.062265872955322,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+5",
+                    "duration": 2.5520029067993166,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+4",
+                    "duration": 2.4996631145477297,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+2",
+                    "duration": 2.5178780555725099,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+6",
+                    "duration": 2.330881118774414,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 3.149477958679199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+0",
+                    "duration": 3.1160690784454347,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+4",
+                    "duration": 2.483125925064087,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+1",
+                    "duration": 2.730212926864624,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+0",
+                    "duration": 3.270737886428833,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+0",
+                    "duration": 2.230026960372925,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 22,
+            "time": "6/20/2022 7:29:54 AM",
+            "duration": 61.89783477783203,
+            "averageDuration": 2.813537836074829,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y<=10",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+2",
+                    "duration": 3.784661054611206,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+7",
+                    "duration": 2.546823024749756,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+8",
+                    "duration": 3.112520933151245,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+10",
+                    "duration": 3.0334579944610597,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3+9",
+                    "duration": 2.7687220573425295,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+10",
+                    "duration": 4.482594966888428,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+10",
+                    "duration": 3.3651909828186037,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+9",
+                    "duration": 3.4333510398864748,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+3",
+                    "duration": 2.5468978881835939,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+5",
+                    "duration": 2.652194023132324,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 3.0162479877471926,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+8",
+                    "duration": 2.9324519634246828,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+8",
+                    "duration": 2.865493059158325,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+5",
+                    "duration": 2.7384490966796877,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+6",
+                    "duration": 2.8946120738983156,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+10",
+                    "duration": 3.9983150959014894,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 3.017648935317993,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+4",
+                    "duration": 2.701540946960449,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "8+9",
+                    "duration": 5.8295979499816898,
+                    "strokes": 2,
+                    "erased": 1
+                }
+            ],
+            "problemCount": 19,
+            "time": "6/20/2022 7:31:00 AM",
+            "duration": 62.2628173828125,
+            "averageDuration": 3.2769904136657717,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "x+?=y(<=20)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "4+2",
+                    "duration": 2.914854049682617,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+5",
+                    "duration": 2.6508450508117677,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+0",
+                    "duration": 2.431349039077759,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+0",
+                    "duration": 2.2307679653167726,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+1",
+                    "duration": 2.319179058074951,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 3.1326029300689699,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "0+10",
+                    "duration": 3.4029769897460939,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+7",
+                    "duration": 2.614677906036377,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+2",
+                    "duration": 2.4141030311584474,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 2.792512893676758,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+1",
+                    "duration": 2.6673319339752199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 5.062265872955322,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+5",
+                    "duration": 2.5520029067993166,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+4",
+                    "duration": 2.4996631145477297,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+2",
+                    "duration": 2.5178780555725099,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+6",
+                    "duration": 2.330881118774414,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 3.149477958679199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+0",
+                    "duration": 3.1160690784454347,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+4",
+                    "duration": 2.483125925064087,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+1",
+                    "duration": 2.730212926864624,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+0",
+                    "duration": 3.270737886428833,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+0",
+                    "duration": 2.230026960372925,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 22,
+            "time": "6/20/2022 7:29:54 AM",
+            "duration": 61.89783477783203,
+            "averageDuration": 2.813537836074829,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y<=10",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+2",
+                    "duration": 3.784661054611206,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+7",
+                    "duration": 2.546823024749756,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+8",
+                    "duration": 3.112520933151245,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+10",
+                    "duration": 3.0334579944610597,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3+9",
+                    "duration": 2.7687220573425295,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+10",
+                    "duration": 4.482594966888428,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+10",
+                    "duration": 3.3651909828186037,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+9",
+                    "duration": 3.4333510398864748,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+3",
+                    "duration": 2.5468978881835939,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+5",
+                    "duration": 2.652194023132324,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 3.0162479877471926,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+8",
+                    "duration": 2.9324519634246828,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+8",
+                    "duration": 2.865493059158325,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+5",
+                    "duration": 2.7384490966796877,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+6",
+                    "duration": 2.8946120738983156,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+10",
+                    "duration": 3.9983150959014894,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 3.017648935317993,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+4",
+                    "duration": 2.701540946960449,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "8+9",
+                    "duration": 5.8295979499816898,
+                    "strokes": 2,
+                    "erased": 1
+                }
+            ],
+            "problemCount": 19,
+            "time": "6/20/2022 7:31:00 AM",
+            "duration": 62.2628173828125,
+            "averageDuration": 3.2769904136657717,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "x+?=y(<=20)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9",
+                    "duration": 5.7610368728637699,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5",
+                    "duration": 6.488618850708008,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7",
+                    "duration": 4.129763126373291,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8",
+                    "duration": 4.449392795562744,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4",
+                    "duration": 5.133091926574707,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7",
+                    "duration": 9.148344039916993,
+                    "strokes": 3,
+                    "erased": 1
+                },
+                {
+                    "text": "7",
+                    "duration": 4.004443168640137,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7",
+                    "duration": 3.864622116088867,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7",
+                    "duration": 3.116795063018799,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3",
+                    "duration": 3.247847080230713,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9",
+                    "duration": 4.504928112030029,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9",
+                    "duration": 3.2773730754852297,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2",
+                    "duration": 4.066277027130127,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5",
+                    "duration": 7.868316173553467,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "2",
+                    "duration": 4.417180061340332,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 15,
+            "time": "6/20/2022 7:34:26 AM",
+            "duration": 73.86100769042969,
+            "averageDuration": 4.92406702041626,
+            "operand0min": 0,
+            "operand0max": 9,
+            "operand1min": 0,
+            "operand1max": 9,
+            "answerMin": 0,
+            "answerMax": 100,
+            "description": "x*?+y=z",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
         }

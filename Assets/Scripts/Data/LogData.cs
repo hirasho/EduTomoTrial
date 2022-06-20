@@ -20,17 +20,23 @@ public class LogData
 public class SessionData
 {
 	public SessionData(
-		int operand0Digits, 
-		int operand1Digits, 
-		int answerMaxDigits, 
+		int operand0min, 
+		int operand0max, 
+		int operand1min, 
+		int operand1max, 
+		int answerMin,
+		int answerMax, 
 		string description,
 		string userName,
 		DateTime birthday)
 	{
 		this.time = DateTime.Now.ToString();
-		this.operand0Digits = operand0Digits;
-		this.operand1Digits = operand1Digits;
-		this.answerMaxDigits = answerMaxDigits;
+		this.operand0min = operand0min;
+		this.operand0max = operand0max;
+		this.operand1min = operand1min;
+		this.operand1max = operand1max;
+		this.answerMin = answerMin;
+		this.answerMax = answerMax;
 		this.description = description;
 		this.problems = new List<ProblemData>();
 		this.userName = userName;
@@ -59,9 +65,12 @@ public class SessionData
 	public string time;
 	public float duration;
 	public float averageDuration;
-	public int operand0Digits;
-	public int operand1Digits;
-	public int answerMaxDigits;
+	public int operand0min;
+	public int operand0max;
+	public int operand1min;
+	public int operand1max;
+	public int answerMin;
+	public int answerMax;
 	public string description;
 	public string userName;
 	public string birthday;

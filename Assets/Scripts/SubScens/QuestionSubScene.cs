@@ -21,30 +21,33 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		public Settings(
 			string description,
 			Operation operation,
-			int operand0Digits,
-			int operand1Digits,
-			int answerMinDigits,
-			int answerMaxDigits,
-			bool allowZero,
+			int operand0min,
+			int operand0max,
+			int operand1min,
+			int operand1max,
+			int answerMin,
+			int answerMax,
 			bool invertOperation)
 		{
 			this.description = description;
 			this.operation = operation;
-			this.operand0Digits = operand0Digits;
-			this.operand1Digits = operand1Digits;
-			this.answerMinDigits = answerMinDigits;
-			this.answerMaxDigits = answerMaxDigits;
-			this.allowZero = allowZero;
+			this.operand0min = operand0min;
+			this.operand0max = operand0max;
+			this.operand1min = operand1min;
+			this.operand1max = operand1max;
+			this.answerMin = answerMin;
+			this.answerMax = answerMax;
 			this.invertOperation = invertOperation;
 		}
 			
 		public string description;
 		public Operation operation;
-		public int operand0Digits;
-		public int operand1Digits;
-		public int answerMinDigits;
-		public int answerMaxDigits;
-		public bool allowZero;
+		public int operand0min;
+		public int operand0max;
+		public int operand1min;
+		public int operand1max;
+		public int answerMin;
+		public int answerMax;
 		public bool invertOperation;
 	}
 	[SerializeField] Eraser eraser;
@@ -76,9 +79,12 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		ui.ManualStart();
 		rtCamera.enabled = false;
 		sessionData = new SessionData(
-			settings.operand0Digits, 
-			settings.operand1Digits, 
-			settings.answerMaxDigits, 
+			settings.operand0min, 
+			settings.operand0max, 
+			settings.operand1min, 
+			settings.operand1max, 
+			settings.answerMin, 
+			settings.answerMax,
 			settings.description,
 			main.UserName,
 			main.Birthday);
@@ -495,27 +501,17 @@ if (Input.GetKeyDown(KeyCode.S))
 		}
 	}
 
-	int GetMax(int digitCount)
-	{
-		var r = 1;
-		for (var i = 0; i < digitCount; i++)
-		{
-			r *= 10;
-		}
-		return r - 1;
-	}
-
 	void MakeQuestions()
 	{
 		var questionSet = new HashSet<Question>();
-		var op0min = (settings.operand0Digits == 1) ? 0 : ((GetMax(settings.operand0Digits) + 1) / 10);
-		var op0max = GetMax(settings.operand0Digits);
+		var op0min = settings.operand0min;
+		var op0max = settings.operand0max;
 
-		var op1min = (settings.operand1Digits == 1) ? 0 : ((GetMax(settings.operand1Digits) + 1) / 10);
-		var op1max = GetMax(settings.operand1Digits);
-
-		var ansMin = (settings.answerMinDigits == 1) ? 0 : ((GetMax(settings.answerMinDigits) + 1) / 10);
-		var ansMax = GetMax(settings.answerMaxDigits);
+		var op1min = settings.operand1min;
+		var op1max = settings.operand1max;
+		
+		var ansMin = settings.answerMin;
+		var ansMax = settings.answerMax;
 		if (settings.operation == Operation.Count)
 		{
 			for (var v0 = 0; v0 <= 10; v0++)
@@ -845,10 +841,10 @@ Debug.Log("ShapeType: " + shapeType + " " + answer);
 				}
 			}
 		}
-		else if (
+		else if (main.SaveData.showCubes && 
 			((q.op == Operation.Addition) || (q.op == Operation.Subtraction)))
 		{
-			if (settings.operand0Digits == 1)
+			if (settings.operand0max <= 10)
 			{
 				var center = new Vector3(-0.85f, 1f, 0.375f);
 				for (var i = 0; i < operand0; i++)
@@ -860,7 +856,7 @@ Debug.Log("ShapeType: " + shapeType + " " + answer);
 				}
 			}
 
-			if ((settings.operand1Digits == 1) && !settings.invertOperation)
+			if ((settings.operand1max <= 10) && !settings.invertOperation)
 			{
 				var center = new Vector3(-0.85f, 1f, 0.25f);
 				for (var i = 0; i < operand1; i++)
@@ -882,15 +878,5 @@ Debug.Log("ShapeType: " + shapeType + " " + answer);
 		}
 		problemText = string.Format("{0}{1}{2}", operand0, operatorChar, operand1);
 		strokeCount = eraseCount = 0;
-	}
-
-	static int Pow10(int e)
-	{
-		var ret = 1;
-		for (var i = 0; i < e; i++)
-		{
-			ret *= 10;
-		}
-		return ret;
 	}
 }

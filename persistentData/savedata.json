@@ -1,5 +1,7 @@
 {
     "minProblemCount": 15,
     "maxProblemCount": 50,
-    "timeMinute": 3
+    "timeMinute": 1,
+    "allowZero": false,
+    "showCubes": true
 }
