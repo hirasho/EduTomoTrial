@@ -11,8 +11,11 @@ public class MainUi : MonoBehaviour
 	[SerializeField] Text debugMessageText;
 	[SerializeField] Image loadingIcon;
 	[SerializeField] Image hanamaru;
-	[SerializeField] RectTransform gaugeTransform;
+	[SerializeField] Image gaugeImage;
 	[SerializeField] Image timeGauge;
+	[SerializeField] Image minBar;
+	[SerializeField] Color gaugeColor0;
+	[SerializeField] Color gaugeColor1;
 
 	public bool AbortButtonClicked { get; private set; }
 
@@ -25,9 +28,15 @@ public class MainUi : MonoBehaviour
 
 	public void SetQuestionIndex(int current, int min, int max)
 	{
-		var ratio = (float)(current - 1) / (float)min;
-		gaugeTransform.localScale = new Vector3(ratio, 1f, 1f);
-		questionIndexText.text = string.Format("{0} / {1}", current, min);
+		var ratio = (float)(current - 1) / (float)max;
+		gaugeImage.transform.localScale = new Vector3(ratio, 1f, 1f);
+		questionIndexText.text = string.Format("{0} / {1}", current, max);
+
+		var minRatio = (float)min / (float)max;
+		minBar.rectTransform.anchoredPosition = new Vector2(minRatio * 300f, 0f);
+
+		var color = (ratio < minRatio) ? gaugeColor0 : gaugeColor1;
+		gaugeImage.color = color;
 	}
 
 	public void SetDebugMessage(string message)

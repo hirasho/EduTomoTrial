@@ -21,7 +21,7 @@ public class SettingsSubScene : SubScene
 		var sd = main.SaveData;
 		minProblemCountSlider.ManualStart(OnChange, sd.minProblemCount);
 		maxProblemCountSlider.ManualStart(OnChange, sd.maxProblemCount);
-		timeSlider.ManualStart(OnChange, sd.timeMinute);
+		timeSlider.ManualStart(OnChange, sd.secondsPerProblem);
 		allowZeroToggle.isOn = sd.allowZero;
 		showCubesToggle.isOn = sd.showCubes;
 
@@ -70,7 +70,7 @@ public class SettingsSubScene : SubScene
 			var sd = main.SaveData;
 			sd.maxProblemCount = maxProblemCountSlider.IntValue;
 			sd.minProblemCount = minProblemCountSlider.IntValue;
-			sd.timeMinute = timeSlider.IntValue;
+			sd.secondsPerProblem = timeSlider.IntValue;
 			sd.allowZero = allowZeroToggle.isOn;
 			sd.showCubes = showCubesToggle.isOn;
 			sd.Save();

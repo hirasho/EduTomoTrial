@@ -22,11 +22,11 @@ public abstract class SubScene : MonoBehaviour
 
 	public abstract SubScene ManualUpdate(float deltaTime);
 
-	public virtual void OnPointerDown()
+	public virtual void OnPointerDown(int pointerId)
 	{		
 	}
 
-	public virtual void OnPointerUp()
+	public virtual void OnPointerUp(int pointerId)
 	{		
 	}
 

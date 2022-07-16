@@ -22,7 +22,6 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		eraser.ManualStart(this);
 
 		annotationViews = new List<Annotation>();
-		lines = new List<Line>();
 		rtCamera.enabled = false;
 
 		clearButton.onClick.AddListener(() =>
@@ -34,6 +33,7 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		{
 			abortButtonClicked = true;
 		});
+		drawingManager = new DrawingManager();
 	}
 
 	public override SubScene ManualUpdate(float deltaTime)
@@ -54,66 +54,33 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		}
 
 		var eraserPosition = eraser.DefaultPosition;
-		if (pointerDown)
-		{
-			var pointer = main.TouchDetector.ScreenPosition;
-			if (drawing)
-			{
-				if (lines.Count > 0)
-				{
-					var ray = main.MainCamera.ScreenPointToRay(pointer);
-					// y=0点を取得
-					var t = -ray.origin.y / ray.direction.y;
-					var p = ray.origin + (ray.direction * t);
-					lines[lines.Count - 1].AddPoint(p);
-				}
-			}
-			else
-			{
-				if (eraser.PointerDown)
-				{
-					var ray = main.MainCamera.ScreenPointToRay(pointer);
-					var t = (0f - ray.origin.y) / ray.direction.y;
-					eraserPosition = ray.origin + (ray.direction * t);
-				}
-			}
-			prevPointer = pointer;
-		}
+		drawingManager.ManualUpdate(
+			ref eraserPosition,
+			main.TouchDetector,
+			main.MainCamera);
 		eraser.transform.position = eraserPosition;
 
 		return nextScene;
 	}
 
-	public override void OnPointerDown()
+	public override void OnPointerDown(int pointerId)
 	{
-		if (!eraser.PointerDown)
-		{
-			var line = Instantiate(linePrefab, lineRoot, false);
-			line.ManualStart(main.MainCamera, main.DefaultLineWidth);
-			if (lines.Count > 0)
-			{
-				lines[lines.Count - 1].GenerateCollider();
-			}
-			lines.Add(line);
-			drawing = true;
-		}
-		pointerDown = true;
-		prevPointer = main.TouchDetector.ScreenPosition;
+		int strokeCount = 0;
+		drawingManager.OnPointerDown(
+			ref strokeCount,
+			linePrefab,
+			lineRoot,
+			main.TouchDetector,
+			main.MainCamera,
+			main.DefaultLineWidth,
+			pointerId,
+			false);
 	}
 
-	public override void OnPointerUp()
-	{
-		var eval = justErased;
-		if (drawing)
-		{
-			if (lines.Count > 0)
-			{
-				lines[lines.Count - 1].GenerateCollider();
-			}
-			eval = true;
-		}
-		drawing = false;
-		pointerDown = false;
+	public override void OnPointerUp(int pointerId)
+	{		
+		var eval = false;
+		drawingManager.OnPointerUp(out eval, justErased, pointerId);
 		if (eval)
 		{
 			StartCoroutine(CoRequestEvaluation());
@@ -121,33 +88,29 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		justErased = false;
 	}
 
-	public void OnEraserDown()
+	public void OnEraserDown(int pointerId)
 	{
-		OnPointerDown();
+		int strokeCount = 0;
+		drawingManager.OnPointerDown(
+			ref strokeCount,
+			linePrefab,
+			lineRoot,
+			main.TouchDetector,
+			main.MainCamera,
+			main.DefaultLineWidth,
+			pointerId,
+			isEraser: true);
 	}
 
-	public void OnEraserUp()
+	public void OnEraserUp(int pointerId)
 	{
-		OnPointerUp();
+		OnPointerUp(pointerId);
 	}
 
 	public void OnEraserHitLine(Line line)
 	{
-		var dst = 0;
-		for (var i = 0; i < lines.Count; i++)
-		{
-			lines[dst] = lines[i];
-			if (lines[i] == line)
-			{
-				Destroy(lines[i].gameObject);
-				justErased = true;
-			}
-			else
-			{
-				dst++;
-			}
-		}
-		lines.RemoveRange(dst, lines.Count - dst);
+		int eraseCount = 0;
+		drawingManager.RemoveLine(ref eraseCount, ref justErased, line);
 	}
 	
 	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
@@ -163,22 +126,15 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 	// non public -------
 	Main main;
 	Color32[] prevRtTexels;
-	List<Line> lines;
-	Vector2 prevPointer;
-	bool pointerDown;
-	bool drawing;
 	List<Annotation> annotationViews;
 	bool clearButtonClicked;
 	bool abortButtonClicked;
 	bool justErased;
+	DrawingManager drawingManager;
 
 	void ClearLines()
 	{
-		foreach (var line in lines)
-		{
-			Destroy(line.gameObject);
-		}
-		lines.Clear();
+		drawingManager.ClearLines();
 	}
 
 	void ClearAnnotations()
@@ -212,7 +168,7 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 
 		// Lineを全部コピー
 		var rtLines = new List<Line>();
-		foreach (var line in lines)
+		foreach (var line in drawingManager.EnumerateLines())
 		{
 			var rtLine = Instantiate(line, rtLineRoot, false);
 			rtLine.ReplaceMaterial(rtLineMaterial);

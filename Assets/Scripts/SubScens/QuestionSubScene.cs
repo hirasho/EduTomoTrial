@@ -74,7 +74,6 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		eraser.ManualStart(this);
 
 		annotationViews = new List<Annotation>();
-		lines = new List<Line>();
 		countingObjects = new List<CountingObject>();
 		ui.ManualStart();
 		rtCamera.enabled = false;
@@ -89,6 +88,9 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			main.UserName,
 			main.Birthday);
 		sessionStartTime = System.DateTime.Now;
+		drawingManager = new DrawingManager();
+
+		timeLimit = main.SaveData.secondsPerProblem * main.SaveData.maxProblemCount;
 
 		activeFormula = settings.invertOperation ? formulae[1] : formulae[0];
 		foreach (var formula in formulae)
@@ -105,34 +107,14 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	{
 		var currentTime = (System.DateTime.Now - sessionStartTime).TotalSeconds;
 		var aborted = ui.AbortButtonClicked;
-		ui.ManualUpdate(deltaTime, (float)currentTime, (float)(main.SaveData.timeMinute * 60));
-
+		ui.ManualUpdate(deltaTime, (float)currentTime, timeLimit);
+		
 		var eraserPosition = eraser.DefaultPosition;
-		if (pointerDown)
-		{
-			var pointer = main.TouchDetector.ScreenPosition;
-			if (drawing)
-			{
-				if (lines.Count > 0)
-				{
-					var ray = main.MainCamera.ScreenPointToRay(pointer);
-					// y=0点を取得
-					var t = -ray.origin.y / ray.direction.y;
-					var p = ray.origin + (ray.direction * t);
-					lines[lines.Count - 1].AddPoint(p);
-				}
-			}
-			else
-			{
-				if (eraser.PointerDown)
-				{
-					var ray = main.MainCamera.ScreenPointToRay(pointer);
-					var t = (0f - ray.origin.y) / ray.direction.y;
-					eraserPosition = ray.origin + (ray.direction * t);
-				}
-			}
-			prevPointer = pointer;
-		}
+
+		drawingManager.ManualUpdate(
+			ref eraserPosition,
+			main.TouchDetector,
+			main.MainCamera);
 		eraser.transform.position = eraserPosition;
 
 		SubScene nextScene = null;
@@ -153,37 +135,26 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		return nextScene;
 	}
 
-	public override void OnPointerDown()
+	public override void OnPointerDown(int pointerId)
 	{
-		if (!eraser.PointerDown)
-		{
-			var line = Instantiate(linePrefab, lineRoot, false);
-			line.ManualStart(main.MainCamera, main.DefaultLineWidth);
-			if (lines.Count > 0)
-			{
-				lines[lines.Count - 1].GenerateCollider();
-			}
-			lines.Add(line);
-			drawing = true;
-			strokeCount++;
-		}
-		pointerDown = true;
-		prevPointer = main.TouchDetector.ScreenPosition;
+		drawingManager.OnPointerDown(
+			ref strokeCount,
+			linePrefab,
+			lineRoot,
+			main.TouchDetector,
+			main.MainCamera,
+			main.DefaultLineWidth,
+			pointerId,
+			isEraser: false);
 	}
 
-	public override void OnPointerUp()
+	public override void OnPointerUp(int pointerId)
 	{
-		var eval = justErased;
-		if (drawing)
-		{
-			if (lines.Count > 0)
-			{
-				lines[lines.Count - 1].GenerateCollider();
-			}
-			eval = true;
-		}
-		drawing = false;
-		pointerDown = false;
+		bool eval;
+		drawingManager.OnPointerUp(
+			out eval,
+			justErased,
+			pointerId);
 		if (eval)
 		{
 			StartCoroutine(CoRequestEvaluation());
@@ -191,14 +162,22 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		justErased = false;
 	}
 
-	public void OnEraserDown()
+	public void OnEraserDown(int pointerId)
 	{
-		OnPointerDown();
+		drawingManager.OnPointerDown(
+			ref strokeCount,
+			linePrefab,
+			lineRoot,
+			main.TouchDetector,
+			main.MainCamera,
+			main.DefaultLineWidth,
+			pointerId,
+			true);
 	}
 
-	public void OnEraserUp()
+	public void OnEraserUp(int pointerId)
 	{
-		OnPointerUp();
+		OnPointerUp(pointerId);
 	}
 
 	public void OnEraserHitLine(Line line)
@@ -254,11 +233,8 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	int answer;
 	List<CountingObject> countingObjects;
 	bool nextRequested;
+	DrawingManager drawingManager;
 	Color32[] prevRtTexels;
-	List<Line> lines;
-	Vector2 prevPointer;
-	bool pointerDown;
-	bool drawing;
 	int questionIndex;
 	bool end;
 	List<Annotation> annotationViews;
@@ -270,6 +246,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	string problemText;
 	Formula activeFormula;
 	bool justErased;
+	float timeLimit;
 
 	struct Question
 	{
@@ -292,22 +269,10 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 
 	void RemoveLine(Line line)
 	{
-		var dst = 0;
-		for (var i = 0; i < lines.Count; i++)
-		{
-			lines[dst] = lines[i];
-			if (lines[i] == line)
-			{
-				Destroy(lines[i].gameObject);
-				eraseCount++;
-				justErased = true;
-			}
-			else
-			{
-				dst++;
-			}
-		}
-		lines.RemoveRange(dst, lines.Count - dst);
+		drawingManager.RemoveLine(
+			ref eraseCount,
+			ref justErased,
+			line);
 	}
 	
 	IEnumerator CoQuestionLoop()
@@ -315,20 +280,21 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		while (true)
 		{
 			var sd = main.SaveData;
-			var duration = (System.DateTime.Now - sessionStartTime).TotalSeconds / 60.0;
+			var duration = (System.DateTime.Now - sessionStartTime).TotalSeconds;
 			if (questionIndex >= sd.maxProblemCount) // 1. 最大問題数終わってれば終わっていい
 			{
 				Debug.Log("Break2 " + questionIndex + " " + duration + " " + sd.maxProblemCount);
 				break;
-			} 
+			}
 			else if (questionIndex >= sd.minProblemCount) // 2. 最小問題数終わって規定時間を過ぎていれば終わっていい。
 			{
-				if (duration >= sd.timeMinute)
+				if (duration >= timeLimit)
 				{
 					Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.minProblemCount + " " + sd.timeMinute);
 					break;
 				}
 			}
+			Debug.Log("Cont. " + duration + "/" + timeLimit + "\t" + questionIndex + "/" + + sd.minProblemCount + "-" + sd.maxProblemCount);
 			yield return CoQuestion();
 		}
 		end = true;
@@ -336,11 +302,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 
 	void ClearLines()
 	{
-		foreach (var line in lines)
-		{
-			Destroy(line.gameObject);
-		}
-		lines.Clear();
+		drawingManager.ClearLines();
 	}
 
 	void ClearAnnotations()
@@ -404,7 +366,7 @@ if (Input.GetKeyDown(KeyCode.S))
 
 		// Lineを全部コピー
 		var rtLines = new List<Line>();
-		foreach (var line in lines)
+		foreach (var line in drawingManager.EnumerateLines())
 		{
 			var rtLine = Instantiate(line, rtLineRoot, false);
 			rtLine.ReplaceMaterial(rtLineMaterial);
@@ -656,7 +618,6 @@ if (Input.GetKeyDown(KeyCode.S))
 		}
 		else
 		{
-			Debug.Assert(false, "BUG.");
 			operatorChar = '?';
 		}
 

@@ -14382,6 +14382,1602 @@
             "description": "x*?+y=z",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "2+0",
+                    "duration": 3.4771978855133058,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+4",
+                    "duration": 2.6659960746765138,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+0",
+                    "duration": 6.010481834411621,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "4+3",
+                    "duration": 2.8395180702209474,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+7",
+                    "duration": 2.5689620971679689,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+2",
+                    "duration": 2.6825759410858156,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+4",
+                    "duration": 7.0524001121521,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "1+5",
+                    "duration": 3.631047010421753,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 3.436099052429199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+0",
+                    "duration": 3.154658079147339,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+6",
+                    "duration": 2.890815019607544,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+1",
+                    "duration": 2.121320962905884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+1",
+                    "duration": 6.02657413482666,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "3+4",
+                    "duration": 3.139594078063965,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+0",
+                    "duration": 2.4917030334472658,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+0",
+                    "duration": 2.3698160648345949,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 3.0694940090179445,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+3",
+                    "duration": 2.97514009475708,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 18,
+            "time": "7/2/2022 1:21:59 PM",
+            "duration": 63.0853385925293,
+            "averageDuration": 3.5047409534454347,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8-7",
+                    "duration": 4.268595218658447,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7-7",
+                    "duration": 2.452924966812134,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4-0",
+                    "duration": 2.751136064529419,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7-1",
+                    "duration": 2.583601951599121,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-3",
+                    "duration": 2.761154890060425,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-1",
+                    "duration": 2.4735429286956789,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-9",
+                    "duration": 3.765925884246826,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4-4",
+                    "duration": 15.780774116516114,
+                    "strokes": 5,
+                    "erased": 4
+                },
+                {
+                    "text": "5-1",
+                    "duration": 2.652843952178955,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "8-3",
+                    "duration": 2.743859052658081,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-6",
+                    "duration": 2.502042055130005,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.173969030380249,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1-0",
+                    "duration": 1.797036051750183,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2-2",
+                    "duration": 2.287684917449951,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-5",
+                    "duration": 2.4050710201263429,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-2",
+                    "duration": 2.451978921890259,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-6",
+                    "duration": 2.4170451164245607,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-1",
+                    "duration": 3.013792037963867,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4-1",
+                    "duration": 2.570965051651001,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-3",
+                    "duration": 2.32519793510437,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/2/2022 2:16:52 PM",
+            "duration": 66.68342590332031,
+            "averageDuration": 3.3341712951660158,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8-7",
+                    "duration": 4.268595218658447,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7-7",
+                    "duration": 2.452924966812134,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4-0",
+                    "duration": 2.751136064529419,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7-1",
+                    "duration": 2.583601951599121,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-3",
+                    "duration": 2.761154890060425,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-1",
+                    "duration": 2.4735429286956789,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-9",
+                    "duration": 3.765925884246826,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4-4",
+                    "duration": 15.780774116516114,
+                    "strokes": 5,
+                    "erased": 4
+                },
+                {
+                    "text": "5-1",
+                    "duration": 2.652843952178955,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "8-3",
+                    "duration": 2.743859052658081,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-6",
+                    "duration": 2.502042055130005,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.173969030380249,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1-0",
+                    "duration": 1.797036051750183,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2-2",
+                    "duration": 2.287684917449951,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-5",
+                    "duration": 2.4050710201263429,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-2",
+                    "duration": 2.451978921890259,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-6",
+                    "duration": 2.4170451164245607,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-1",
+                    "duration": 3.013792037963867,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4-1",
+                    "duration": 2.570965051651001,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-3",
+                    "duration": 2.32519793510437,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/2/2022 2:16:52 PM",
+            "duration": 66.68342590332031,
+            "averageDuration": 3.3341712951660158,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "1+3",
+                    "duration": 3.76198410987854,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+0",
+                    "duration": 2.6148269176483156,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+2",
+                    "duration": 2.280271053314209,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+3",
+                    "duration": 24.319082260131837,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 2.976999044418335,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+4",
+                    "duration": 3.3923399448394777,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+8",
+                    "duration": 3.056852102279663,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+6",
+                    "duration": 3.131263017654419,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+7",
+                    "duration": 2.144089937210083,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+6",
+                    "duration": 3.2871460914611818,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 2.644066095352173,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+2",
+                    "duration": 3.0393569469451906,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+6",
+                    "duration": 2.5089399814605715,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+0",
+                    "duration": 2.212317943572998,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+1",
+                    "duration": 3.47135591506958,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+4",
+                    "duration": 2.49128794670105,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+6",
+                    "duration": 4.20428991317749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 3.1343350410461427,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+3",
+                    "duration": 2.241642951965332,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+2",
+                    "duration": 2.153687000274658,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/2/2022 2:18:12 PM",
+            "duration": 79.32083129882813,
+            "averageDuration": 3.9660415649414064,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "2+3",
+                    "duration": 4.13229513168335,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+1",
+                    "duration": 2.288499116897583,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+2",
+                    "duration": 2.3428289890289308,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+0",
+                    "duration": 2.2078568935394289,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+0",
+                    "duration": 2.5948450565338136,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+4",
+                    "duration": 2.6301119327545168,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+3",
+                    "duration": 2.8013219833374025,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+6",
+                    "duration": 3.2063241004943849,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3+3",
+                    "duration": 2.492706060409546,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+1",
+                    "duration": 2.9184939861297609,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+1",
+                    "duration": 2.440735101699829,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+3",
+                    "duration": 2.967818021774292,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+4",
+                    "duration": 3.7931199073791506,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+0",
+                    "duration": 2.1099679470062258,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+2",
+                    "duration": 2.108025074005127,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+0",
+                    "duration": 2.129251003265381,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+4",
+                    "duration": 2.913259983062744,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "8+1",
+                    "duration": 2.356215000152588,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+3",
+                    "duration": 2.8648569583892824,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+0",
+                    "duration": 2.323523998260498,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/2/2022 2:35:21 PM",
+            "duration": 54.51256561279297,
+            "averageDuration": 2.72562837600708,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "0+1",
+                    "duration": 2.457793951034546,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+0",
+                    "duration": 2.5892560482025148,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+0",
+                    "duration": 5.847845077514648,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "1+6",
+                    "duration": 1.9453959465026856,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 2.171849012374878,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 2.2191529273986818,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+9",
+                    "duration": 2.724742889404297,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+2",
+                    "duration": 2.4863851070404054,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "0+4",
+                    "duration": 2.3063509464263918,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+3",
+                    "duration": 2.3266890048980715,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+7",
+                    "duration": 2.3192288875579836,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+6",
+                    "duration": 3.083599090576172,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+3",
+                    "duration": 2.328433036804199,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+6",
+                    "duration": 2.095510959625244,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+4",
+                    "duration": 5.531421184539795,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+5",
+                    "duration": 2.4586970806121828,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+3",
+                    "duration": 2.336272954940796,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+0",
+                    "duration": 2.490036964416504,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+0",
+                    "duration": 1.9269239902496338,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+6",
+                    "duration": 7.057370185852051,
+                    "strokes": 2,
+                    "erased": 1
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/2/2022 2:38:07 PM",
+            "duration": 59.38978576660156,
+            "averageDuration": 2.969489336013794,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "0+3",
+                    "duration": 2.040898084640503,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+5",
+                    "duration": 2.9436728954315187,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+2",
+                    "duration": 2.096527099609375,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+8",
+                    "duration": 2.3648829460144045,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 2.1024539470672609,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+9",
+                    "duration": 2.704252004623413,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+3",
+                    "duration": 2.5042479038238527,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+1",
+                    "duration": 2.336221933364868,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+7",
+                    "duration": 2.013089895248413,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+4",
+                    "duration": 2.1013710498809816,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+1",
+                    "duration": 5.886943817138672,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "9+0",
+                    "duration": 2.310415029525757,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+3",
+                    "duration": 2.2831480503082277,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+1",
+                    "duration": 2.361377000808716,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5+1",
+                    "duration": 2.1357688903808595,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+2",
+                    "duration": 2.6275041103363039,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+3",
+                    "duration": 2.2091898918151857,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+10",
+                    "duration": 2.8454270362854006,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+2",
+                    "duration": 2.1101529598236086,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+0",
+                    "duration": 2.2913589477539064,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/2/2022 2:39:44 PM",
+            "duration": 50.5006103515625,
+            "averageDuration": 2.5250306129455568,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "4+1",
+                    "duration": 2.8330600261688234,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+8",
+                    "duration": 2.5701780319213869,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "0+2",
+                    "duration": 2.370621919631958,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 2.2879350185394289,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+6",
+                    "duration": 6.726146221160889,
+                    "strokes": 3,
+                    "erased": 0
+                },
+                {
+                    "text": "1+7",
+                    "duration": 2.5231549739837648,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+0",
+                    "duration": 4.26839017868042,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+6",
+                    "duration": 27.624353408813478,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+1",
+                    "duration": 3.312035083770752,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+4",
+                    "duration": 2.753761053085327,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+1",
+                    "duration": 2.612528085708618,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+5",
+                    "duration": 3.028179883956909,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+9",
+                    "duration": 2.9598000049591066,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 7.626935005187988,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+2",
+                    "duration": 4606.58740234375,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3+2",
+                    "duration": 2.9093680381774904,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+9",
+                    "duration": 11904.8720703125,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 17,
+            "time": "7/2/2022 2:44:31 PM",
+            "duration": 16588.765625,
+            "averageDuration": 975.8097534179688,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "2+6",
+                    "duration": 2.742434024810791,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+0",
+                    "duration": 2.569200038909912,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+3",
+                    "duration": 2.27531099319458,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 2.5021519660949709,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+3",
+                    "duration": 2.4928948879241945,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+1",
+                    "duration": 2.5505759716033937,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+3",
+                    "duration": 2.361466884613037,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+2",
+                    "duration": 2.240710973739624,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+5",
+                    "duration": 2.497386932373047,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+7",
+                    "duration": 2.540462017059326,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+3",
+                    "duration": 2.6798501014709474,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5+5",
+                    "duration": 3.005750894546509,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "0+8",
+                    "duration": 2.8946139812469484,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+3",
+                    "duration": 3.6388680934906008,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+4",
+                    "duration": 18.066333770751954,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 20.699237823486329,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+0",
+                    "duration": 10.27254867553711,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 17,
+            "time": "7/2/2022 7:24:10 PM",
+            "duration": 86.55839538574219,
+            "averageDuration": 5.091670513153076,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "0+8",
+                    "duration": 2.079533100128174,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+2",
+                    "duration": 1.9667869806289673,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+1",
+                    "duration": 1.9411669969558716,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+2",
+                    "duration": 2.046072006225586,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3+2",
+                    "duration": 1.883505940437317,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+7",
+                    "duration": 2.0908989906311037,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+3",
+                    "duration": 2.099381923675537,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+9",
+                    "duration": 2.4953041076660158,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+0",
+                    "duration": 1.9181220531463624,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+5",
+                    "duration": 2.9214539527893068,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+0",
+                    "duration": 2.270430088043213,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3+3",
+                    "duration": 1.917248010635376,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+5",
+                    "duration": 1.836663007736206,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+0",
+                    "duration": 1.9958200454711915,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+0",
+                    "duration": 1.8073910474777222,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+7",
+                    "duration": 2.09158992767334,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+10",
+                    "duration": 2.213124990463257,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "7+2",
+                    "duration": 2.0502378940582277,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+5",
+                    "duration": 2.0810580253601076,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+0",
+                    "duration": 2.2412960529327394,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/2/2022 7:28:52 PM",
+            "duration": 42.53260040283203,
+            "averageDuration": 2.1266300678253176,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "1+9",
+                    "duration": 2.643110990524292,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+4",
+                    "duration": 2.444283962249756,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "2+8",
+                    "duration": 2.258143901824951,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+5",
+                    "duration": 2.13873291015625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+1",
+                    "duration": 5.445967197418213,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "4+6",
+                    "duration": 2.0200929641723635,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+3",
+                    "duration": 1.9880540370941163,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 1.9865540266036988,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+2",
+                    "duration": 2.267616033554077,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9+1",
+                    "duration": 4.095901966094971,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "1+9",
+                    "duration": 2.164119005203247,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+3",
+                    "duration": 1.9963690042495728,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5+5",
+                    "duration": 2.028740882873535,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2+8",
+                    "duration": 2.269329071044922,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+2",
+                    "duration": 2.054374933242798,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 1.9931230545043946,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4+6",
+                    "duration": 2.110136032104492,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6+4",
+                    "duration": 2.3468070030212404,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5+5",
+                    "duration": 2.4132750034332277,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3+7",
+                    "duration": 2.040381908416748,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/16/2022 11:09:28 AM",
+            "duration": 48.802490234375,
+            "averageDuration": 2.44012451171875,
+            "operand0min": 1,
+            "operand0max": 9,
+            "operand1min": 1,
+            "operand1max": 9,
+            "answerMin": 10,
+            "answerMax": 10,
+            "description": "x+?=10",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "3",
+                    "duration": 2.957066059112549,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10",
+                    "duration": 7.8145060539245609,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "4",
+                    "duration": 2.5517420768737795,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "6",
+                    "duration": 2.4871349334716799,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8",
+                    "duration": 3.7900021076202394,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9",
+                    "duration": 3.408284902572632,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1",
+                    "duration": 2.141066074371338,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0",
+                    "duration": 2.5261380672454836,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2",
+                    "duration": 2.546091079711914,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "5",
+                    "duration": 2.3430910110473635,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7",
+                    "duration": 2.5179500579833986,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0",
+                    "duration": 2.406126022338867,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6",
+                    "duration": 2.2156600952148439,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9",
+                    "duration": 2.334721088409424,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7",
+                    "duration": 2.14117693901062,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2",
+                    "duration": 2.2865350246429445,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1",
+                    "duration": 2.396083116531372,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10",
+                    "duration": 2.9646670818328859,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "3",
+                    "duration": 2.4030609130859377,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "4",
+                    "duration": 2.9414000511169435,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 20,
+            "time": "7/17/2022 12:14:38 AM",
+            "duration": 57.588069915771487,
+            "averageDuration": 2.879403591156006,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 0,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "count",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
         }
     ]
 }

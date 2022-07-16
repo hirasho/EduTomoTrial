@@ -9,10 +9,17 @@ public class TouchDetector : BaseRaycaster
 	[SerializeField] GameObject receiver;
 	[SerializeField] float distanceFromCamera = 1000f;
 
-	public Vector2 NormalizedScreenPosition { get; private set; }
-	public Vector2 ScreenPosition { get; private set; }
-
 	public override Camera eventCamera{ get => attachedCamera; }
+
+	public Vector2 GetScreenPosition(int pointerId)
+	{
+		Vector2 ret;
+		if (!pointers.TryGetValue(pointerId, out ret))
+		{
+			ret = Vector2.one * float.MaxValue;
+		}
+		return ret;
+	}
 
 	public override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
 	{
@@ -31,9 +38,13 @@ public class TouchDetector : BaseRaycaster
 		};
 		resultAppendList.Add(result);
 
-		// 正規化スクリーン座標を返す左上(0,1)、右下(1,0)
-		var vmin = Mathf.Min(Screen.height, Screen.width);
-		NormalizedScreenPosition = eventData.position / (float)vmin;
-		ScreenPosition = eventData.position;
+		if (pointers == null)
+		{
+			pointers = new Dictionary<int, Vector2>();
+		}
+		pointers[eventData.pointerId] = eventData.position;
 	}
+
+	// non public --------
+	Dictionary<int, Vector2> pointers;
 }

@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class TitleSubScene : SubScene
 {
-	[SerializeField] CategoryButton[] buttons;
 	[SerializeField] Button freeDrawButton;
 	[SerializeField] Button logButton;
 	[SerializeField] Button settingsButton;
@@ -12,6 +11,7 @@ public class TitleSubScene : SubScene
 	{
 		this.main = main;
 
+		var buttons = gameObject.GetComponentsInChildren<CategoryButton>();
 		foreach (var button in buttons)
 		{
 			button.Button.onClick.AddListener(() =>

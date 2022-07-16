@@ -26,12 +26,12 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		subScene.OnPointerDown();
+		subScene.OnPointerDown(eventData.pointerId);
 	}
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		subScene.OnPointerUp();
+		subScene.OnPointerUp(eventData.pointerId);
 	}
 
 	public void OnSessionEnd(SessionData session)

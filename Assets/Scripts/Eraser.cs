@@ -30,14 +30,19 @@ public class Eraser : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	public void OnPointerDown(PointerEventData data)
 	{
 		PointerDown = true;
-		receiver.OnEraserDown();
+		pointerId = data.pointerId;
+		receiver.OnEraserDown(data.pointerId);
 	}
 
 	public void OnPointerUp(PointerEventData data)
 	{
-		PointerDown = false;
-		receiver.OnEraserUp();
+		if (pointerId == data.pointerId)
+		{
+			PointerDown = false;
+			receiver.OnEraserUp(data.pointerId);
+		}
 	}
 	// non public ----
 	IEraserEventReceiver receiver;
+	int pointerId;
 }
