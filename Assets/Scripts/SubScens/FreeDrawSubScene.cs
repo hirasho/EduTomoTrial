@@ -125,7 +125,6 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 
 	// non public -------
 	Main main;
-	Color32[] prevRtTexels;
 	List<Annotation> annotationViews;
 	bool clearButtonClicked;
 	bool abortButtonClicked;
@@ -185,45 +184,7 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 			Destroy(line.gameObject);
 		}
 
-		var rt = rtCamera.targetTexture;
-		Graphics.SetRenderTarget(rt, 0);
-		// 読み出し用テクスチャを生成して差し換え
-		var texture2d = new Texture2D(rt.width, rt.height, TextureFormat.RGBA32, false);
-		texture2d.ReadPixels(new Rect(0, 0, rt.width, rt.height), destX: 0, destY: 0);
-
-		var dirty = false;
-		var newTexels = texture2d.GetPixels32();
-		if (prevRtTexels == null)
-		{
-			dirty = true;
-		}
-		else if (newTexels.Length != prevRtTexels.Length)
-		{
-			dirty = true;
-		}
-		else
-		{
-			for (var i = 0; i < newTexels.Length; i++)
-			{
-				if ((newTexels[i].r != prevRtTexels[i].r) || 
-					(newTexels[i].g != prevRtTexels[i].g) ||
-					(newTexels[i].b != prevRtTexels[i].b))
-				{
-					dirty = true;
-					break;
-				}
-			}
-		}
-		prevRtTexels = newTexels;
-
-		if (dirty)
-		{
-			if (!main.VisionApi.IsDone()) // 前のが終わってないので止める
- 			{
-				main.VisionApi.Abort();
-			}
-			main.VisionApi.Request(texture2d);
-		}
+		main.VisionApi.Request(rtCamera.targetTexture);
 	}
 
 	void ShowAnnotations(IList<Evaluator.Letter> letters)

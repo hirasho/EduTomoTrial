@@ -111,8 +111,14 @@ public class DrawingManager
 			}
 			evaluationRequested = true;
 		}
+		
 		pointer.down = false;
 		pointer.isEraser = false;
+
+		if (DownCount() >= 2) // まだ他に2本あれば呼ばない。1本だとたまたま触ってるだけかもしれない。
+		{
+			evaluationRequested = false;
+		}
 	}
 
 	public void RemoveLine(
@@ -120,10 +126,10 @@ public class DrawingManager
 		ref bool justErased,
 		Line line)
 	{
-		var dst = 0;
 		foreach (var pointer in pointers.Values)
 		{
 			var lines = pointer.lines;
+			var dst = 0;
 			for (var i = 0; i < lines.Count; i++)
 			{
 				lines[dst] = lines[i];
@@ -169,4 +175,18 @@ public class DrawingManager
 
 	// non public ----
 	Dictionary<int, Pointer> pointers;
+
+	int DownCount()
+	{
+		var ret = 0;
+		foreach (var pointer in pointers.Values)
+		{
+			if (pointer.down)
+			{
+				ret++;
+			}
+		}
+		return ret;
+	}
+
 }

@@ -26,12 +26,14 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		subScene.OnPointerDown(eventData.pointerId);
+		var id = (eventData != null) ? eventData.pointerId : ushort.MaxValue;
+		subScene.OnPointerDown(id);
 	}
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		subScene.OnPointerUp(eventData.pointerId);
+		var id = (eventData != null) ? eventData.pointerId : ushort.MaxValue;
+		subScene.OnPointerUp(id);
 	}
 
 	public void OnSessionEnd(SessionData session)

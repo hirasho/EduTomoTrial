@@ -16,7 +16,7 @@ public class TouchDetector : BaseRaycaster
 		Vector2 ret;
 		if (!pointers.TryGetValue(pointerId, out ret))
 		{
-			ret = Vector2.one * float.MaxValue;
+			ret = Vector2.zero;
 		}
 		return ret;
 	}

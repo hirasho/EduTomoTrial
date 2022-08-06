@@ -64,10 +64,53 @@ System.IO.File.WriteAllText("response.json", webRequest.downloadHandler.text);
 			Requested = false;
 		}
 
-		public void Request(Texture2D readableTexture2d)
+		// テクスチャが変わってないとfalse返して終わる
+		public bool Request(RenderTexture rt)
 		{
+			Graphics.SetRenderTarget(rt, 0);
+			// 読み出し用テクスチャを生成して差し換え
+			var texture2d = new Texture2D(rt.width, rt.height, TextureFormat.RGBA32, false);
+			texture2d.ReadPixels(new Rect(0, 0, rt.width, rt.height), destX: 0, destY: 0);
+
+			// dirty判定
+			var dirty = false;
+			var newTexels = texture2d.GetPixels32();
+			if (prevTexels == null)
+			{
+				dirty = true;
+			}
+			else if (newTexels.Length != prevTexels.Length)
+			{
+				dirty = true;
+			}
+			else
+			{
+				for (var i = 0; i < newTexels.Length; i++)
+				{
+					if ((newTexels[i].r != prevTexels[i].r) || 
+						(newTexels[i].g != prevTexels[i].g) ||
+						(newTexels[i].b != prevTexels[i].b))
+					{
+						dirty = true;
+						break;
+					}
+				}
+			}
+			prevTexels = newTexels;
+
+			if (!dirty)
+			{
+				return false;
+			}
+
+
+			if (!IsDone()) // 前のが終わってないので止める
+ 			{
+				Abort();
+			}
+
 			Requested = true;
-			var jpg = readableTexture2d.EncodeToJPG();
+			var jpg = texture2d.EncodeToJPG();
 #if UNITY_EDITOR
 System.IO.File.WriteAllBytes("ss.jpg", jpg);
 #endif
@@ -103,11 +146,13 @@ System.IO.File.WriteAllText("request.json", jsonRequestBody);
 			webRequest.SetRequestHeader("Content-Type", "application/json");
 
 			webRequest.SendWebRequest();
+			return true;
 		}
 
 		// non public ---------
 		string apiKey;
 		UnityWebRequest webRequest;
+		Color32[] prevTexels;
 
 		// request Data Types.
 
