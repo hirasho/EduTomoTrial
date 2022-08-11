@@ -60,10 +60,8 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	[SerializeField] Formula[] formulae;
 	[SerializeField] Transform lineRoot;
 	[SerializeField] Line linePrefab;
-	[SerializeField] Transform rtLineRoot;
-	[SerializeField] Material rtLineMaterial;
-	[SerializeField] Camera rtCamera;
 	[SerializeField] Annotation annotationPrefab;
+	[SerializeField] Canvas paperCanvas;
 	
 	public void ManualStart(
 		Main main, 
@@ -71,12 +69,13 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	{
 		this.main = main;
 		this.settings = settings;
+		paperCanvas.worldCamera = main.MainCamera;
+
 		eraser.ManualStart(this);
 
 		annotationViews = new List<Annotation>();
 		countingObjects = new List<CountingObject>();
 		ui.ManualStart();
-		rtCamera.enabled = false;
 		sessionData = new SessionData(
 			settings.operand0min, 
 			settings.operand0max, 
@@ -312,6 +311,8 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		ui.HideHanamaru();
 		ClearLines();
 		ClearAnnotations();
+		main.VisionApi.ClearDiffImage(); // キャッシュ消す
+		
 		UpdateQuestion();
 		while (!nextRequested)
 		{
@@ -342,41 +343,16 @@ if (Input.GetKeyDown(KeyCode.S))
 		{
 			yield break;
 		}
-		// カメラ位置合わせ
-		var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-		var max = -min;
-		foreach (var t in activeFormula.AnswerZone.RectTransforms)
-		{
-			min = Vector3.Min(min, t.position);
-			max = Vector3.Max(max, t.position);
-		}
-		var center = (min + max) * 0.5f;
-		center.y += 10f;
+		yield return main.CoSaveRenderTexture();
 
-		rtCamera.transform.localPosition = center;
-		rtCamera.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-		rtCamera.orthographicSize = Mathf.Max((max.x - min.x) / rtCamera.aspect, max.z - min.z);
+		var tex = main.SavedTexture;
 
-		// Lineを全部コピー
-		var rtLines = new List<Line>();
-		foreach (var line in drawingManager.EnumerateLines())
-		{
-			var rtLine = Instantiate(line, rtLineRoot, false);
-			rtLine.ReplaceMaterial(rtLineMaterial);
-			rtLines.Add(rtLine);
-		}
-		rtCamera.enabled = true;
+		var zone = activeFormula.AnswerZone;
+		var rect = main.GetRectInRenderTexture(zone);
+		var rects = new List<RectInt>();
+		rects.Add(rect);
 
-		// 描画待ち
-		yield return new WaitForEndOfFrame();
-		rtCamera.enabled = false;
-		// 即破棄
-		foreach (var line in rtLines)
-		{
-			Destroy(line.gameObject);
-		}
-
-		if (main.VisionApi.Request(rtCamera.targetTexture))
+		if (main.VisionApi.Request(tex, rects))
 		{
 			ui.BeginLoading();
 		}
@@ -392,16 +368,11 @@ if (Input.GetKeyDown(KeyCode.S))
 			var center = Vector3.zero;
 			var min = Vector3.one * float.MaxValue;
 			var max = -min;
-			var inBox = false;
 			for (var i = 0; i < srcVertices.Count; i++)
 			{
 				var srcV = srcVertices[i];
-				if ((srcV.x >= 64) && (srcV.x < 192) && (srcV.y >= 48) && (srcV.y <= 144))
-				{
-					inBox = true;
-				}
-				var sp = new Vector3(srcV.x, rtCamera.targetTexture.height - srcV.y);
-				var ray = rtCamera.ScreenPointToRay(sp);
+				var sp = new Vector3(srcV.x, main.RenderTextureCamera.targetTexture.height - srcV.y);
+				var ray = main.RenderTextureCamera.ScreenPointToRay(sp);
 				var t = (0f - ray.origin.y) / ray.direction.y;
 				var wp = ray.origin + (ray.direction * t);
 				center += wp;
@@ -409,14 +380,11 @@ if (Input.GetKeyDown(KeyCode.S))
 				max = Vector3.Max(max, wp);
 			}
 
-			if (inBox)
-			{
-				var obj = Instantiate(annotationPrefab, transform, false);
-				center /= srcVertices.Count;
-				obj.Show(center + new Vector3(-10f, 0f, 0f), max - min, letter.text, letter.correct);
+			var obj = Instantiate(annotationPrefab, transform, false);
+			center /= srcVertices.Count;
+			obj.Show(center, max - min, letter.text, letter.correct);
 //Debug.Log("\t " + letter.text + " " + letter.correct);
-				annotationViews.Add(obj);
-			}
+			annotationViews.Add(obj);
 		}
 	}
 

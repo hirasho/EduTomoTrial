@@ -1,26 +1,35 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
 	[SerializeField] float lineWidthMm = 1f; 
 	[SerializeField] float minDpi = 100f; 
 	[SerializeField] float maxDpi = 500f;
+	[SerializeField] int renderTextureHeight = 432;
 	[SerializeField] string defaultUserName = "平山オトモ";
 	[SerializeField] System.DateTime defaultBirthday = new System.DateTime(2015, 12, 20);
 	[SerializeField] Transform subSceneRoot;
 	[SerializeField] new Camera camera;
+	[SerializeField] Camera renderTextureCamera;
 	[SerializeField] TouchDetector touchDetector;
 	[SerializeField] SoundPlayer soundPlayer;
+	[SerializeField] Annotation annotationPrefab;
 
 	public TouchDetector TouchDetector { get => touchDetector; }
 	public SoundPlayer SoundPlayer { get => soundPlayer; }
 	public VisionApi.Client VisionApi { get => visionApi; }
 	public Camera MainCamera { get => camera; }
+	public Camera RenderTextureCamera { get => renderTextureCamera; }
 	public LogData LogData { get; private set; }
 	public string UserName { get => defaultUserName; }
 	public System.DateTime Birthday { get => defaultBirthday; }
 	public SaveData SaveData { get => saveData; }
+	public Texture2D SavedTexture { get => savedTexture; }
 
 	public float DefaultLineWidth { get => ConvertMilliMeterToWorldUnit(lineWidthMm); }
 
@@ -40,6 +49,73 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	{
 		LogData.sessions.Add(session);
 		TrySaveLog();
+	}
+
+	public IEnumerator CoSaveRenderTexture()
+	{
+		renderTextureCamera.enabled = true;
+		yield return new WaitForEndOfFrame();
+
+		Graphics.SetRenderTarget(renderTexture, 0);
+		savedTexture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), destX: 0, destY: 0);
+		renderTextureCamera.enabled = false;
+
+		var jpg = savedTexture.EncodeToJPG();
+#if UNITY_EDITOR
+System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
+#endif
+	}
+
+	public RectInt GetRectInRenderTexture(AnswerZone answerZone)
+	{
+		var min = Vector2.one * float.MaxValue;
+		var max = -min;
+		foreach (var rectTransform in answerZone.RectTransforms)
+		{
+			var wp = rectTransform.position;
+			var sp = renderTextureCamera.WorldToScreenPoint(wp);
+Debug.Log(wp.ToString("F2") + " -> " + sp);
+			min = Vector2.Min(min, sp);
+			max = Vector2.Max(max, sp);
+		}
+		var minX = Mathf.FloorToInt(min.x);
+		var minY = Mathf.FloorToInt(min.y);
+		var maxX = Mathf.CeilToInt(max.x);
+		var maxY = Mathf.CeilToInt(max.y);
+		return new RectInt(minX, minY, maxX - minX, maxY - minY);
+	}
+
+	public Annotation ShowAnnotation(VisionApi.Client.ReadLetter letter, string textOverride, bool correctColor)
+	{
+		// 頂点抽出
+		var srcVertices = letter.vertices;
+		var dstVertices = new Vector3[srcVertices.Count];
+		var center = Vector3.zero;
+		var min = Vector3.one * float.MaxValue;
+		var max = -min;
+		for (var i = 0; i < srcVertices.Count; i++)
+		{
+			var srcV = srcVertices[i];
+			var sp = new Vector3(srcV.x, RenderTextureCamera.targetTexture.height - srcV.y);
+			var ray = RenderTextureCamera.ScreenPointToRay(sp);
+			var t = (0f - ray.origin.y) / ray.direction.y;
+			var wp = ray.origin + (ray.direction * t);
+			center += wp;
+			min = Vector3.Min(min, wp);
+			max = Vector3.Max(max, wp);
+		}
+
+		var obj = Instantiate(annotationPrefab, transform, false);
+		center /= srcVertices.Count;
+		var text = string.IsNullOrEmpty(textOverride) ? letter.text : textOverride;
+		obj.Show(center, max - min, text, correctColor);
+		return obj;
+	}
+
+
+	public void ShowAnnotation()
+	{
+
 	}
 
 	void Start()
@@ -71,6 +147,12 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		var titleSubScene = SubScene.Instantiate<TitleSubScene>(subSceneRoot);
 		titleSubScene.ManualStart(this);
 		subScene = titleSubScene;
+
+		var w = (renderTextureHeight * 16) / 9;
+		renderTexture = new RenderTexture(w, renderTextureHeight, 0);
+		renderTextureCamera.targetTexture = renderTexture;
+		renderTextureCamera.enabled = false;
+		savedTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
 	}
 
 	void Update()
@@ -83,6 +165,10 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
 			OnPointerUp(null);
+		}
+		if (Input.GetKeyDown(KeyCode.Return))
+		{
+			StartCoroutine(CoSaveRenderTexture());
 		}
 #endif
 		var dt = Time.deltaTime;
@@ -108,6 +194,8 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	SubScene subScene;
 	float dpi;
 	SaveData saveData;
+	RenderTexture renderTexture;
+	Texture2D savedTexture;
 
 	float ConvertMilliMeterToWorldUnit(float milliMeter)
 	{
@@ -173,12 +261,39 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		}
 	}
 
+	// カメラ位置調整
 	void AdjustCameraHeight()
 	{
-		// カメラ位置調整
-		var y0 = (1f * 9f / 16f) / Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * 0.5f);
-		var y1 = 1f / Mathf.Tan(camera.fieldOfView * camera.aspect * Mathf.Deg2Rad * 0.5f);
-		var y = Mathf.Max(y0, y1);
+		// 16/9幅の机が入るように調整する
+		var w = (float)Screen.width;
+		var h = (float)Screen.height;
+		var y = 0f;
+		if ((w * 9f) > (h * 16f)) // 横長 w/h > 16/9
+		{
+			// 0.5/aspect/y = tan(θ/2)
+			y = 0.5f;
+		}
+		else
+		{
+			// 0.5/y = tan(θ/2)
+			y = 0.5f * (16f / 9f) * (h / w);
+		}
+		y /= Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * 0.5f);
 		camera.transform.localPosition = new Vector3(0f, y, 0f);
 	}
+
+#if UNITY_EDITOR
+	[UnityEditor.CustomEditor(typeof(Main))]
+	class CustomEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			var self = target as Main;
+			base.OnInspectorGUI();
+			EditorGUILayout.ObjectField("RT", self.renderTexture, typeof(RenderTexture), allowSceneObjects: false);
+			EditorGUILayout.ObjectField("TEX", self.savedTexture, typeof(Texture2D), allowSceneObjects: false);
+		}
+	}
+#endif
+
 }

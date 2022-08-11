@@ -5,7 +5,6 @@ public class Line : MonoBehaviour
 {
 	[SerializeField] float minimumStep = 0.01f;
 	[SerializeField] float baseY;
-	[SerializeField] new LineRenderer renderer;
 	[SerializeField] new MeshCollider collider;
 	[SerializeField] LineMeshGenerator generator;
 

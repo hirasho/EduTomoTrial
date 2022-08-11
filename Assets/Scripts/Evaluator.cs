@@ -40,23 +40,28 @@ public static class Evaluator
 
 	static void ProcessTextAnnotation(VisionApi.TextAnnotation textAnnotation, List<Letter> letters)
 	{
-		foreach (var page in textAnnotation.pages)
+		if (textAnnotation.pages != null)
 		{
-			ProcessPage(page, letters);
+			foreach (var page in textAnnotation.pages)
+			{
+				ProcessPage(page, letters);
+			}
 		}
 	}
 
 	static void ProcessTextAnnotation(VisionApi.TextAnnotation textAnnotation, List<Letter> letters, out bool correct, double answer)
 	{
-//Debug.Log("\tTA");
 		correct = false;
-		foreach (var page in textAnnotation.pages)
+		if (textAnnotation.pages != null)
 		{
-			var childCorrect = false;
-			ProcessPage(page, letters, out childCorrect, answer);
-			if (childCorrect)
+			foreach (var page in textAnnotation.pages)
 			{
-				correct = true;
+				var childCorrect = false;
+				ProcessPage(page, letters, out childCorrect, answer);
+				if (childCorrect)
+				{
+					correct = true;
+				}
 			}
 		}
 	}
