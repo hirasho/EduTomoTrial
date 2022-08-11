@@ -37,7 +37,6 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 			var title = SubScene.Instantiate<TitleSubScene>(transform.parent);
 			title.ManualStart(main);
 			nextScene = title;
-			ClearAnnotations();
 		}
 
 		var eraserPosition = eraser.DefaultPosition;
@@ -105,8 +104,18 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		if (response != null)
 		{
 			ClearAnnotations();
-			var words = main.VisionApi.GetResult();
-			ShowAnnotations(words);
+			var words = Evaluator.ExtractWords(main.VisionApi.Response);
+
+			Vector2 zoneMin, zoneMax;
+			answerZone.GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
+
+			foreach (var word in words)
+			{
+				if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
+				{
+					ShowAnnotations(word);
+				}
+			}
 		}
 	}
 
@@ -144,15 +153,7 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		main.VisionApi.Request(tex, rects: null);
 	}
 
-	void ShowAnnotations(IList<VisionApi.Client.ReadWord> words)
-	{
-		foreach (var word in words)
-		{
-			ShowAnnotations(word);
-		}
-	}
-
-	void ShowAnnotations(VisionApi.Client.ReadWord word)
+	void ShowAnnotations(Evaluator.Word word)
 	{
 		foreach (var letter in word.letters)
 		{
@@ -160,9 +161,9 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		}
 	}
 
-	void ShowAnnotation(VisionApi.Client.ReadLetter letter)
+	void ShowAnnotation(Evaluator.Letter letter)
 	{
-		var obj = main.ShowAnnotation(letter, null, true);
+		var obj = main.ShowAnnotation(letter, null, true, transform);
 		annotationViews.Add(obj);
 	}
 }

@@ -214,15 +214,37 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		{
 			ui.EndLoading();
 			ClearAnnotations();
-			bool correct;
+
+			var words = Evaluator.ExtractWords(main.VisionApi.Response);
+			
+			var zone = activeFormula.AnswerZone;
+			Vector2 zoneMin, zoneMax;
+			zone.GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
+
 			var correctValue = settings.invertOperation ? operand1 : answer;
-			var letters = Evaluator.Evaluate(response, correctValue, out correct);
+			var correct = false;
+			foreach (var word in words)
+			{
+				if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
+				{
+					var letters = new List<Evaluator.EvaluatedLetter>();
+					if (Evaluator.EvaluateWord(letters, word, correctValue))
+					{
+						correct = true;
+					}
+					ShowAnnotations(letters);
+				}
+			}
+		
+//			bool correct;
+//			var correctValue = settings.invertOperation ? operand1 : answer;
+//			var letters = Evaluator.Evaluate(response, correctValue, out correct);
 //Debug.Log("Evaluate: " + letters[0].text + " " + correct + " Answer=" + correctValue);
 			if (correct)
 			{
 				nextRequested = true;
 			}
-			ShowAnnotations(letters);
+//			ShowAnnotations(letters);
 		}
 	}
 
@@ -266,7 +288,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		public Operation op;
 	}
 	List<Question> questions;
-	
+
 	IEnumerator CoQuestionLoop()
 	{
 		while (true)
@@ -358,32 +380,11 @@ if (Input.GetKeyDown(KeyCode.S))
 		}
 	}
 
-	void ShowAnnotations(IList<Evaluator.Letter> letters)
+	void ShowAnnotations(IReadOnlyList<Evaluator.EvaluatedLetter> letters)
 	{
 		foreach (var letter in letters)
 		{
-			// 頂点抽出
-			var srcVertices = letter.vertices;
-			var dstVertices = new Vector3[srcVertices.Count];
-			var center = Vector3.zero;
-			var min = Vector3.one * float.MaxValue;
-			var max = -min;
-			for (var i = 0; i < srcVertices.Count; i++)
-			{
-				var srcV = srcVertices[i];
-				var sp = new Vector3(srcV.x, main.RenderTextureCamera.targetTexture.height - srcV.y);
-				var ray = main.RenderTextureCamera.ScreenPointToRay(sp);
-				var t = (0f - ray.origin.y) / ray.direction.y;
-				var wp = ray.origin + (ray.direction * t);
-				center += wp;
-				min = Vector3.Min(min, wp);
-				max = Vector3.Max(max, wp);
-			}
-
-			var obj = Instantiate(annotationPrefab, transform, false);
-			center /= srcVertices.Count;
-			obj.Show(center, max - min, letter.text, letter.correct);
-//Debug.Log("\t " + letter.text + " " + letter.correct);
+			var obj = main.ShowAnnotation(letter.srcLetter, letter.numberText, letter.correct, transform);
 			annotationViews.Add(obj);
 		}
 	}
@@ -552,13 +553,13 @@ if (Input.GetKeyDown(KeyCode.S))
 			{
 				activeFormula.SetFormulaText(
 					string.Format("{0} {1}", operand0, operatorChar),
-					string.Format(" {0} {1} = {2}", operatorChar1.Value, operand2.Value, answer));
+					string.Format("{0} {1} = {2}", operatorChar1.Value, operand2.Value, answer));
 			}
 			else
 			{
 				activeFormula.SetFormulaText(
 					string.Format("{0} {1}", operand0, operatorChar),
-					string.Format(" = {0}", answer));
+					string.Format("= {0}", answer));
 			}
 		}
 		else

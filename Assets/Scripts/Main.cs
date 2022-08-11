@@ -74,7 +74,7 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 		{
 			var wp = rectTransform.position;
 			var sp = renderTextureCamera.WorldToScreenPoint(wp);
-Debug.Log(wp.ToString("F2") + " -> " + sp);
+//Debug.Log(wp.ToString("F2") + " -> " + sp);
 			min = Vector2.Min(min, sp);
 			max = Vector2.Max(max, sp);
 		}
@@ -85,7 +85,7 @@ Debug.Log(wp.ToString("F2") + " -> " + sp);
 		return new RectInt(minX, minY, maxX - minX, maxY - minY);
 	}
 
-	public Annotation ShowAnnotation(VisionApi.Client.ReadLetter letter, string textOverride, bool correctColor)
+	public Annotation ShowAnnotation(Evaluator.Letter letter, string textOverride, bool correctColor, Transform parent)
 	{
 		// 頂点抽出
 		var srcVertices = letter.vertices;
@@ -105,17 +105,11 @@ Debug.Log(wp.ToString("F2") + " -> " + sp);
 			max = Vector3.Max(max, wp);
 		}
 
-		var obj = Instantiate(annotationPrefab, transform, false);
+		var obj = Instantiate(annotationPrefab, parent, false);
 		center /= srcVertices.Count;
 		var text = string.IsNullOrEmpty(textOverride) ? letter.text : textOverride;
 		obj.Show(center, max - min, text, correctColor);
 		return obj;
-	}
-
-
-	public void ShowAnnotation()
-	{
-
 	}
 
 	void Start()
@@ -188,6 +182,32 @@ Debug.Log(wp.ToString("F2") + " -> " + sp);
 			visionApi.Complete();
 		}
 	}
+
+	public static bool BoundsIntersect(Vector2 min0, Vector2 max0, Vector2 min1, Vector2 max1)
+	{
+		if (max0.x < min1.x)
+		{
+			return false;
+		}
+
+		if (min0.x > max1.x)
+		{
+			return false;
+		}
+
+		if (max0.y < min1.y)
+		{
+			return false;
+		}
+
+		if (min0.y > max1.y)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 
 	// non public -------
 	VisionApi.Client visionApi;

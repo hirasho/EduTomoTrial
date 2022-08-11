@@ -7,18 +7,6 @@ namespace VisionApi
 {
 	public class Client
 	{
-		public class ReadWord
-		{
-			public List<ReadLetter> letters;
-			public string text;
-		}
-
-		public class ReadLetter
-		{
-			public List<Vector2> vertices;
-			public string text;
-		}
-
 		public BatchAnnotateImagesResponse Response { get; private set; }
 		public bool Requested { get; private set; }
 
@@ -104,19 +92,15 @@ System.IO.File.WriteAllText("response.json", webRequest.downloadHandler.text);
 			// dirty判定
 			var dirty = false;
 			var newTexels = readableImage.GetPixels32();
-			// なければ作って真っ白で埋める
-			if (prevTexels == null)
+			// なければor解像度違えば作って真っ白で埋める
+			if ((prevTexels == null) || (newTexels.Length != prevTexels.Length))
 			{
 				prevTexels = new Color32[readableImage.width * readableImage.height];
-				ClearDiffImage();
-			}
-			else if (newTexels.Length != prevTexels.Length)
-			{
-				prevTexels = new Color32[readableImage.width * readableImage.height];
+				prevWidth = readableImage.width;
 				ClearDiffImage();
 			}
 
-			else if ((rects == null) || (rects.Count == 0))
+			if ((rects == null) || (rects.Count == 0))
 			{
 				dirty = FindDiff(
 					prevTexels, 
@@ -190,22 +174,6 @@ System.IO.File.WriteAllText("request.json", jsonRequestBody);
 			return true;
 		}
 
-		public IList<ReadWord> GetResult()
-		{
-			if (!IsDone())
-			{
-				return null;
-			}
-
-			var ret = new List<ReadWord>();
-			foreach (var response in Response.responses)
-			{
-				ProcessTextAnnotation(response.fullTextAnnotation, ret);
-			}
-			return ret;
-		}
-
-
 		// non public ---------
 		string apiKey;
 		UnityWebRequest webRequest;
@@ -231,74 +199,6 @@ System.IO.File.WriteAllText("request.json", jsonRequestBody);
 			return ret;
 		}
 	
-		static void ProcessTextAnnotation(TextAnnotation textAnnotation, List<ReadWord> wordsOut)
-		{
-			if (textAnnotation.pages != null)
-			{
-				foreach (var page in textAnnotation.pages)
-				{
-					ProcessPage(page, wordsOut);
-				}
-			}
-		}
-
-		static void ProcessPage(Page page, List<ReadWord> wordsOut)
-		{
-			foreach (var block in page.blocks)
-			{
-				ProcessBlock(block, wordsOut);
-			}
-		}
-
-		static void ProcessBlock(Block block, List<ReadWord> wordsOut)
-		{
-			foreach (var paragraph in block.paragraphs)
-			{
-				ProcessParagraphs(paragraph, wordsOut);
-			}
-		}
-
-		static void ProcessParagraphs(Paragraph paragraph, List<ReadWord> wordsOut)
-		{
-			foreach (var word in paragraph.words)
-			{
-				var readWord = ProcessWord(word);
-				if (readWord != null)
-				{
-					wordsOut.Add(readWord);
-				}
-			}
-		}
-
-		static ReadWord ProcessWord(Word word)
-		{
-			var ret = new ReadWord();
-			ret.letters = new List<ReadLetter>();
-			foreach (var symbol in word.symbols)
-			{
-				var letter = ProcessSymbol(symbol);
-				ret.letters.Add(letter);
-				ret.text += letter.text;
-			}
-			return ret;
-		}
-
-		static ReadLetter ProcessSymbol(Symbol symbol)
-		{
-			var ret = new ReadLetter();
-			ret.vertices = new List<Vector2>();
-			// 頂点抽出
-			var srcVertices = symbol.boundingBox.vertices;
-			for (var i = 0; i < srcVertices.Count; i++)
-			{
-				var srcV = srcVertices[i];
-				ret.vertices.Add(new Vector2(srcV.x, srcV.y));
-			}
-
-			ret.text = symbol.text;
-			return ret;
-		}
-
 		// request Data Types.
 		[Serializable]
 		class RequestBody
