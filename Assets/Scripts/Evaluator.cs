@@ -49,7 +49,6 @@ public static class Evaluator
 		{
 			lettersOut.Add(null);
 		}
-Debug.Log("Eval: " + answerText + " <-> " + word.text);
 
 		while (writtenIndex >= 0)
 		{
@@ -62,7 +61,6 @@ Debug.Log("Eval: " + answerText + " <-> " + word.text);
 
 			var ca = (answerIndex >= 0) ? answerText[answerIndex] : '\0';
 			var cw = evaluatedLetter.numberText[0];
-Debug.Log("\tans[" + answerIndex + "]=" + ca + " in[" + writtenIndex + "]=" + cw + " from " + letter.text[0]);
 			if (cw != '?')
 			{
 				if (ca == cw)

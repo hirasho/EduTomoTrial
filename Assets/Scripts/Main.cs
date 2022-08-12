@@ -4,6 +4,9 @@ using System.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using Firebase;
+using Firebase.Analytics;
+using Firebase.Extensions;
 
 public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -147,6 +150,19 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 		renderTextureCamera.targetTexture = renderTexture;
 		renderTextureCamera.enabled = false;
 		savedTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+
+		// Firebase
+		FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => 
+		{
+			if (task.Result == DependencyStatus.Available) 
+			{
+				FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
+			} 
+			else 
+			{
+				Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+			}
+		});
 	}
 
 	void Update()

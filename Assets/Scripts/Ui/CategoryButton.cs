@@ -14,6 +14,7 @@ public class CategoryButton : MonoBehaviour
 	[SerializeField] int answerMin;
 	[SerializeField] int answerMax;
 	[SerializeField] bool invertOperation;
+	[SerializeField] bool useSpecialFormula;
 	[SerializeField] Button button;
 
 	public Button Button { get => button; }
@@ -28,6 +29,7 @@ public class CategoryButton : MonoBehaviour
 			op1max,
 			answerMin,
 			answerMax,
-			invertOperation);
+			invertOperation,
+			useSpecialFormula);
 	}
 }

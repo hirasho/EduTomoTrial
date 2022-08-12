@@ -27,7 +27,8 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			int operand1max,
 			int answerMin,
 			int answerMax,
-			bool invertOperation)
+			bool invertOperation,
+			bool useSpecialFormula)
 		{
 			this.description = description;
 			this.operation = operation;
@@ -38,6 +39,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			this.answerMin = answerMin;
 			this.answerMax = answerMax;
 			this.invertOperation = invertOperation;
+			this.useSpecialFormula = useSpecialFormula;
 		}
 			
 		public string description;
@@ -49,6 +51,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		public int answerMin;
 		public int answerMax;
 		public bool invertOperation;
+		public bool useSpecialFormula;
 	}
 	[SerializeField] Eraser eraser;
 	[SerializeField] float countingObjectGrabY = 0.1f;
@@ -91,7 +94,18 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 
 		timeLimit = main.SaveData.secondsPerProblem * main.SaveData.maxProblemCount;
 
-		activeFormula = settings.invertOperation ? formulae[1] : formulae[0];
+		if (settings.useSpecialFormula)
+		{
+			if (settings.operation == Operation.Addition)
+			{
+				activeFormula = formulae[2];
+			}
+		}
+		else
+		{
+			activeFormula = settings.invertOperation ? formulae[1] : formulae[0];
+		}
+
 		foreach (var formula in formulae)
 		{
 			formula.gameObject.SetActive(formula == activeFormula);
@@ -217,34 +231,68 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 
 			var words = Evaluator.ExtractWords(main.VisionApi.Response);
 			
-			var zone = activeFormula.AnswerZone;
-			Vector2 zoneMin, zoneMax;
-			zone.GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
+			var zones = activeFormula.AnswerZones;
+			var zoneMins = new Vector2[zones.Length];
+			var zoneMaxs = new Vector2[zones.Length];
+			for (var i = 0; i < zones.Length; i++)
+			{
 
-			var correctValue = settings.invertOperation ? operand1 : answer;
-			var correct = false;
+				Vector2 zoneMin, zoneMax;
+				zones[i].GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
+				zoneMins[i] = zoneMin;
+				zoneMaxs[i] = zoneMax;
+			}
+
+			var correctValues = new int[zones.Length];
+			if ((settings.operation == Operation.Addition) && settings.useSpecialFormula && (zones.Length == 3))
+			{
+				correctValues[0] = subAnswer0;
+				correctValues[1] = subAnswer1;
+				correctValues[2] = answer;
+			}
+			else
+			{
+				correctValues[0] = settings.invertOperation ? operand1 : answer;
+			}
+			var correctCount = 0;
+Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length);
 			foreach (var word in words)
 			{
-				if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
+Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
+				var minD = float.MaxValue;
+				var minI = -1;
+				for (var zoneIndex = 0; zoneIndex < zones.Length; zoneIndex++)
 				{
-					var letters = new List<Evaluator.EvaluatedLetter>();
-					if (Evaluator.EvaluateWord(letters, word, correctValue))
+					var zoneMin = zoneMins[zoneIndex];
+					var zoneMax = zoneMaxs[zoneIndex];
+Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" + Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax));
+					if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
 					{
-						correct = true;
+						var d = (((word.boundsMin + word.boundsMax) - (zoneMin + zoneMax)) * 0.5f).magnitude;
+						if (d < minD)
+						{
+							minD = d;
+							minI = zoneIndex;
+						}
+					}
+				}
+
+				if (minI >= 0)
+				{
+Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
+					var letters = new List<Evaluator.EvaluatedLetter>();
+					if (Evaluator.EvaluateWord(letters, word, correctValues[minI]))
+					{
+						correctCount++;
 					}
 					ShowAnnotations(letters);
 				}
 			}
-		
-//			bool correct;
-//			var correctValue = settings.invertOperation ? operand1 : answer;
-//			var letters = Evaluator.Evaluate(response, correctValue, out correct);
-//Debug.Log("Evaluate: " + letters[0].text + " " + correct + " Answer=" + correctValue);
-			if (correct)
+
+			if (correctCount == zones.Length)
 			{
 				nextRequested = true;
 			}
-//			ShowAnnotations(letters);
 		}
 	}
 
@@ -254,6 +302,8 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	int operand0;
 	int operand1;
 	int? operand2;
+	int subAnswer0;
+	int subAnswer1;
 	int answer;
 	List<CountingObject> countingObjects;
 	bool nextRequested;
@@ -369,10 +419,13 @@ if (Input.GetKeyDown(KeyCode.S))
 
 		var tex = main.SavedTexture;
 
-		var zone = activeFormula.AnswerZone;
-		var rect = main.GetRectInRenderTexture(zone);
+		var zones = activeFormula.AnswerZones;
 		var rects = new List<RectInt>();
-		rects.Add(rect);
+		foreach (var zone in zones)
+		{
+			var rect = main.GetRectInRenderTexture(zone);
+			rects.Add(rect);
+		}
 
 		if (main.VisionApi.Request(tex, rects))
 		{
@@ -522,11 +575,17 @@ if (Input.GetKeyDown(KeyCode.S))
 		operand0 = q.op0;
 		operand1 = q.op1;
 		answer = q.ans;
+
 		var operatorChar = '\0';
 		char? operatorChar1 = null;
 		if (q.op == Operation.Addition)
 		{
 			operatorChar = '＋';
+			if (settings.useSpecialFormula)
+			{
+				subAnswer0 = 10 - operand0;
+				subAnswer1 = operand1 - subAnswer0;
+			}
 		}
 		else if (q.op == Operation.Subtraction)
 		{

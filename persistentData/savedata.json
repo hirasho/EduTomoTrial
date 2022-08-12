@@ -4,5 +4,5 @@
     "timeMinute": 30,
     "secondsPerProblem": 3,
     "allowZero": false,
-    "showCubes": true
+    "showCubes": false
 }

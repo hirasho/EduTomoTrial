@@ -37,6 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/Scripts/Editor/ScreenCapture.cs" />
+     <None Include="Assets/ExternalDependencyManager/Editor/external-dependency-manager_version-1.2.172_manifest.txt" />
+     <None Include="Assets/Firebase/Editor/FirebaseAnalytics_version-9.4.0_manifest.txt" />
+     <None Include="Assets/Firebase/Editor/FirebaseCrashlytics_version-9.4.0_manifest.txt" />
+     <None Include="Assets/Firebase/Editor/AppDependencies.xml" />
+     <None Include="Assets/Firebase/Editor/AnalyticsDependencies.xml" />
+     <None Include="Assets/Firebase/Editor/CrashlyticsDependencies.xml" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2021.3.7f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -291,6 +297,51 @@
     </Reference>
     <Reference Include="UnityEditor.Android.Extensions">
         <HintPath>/Applications/Unity/Hub/Editor/2021.3.7f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Editor">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Editor/Firebase.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.PackageManagerResolver">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/ExternalDependencyManager/Editor/1.2.172/Google.PackageManagerResolver.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.JarResolver">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/ExternalDependencyManager/Editor/1.2.172/Google.JarResolver.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Analytics">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Plugins/Firebase.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Tasks">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Parse/Plugins/dotNet45/Unity.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.TaskExtension">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Plugins/Firebase.TaskExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.MiniJson">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Plugins/Google.MiniJson.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandlerImpl">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/ExternalDependencyManager/Editor/1.2.172/Google.VersionHandlerImpl.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandler">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/ExternalDependencyManager/Editor/Google.VersionHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Platform">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Plugins/Firebase.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Compat">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Parse/Plugins/dotNet45/Unity.Compat.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.App">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Plugins/Firebase.App.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.IOSResolver">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/ExternalDependencyManager/Editor/1.2.172/Google.IOSResolver.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Crashlytics">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Plugins/Firebase.Crashlytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Crashlytics.Editor">
+        <HintPath>/Users/hirayama-takashi/hirasho/EduTomoTrial/Assets/Firebase/Editor/Firebase.Crashlytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Android.Types">
         <HintPath>/Applications/Unity/Hub/Editor/2021.3.7f1/PlaybackEngines/AndroidPlayer/Unity.Android.Types.dll</HintPath>

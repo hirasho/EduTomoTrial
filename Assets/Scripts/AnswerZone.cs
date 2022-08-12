@@ -16,6 +16,10 @@ public class AnswerZone : MonoBehaviour
 		{
 			var p = rect.position;
 			var sp = camera.WorldToScreenPoint(p);
+			if (camera.targetTexture != null)
+			{
+				sp.y = camera.targetTexture.height - sp.y;
+			}
 			min = Vector2.Min(min, sp);
 			max = Vector2.Max(max, sp);
 		}

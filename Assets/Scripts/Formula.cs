@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Formula : MonoBehaviour
 {
-	[SerializeField] AnswerZone answerZone;
+	[SerializeField] AnswerZone[] answerZones;
 	[SerializeField] Text formulaText0;
 	[SerializeField] Text formulaText1;
 
-	public AnswerZone AnswerZone { get => answerZone; }
+	public AnswerZone[] AnswerZones { get => answerZones; }
 	public void SetFormulaText(string text0, string text1)
 	{
 		if (formulaText0 != null)
