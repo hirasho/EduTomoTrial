@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 using System.Linq;
 
@@ -222,78 +221,74 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		crane.Release();		
 	}
 
-	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
+	public override void OnTextRecognitionComplete(IReadOnlyList<TextRecognizer.Word> words)
 	{
-		if (response != null)
-		{
-			ui.EndLoading();
-			ClearAnnotations();
+		ui.EndLoading();
+		ClearAnnotations();
 
-			var words = Evaluator.ExtractWords(main.VisionApi.Response);
-			
-			var zones = activeFormula.AnswerZones;
-			var zoneMins = new Vector2[zones.Length];
-			var zoneMaxs = new Vector2[zones.Length];
-			for (var i = 0; i < zones.Length; i++)
-			{
-
-				Vector2 zoneMin, zoneMax;
-				zones[i].GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
-				zoneMins[i] = zoneMin;
-				zoneMaxs[i] = zoneMax;
-			}
-
-			var correctValues = new int[zones.Length];
-			if ((settings.operation == Operation.Addition) && settings.useSpecialFormula && (zones.Length == 3))
-			{
-				correctValues[0] = subAnswer0;
-				correctValues[1] = subAnswer1;
-				correctValues[2] = answer;
-			}
-			else
-			{
-				correctValues[0] = settings.invertOperation ? operand1 : answer;
-			}
-			var correctCount = 0;
+		var zones = activeFormula.AnswerZones;
 Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length);
-			foreach (var word in words)
-			{
-Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
-				var minD = float.MaxValue;
-				var minI = -1;
-				for (var zoneIndex = 0; zoneIndex < zones.Length; zoneIndex++)
-				{
-					var zoneMin = zoneMins[zoneIndex];
-					var zoneMax = zoneMaxs[zoneIndex];
-Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" + Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax));
-					if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
-					{
-						var d = (((word.boundsMin + word.boundsMax) - (zoneMin + zoneMax)) * 0.5f).magnitude;
-						if (d < minD)
-						{
-							minD = d;
-							minI = zoneIndex;
-						}
-					}
-				}
+		var zoneMins = new Vector2[zones.Length];
+		var zoneMaxs = new Vector2[zones.Length];
+		for (var i = 0; i < zones.Length; i++)
+		{
 
-				if (minI >= 0)
+			Vector2 zoneMin, zoneMax;
+			zones[i].GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
+			zoneMins[i] = zoneMin;
+			zoneMaxs[i] = zoneMax;
+		}
+
+		var correctValues = new int[zones.Length];
+		if ((settings.operation == Operation.Addition) && settings.useSpecialFormula && (zones.Length == 3))
+		{
+			correctValues[0] = subAnswer0;
+			correctValues[1] = subAnswer1;
+			correctValues[2] = answer;
+		}
+		else
+		{
+			correctValues[0] = settings.invertOperation ? operand1 : answer;
+		}
+		var correctCount = 0;
+		foreach (var word in words)
+		{
+Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
+			var minD = float.MaxValue;
+			var minI = -1;
+			for (var zoneIndex = 0; zoneIndex < zones.Length; zoneIndex++)
+			{
+				var zoneMin = zoneMins[zoneIndex];
+				var zoneMax = zoneMaxs[zoneIndex];
+Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" + Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax));
+				if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
 				{
-Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
-					var letters = new List<Evaluator.EvaluatedLetter>();
-					if (Evaluator.EvaluateWord(letters, word, correctValues[minI]))
+					var d = (((word.boundsMin + word.boundsMax) - (zoneMin + zoneMax)) * 0.5f).magnitude;
+					if (d < minD)
 					{
-						correctCount++;
+						minD = d;
+						minI = zoneIndex;
 					}
-					ShowAnnotations(letters);
 				}
 			}
 
-			if (correctCount == zones.Length)
+			if (minI >= 0)
 			{
-				nextRequested = true;
+Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
+				var letters = new List<Evaluator.EvaluatedLetter>();
+				if (Evaluator.EvaluateWord(letters, word, correctValues[minI]))
+				{
+					correctCount++;
+				}
+				ShowAnnotations(letters);
 			}
 		}
+
+		if (correctCount == zones.Length)
+		{
+			nextRequested = true;
+		}
+
 	}
 
 	// non public -------
@@ -383,7 +378,7 @@ Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 		ui.HideHanamaru();
 		ClearLines();
 		ClearAnnotations();
-		main.VisionApi.ClearDiffImage(); // キャッシュ消す
+		main.TextRecognizer.ClearDiffImage();
 		
 		UpdateQuestion();
 		while (!nextRequested)
@@ -411,10 +406,11 @@ if (Input.GetKeyDown(KeyCode.S))
 
 	IEnumerator CoRequestEvaluation()
 	{
-		if (main.VisionApi == null)
+		if (main.TextRecognizer == null)
 		{
 			yield break;
 		}
+
 		yield return main.CoSaveRenderTexture();
 
 		var tex = main.SavedTexture;
@@ -427,7 +423,7 @@ if (Input.GetKeyDown(KeyCode.S))
 			rects.Add(rect);
 		}
 
-		if (main.VisionApi.Request(tex, rects))
+		if (main.TextRecognizer.Request(tex, rects))
 		{
 			ui.BeginLoading();
 		}

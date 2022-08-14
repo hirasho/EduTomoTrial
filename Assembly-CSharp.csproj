@@ -43,6 +43,7 @@
      <Compile Include="Assets/Scripts/Ui/CategoryButton.cs" />
      <Compile Include="Assets/Scripts/CountingObject.cs" />
      <Compile Include="Assets/Scripts/SubScene.cs" />
+     <Compile Include="Assets/TextRecognition/TextRecognizer.cs" />
      <Compile Include="Assets/Scripts/Keys.cs" />
      <Compile Include="Assets/Scripts/Evaluator.cs" />
      <Compile Include="Assets/Scripts/AnswerZone.cs" />
@@ -51,6 +52,7 @@
      <Compile Include="Assets/Scripts/SubScens/ResultSubScene.cs" />
      <Compile Include="Assets/Scripts/Ui/UiSlider.cs" />
      <Compile Include="Assets/Scripts/Annotation.cs" />
+     <Compile Include="Assets/MLKitWrapper/MLKitWrapper.cs" />
      <Compile Include="Assets/Scripts/PointerEventBlocker.cs" />
      <Compile Include="Assets/Scripts/Ui/UiNumber.cs" />
      <Compile Include="Assets/Scripts/Data/LogData.cs" />
@@ -70,8 +72,6 @@
      <Compile Include="Assets/Scripts/SoundPlayer.cs" />
      <Compile Include="Assets/Scripts/Crane.cs" />
      <Compile Include="Assets/Scripts/Line.cs" />
-     <Compile Include="Assets/MLKitWrapper/MLKitWrapper.cs" />
-     <Compile Include="Assets/TextRecognition/TextRecognizer.cs" />
      <None Include="Assets/Firebase/m2repository/com/google/firebase/firebase-app-unity/maven-metadata.xml" />
      <None Include="Assets/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/maven-metadata.xml" />
      <None Include="Assets/Shaders/TransparentColor.shader" />

@@ -20,7 +20,7 @@ public class TextRecognizer : MonoBehaviour
 		public string text;
 	}
 
-	public bool Busy { get; private set; }
+	public bool Requested { get; private set; }
 
 	public void ManualStart(string visionApiKey)
 	{
@@ -30,16 +30,31 @@ public class TextRecognizer : MonoBehaviour
 		}
 	}
 
+	public bool IsDone()
+	{
+		var ret = false;
+		if (requestIsMlkit)
+		{
+			ret = mlKit.IsDone();
+		}
+		else
+		{
+			ret = visionApi.IsDone();
+		}
+		return ret;
+	}
+
 	public void Abort()
 	{
 		if (requestIsMlkit)
 		{
-
+			mlKit.Abort();
 		}
 		else
 		{
 			visionApi.Abort();
 		}
+		Requested = false;
 	}
 
 	public void ClearDiffImage()
@@ -56,12 +71,23 @@ public class TextRecognizer : MonoBehaviour
 
 	public IReadOnlyList<Word> GetResult()
 	{
-		Debug.Assert(!Busy);
-
 		List<Word> ret = null;
 		if (requestIsMlkit)
 		{
-
+			if (mlKit.IsDone())
+			{
+Debug.LogError("TextRecognizer.GetResult: mlKit.enabled=" + mlKit.Enabled + " " + mlKit.ErrorMessage);
+				var result = mlKit.GetResult();
+				if ((result != null) && (result.textBlocks != null))
+				{
+					ret = new List<Word>();
+Debug.LogError("TextRecognizer.GetResult: textBlocks=" + result.textBlocks.Length);
+					foreach (var block in result.textBlocks)
+					{
+						ProcessTextBlock(block, ret);
+					}
+				}
+			}
 		}
 		else
 		{
@@ -74,6 +100,7 @@ public class TextRecognizer : MonoBehaviour
 				}
 			}
 		}
+		Requested = false;
 		return ret;
 	} 
 
@@ -121,10 +148,11 @@ public class TextRecognizer : MonoBehaviour
 			return false;
 		}
 
-		if (Busy) // 前のが終わってないので止める
+		if (Requested && !IsDone()) // 前のが終わってないので止める
 		{
 			Abort();
 		}
+		Requested = true;
 
 		var ret = false;
 		if (mlKit.Enabled)
@@ -165,17 +193,6 @@ public class TextRecognizer : MonoBehaviour
 		return ret;
 	}
 
-
-	public static IList<Word> ExtractWords(VisionApi.BatchAnnotateImagesResponse batchResponses)
-	{
-		var ret = new List<Word>();
-		foreach (var response in batchResponses.responses)
-		{
-			ProcessTextAnnotation(response.fullTextAnnotation, ret);
-		}
-		return ret;
-	}
-
 	static void ProcessTextAnnotation(VisionApi.TextAnnotation textAnnotation, List<Word> wordsOut)
 	{
 		if (textAnnotation.pages != null)
@@ -199,11 +216,11 @@ public class TextRecognizer : MonoBehaviour
 	{
 		foreach (var paragraph in block.paragraphs)
 		{
-			ProcessParagraphs(paragraph, wordsOut);
+			ProcessParagraph(paragraph, wordsOut);
 		}
 	}
 
-	static void ProcessParagraphs(VisionApi.Paragraph paragraph, List<Word> wordsOut)
+	static void ProcessParagraph(VisionApi.Paragraph paragraph, List<Word> wordsOut)
 	{
 		foreach (var word in paragraph.words)
 		{
@@ -251,5 +268,50 @@ public class TextRecognizer : MonoBehaviour
 
 		ret.text = symbol.text;
 		return ret;
+	}
+
+	static void ProcessTextBlock(MLKitWrapper.TextBlock textBlock, List<Word> wordsOut)
+	{
+		foreach (var line in textBlock.lines)
+		{
+			ProcessLine(line, wordsOut);
+		}
+	}
+
+	static void ProcessLine(MLKitWrapper.Line line, List<Word> wordsOut)
+	{
+		foreach (var element in line.elements)
+		{
+			ProcessElement(element, wordsOut);
+		}
+	}
+
+	static void ProcessElement(MLKitWrapper.Element element, List<Word> wordsOut)
+	{
+		var word = new Word();
+		word.letters = new List<Letter>();
+		word.boundsMin = new Vector2(element.boundingBox.left, element.boundingBox.top);
+		word.boundsMax = new Vector2(element.boundingBox.right, element.boundingBox.bottom);
+		Debug.Assert(word.boundsMin.x < word.boundsMax.x);
+		Debug.Assert(word.boundsMin.y < word.boundsMax.y);
+		var text = element.text;
+		word.text = text;
+
+		// Letterはここでは雑に分割する。後でLetterなしにするかもしれない
+		var width = word.boundsMax.x - word.boundsMin.x;
+		for (var i = 0; i < text.Length; i++)
+		{
+			var letter = new Letter();
+			letter.vertices = new List<Vector2>();
+			var x0 = word.boundsMin.x + (width * (float)i / (float)text.Length);
+			var x1 = word.boundsMin.x + (width * (float)(i + 1) / (float)text.Length);
+			letter.vertices.Add(new Vector2(x0 + 2, word.boundsMin.y + 2));
+			letter.vertices.Add(new Vector2(x1 - 2, word.boundsMin.y + 2));
+			letter.vertices.Add(new Vector2(x1 - 2, word.boundsMax.y - 2));
+			letter.vertices.Add(new Vector2(x0 + 2, word.boundsMax.y - 2));
+			letter.text = new string(text[i], 1);
+			word.letters.Add(letter);
+		}
+		wordsOut.Add(word);
 	}
 }

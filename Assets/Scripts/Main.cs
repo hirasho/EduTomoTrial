@@ -22,11 +22,11 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	[SerializeField] TouchDetector touchDetector;
 	[SerializeField] SoundPlayer soundPlayer;
 	[SerializeField] Annotation annotationPrefab;
-	[SerializeField] MLKitWrapper mlKit;
+	[SerializeField] TextRecognizer textRecognizer;
 
 	public TouchDetector TouchDetector { get => touchDetector; }
 	public SoundPlayer SoundPlayer { get => soundPlayer; }
-	public VisionApi.Client VisionApi { get => visionApi; }
+	public TextRecognizer TextRecognizer { get => textRecognizer; }
 	public Camera MainCamera { get => camera; }
 	public Camera RenderTextureCamera { get => renderTextureCamera; }
 	public LogData LogData { get; private set; }
@@ -89,7 +89,7 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 		return new RectInt(minX, minY, maxX - minX, maxY - minY);
 	}
 
-	public Annotation ShowAnnotation(Evaluator.Letter letter, string textOverride, bool correctColor, Transform parent)
+	public Annotation ShowAnnotation(TextRecognizer.Letter letter, string textOverride, bool correctColor, Transform parent)
 	{
 		// 頂点抽出
 		var srcVertices = letter.vertices;
@@ -122,22 +122,23 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 		dpi = Mathf.Clamp(Screen.dpi, minDpi, maxDpi);
 		Debug.Log("DPI: " + Screen.dpi + " -> " + dpi);
 
+		string visionApiKey = null;
 		var jsonAsset = Resources.Load<TextAsset>("keys");
 		if (jsonAsset != null)
 		{
 			try
 			{
 				var keys = JsonUtility.FromJson<Keys>(jsonAsset.text);
-				if (!string.IsNullOrEmpty(keys.VisionApiKey))
-				{
-					visionApi = new VisionApi.Client(keys.VisionApiKey);
-				}
+				visionApiKey = keys.VisionApiKey;
 			}
 			catch (System.Exception e)
 			{
 				Debug.LogException(e);
 			}
 		}
+
+		textRecognizer.ManualStart(visionApiKey);
+
 		Application.targetFrameRate = 120;
 
 		LogData = new LogData();
@@ -193,10 +194,18 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 
 		AdjustCameraHeight();
 
-		if ((visionApi != null) && visionApi.Requested && visionApi.IsDone())
+		if ((textRecognizer != null) && textRecognizer.Requested && textRecognizer.IsDone())
 		{
-			subScene.OnVisionApiDone(visionApi.Response);
-			visionApi.Complete();
+Debug.Log("Main.textRecognizer.GetResult");
+			var result = textRecognizer.GetResult();
+			if (result != null)
+			{
+				subScene.OnTextRecognitionComplete(result);
+			}
+			else
+			{
+				Debug.LogError("TextRecognizer.GetResult returns null.");
+			}
 		}
 	}
 
@@ -227,7 +236,6 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 
 
 	// non public -------
-	VisionApi.Client visionApi;
 	SubScene subScene;
 	float dpi;
 	SaveData saveData;
