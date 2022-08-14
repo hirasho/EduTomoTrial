@@ -76,6 +76,53 @@ System.IO.File.WriteAllText("response.json", webRequest.downloadHandler.text);
 			}
 		}
 
+		public bool Request(Texture2D readableImage)
+		{
+			if (!IsDone()) // 前のが終わってないので止める
+ 			{
+				Abort();
+			}
+
+			Requested = true;
+			var jpg = readableImage.EncodeToJPG();
+#if UNITY_EDITOR
+System.IO.File.WriteAllBytes("ss.jpg", jpg);
+#endif
+			var base64Image = Convert.ToBase64String(jpg);
+
+			var url = "https://vision.googleapis.com/v1/images:annotate?key=" + apiKey;
+			// requestBodyを作成
+			var requests = new RequestBody();
+			requests.requests = new List<AnnotateImageRequest>();
+
+			var request = new AnnotateImageRequest();
+			request.image = new Image();
+			request.image.content = base64Image;
+
+			request.features = new List<Feature>();
+			var feature = new Feature();
+			feature.type = FeatureType.DOCUMENT_TEXT_DETECTION.ToString();
+			feature.maxResults = 10;
+			request.features.Add(feature);
+
+			requests.requests.Add(request);
+
+			// JSONに変換
+			var jsonRequestBody = JsonUtility.ToJson(requests, prettyPrint: true);
+#if UNITY_EDITOR
+System.IO.File.WriteAllText("request.json", jsonRequestBody);
+#endif
+			// ヘッダを"application/json"にして投げる
+			webRequest = new UnityWebRequest(url, "POST");
+			var postData = System.Text.Encoding.UTF8.GetBytes(jsonRequestBody);
+			webRequest.uploadHandler = (UploadHandler) new UploadHandlerRaw(postData);
+			webRequest.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
+			webRequest.SetRequestHeader("Content-Type", "application/json");
+
+			webRequest.SendWebRequest();
+			return true;
+		}
+
 		// テクスチャが変わってないとfalse返して終わる
 		public bool Request(RenderTexture rt)
 		{
@@ -128,50 +175,7 @@ System.IO.File.WriteAllText("response.json", webRequest.downloadHandler.text);
 				return false;
 			}
 
-
-			if (!IsDone()) // 前のが終わってないので止める
- 			{
-				Abort();
-			}
-
-			Requested = true;
-			var jpg = readableImage.EncodeToJPG();
-#if UNITY_EDITOR
-System.IO.File.WriteAllBytes("ss.jpg", jpg);
-#endif
-			var base64Image = Convert.ToBase64String(jpg);
-
-			var url = "https://vision.googleapis.com/v1/images:annotate?key=" + apiKey;
-			// requestBodyを作成
-			var requests = new RequestBody();
-			requests.requests = new List<AnnotateImageRequest>();
-
-			var request = new AnnotateImageRequest();
-			request.image = new Image();
-			request.image.content = base64Image;
-
-			request.features = new List<Feature>();
-			var feature = new Feature();
-			feature.type = FeatureType.DOCUMENT_TEXT_DETECTION.ToString();
-			feature.maxResults = 10;
-			request.features.Add(feature);
-
-			requests.requests.Add(request);
-
-			// JSONに変換
-			var jsonRequestBody = JsonUtility.ToJson(requests, prettyPrint: true);
-#if UNITY_EDITOR
-System.IO.File.WriteAllText("request.json", jsonRequestBody);
-#endif
-			// ヘッダを"application/json"にして投げる
-			webRequest = new UnityWebRequest(url, "POST");
-			var postData = System.Text.Encoding.UTF8.GetBytes(jsonRequestBody);
-			webRequest.uploadHandler = (UploadHandler) new UploadHandlerRaw(postData);
-			webRequest.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
-			webRequest.SetRequestHeader("Content-Type", "application/json");
-
-			webRequest.SendWebRequest();
-			return true;
+			return Request(readableImage);
 		}
 
 		// non public ---------

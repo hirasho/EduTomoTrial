@@ -8,3 +8,4 @@ Recordings/
 *.apk
 *_BackUpThisFolder_ButDontShipItWithYourGame
 *_mapping.txt
+GradleOut/

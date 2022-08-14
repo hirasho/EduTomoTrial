@@ -22,6 +22,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	[SerializeField] TouchDetector touchDetector;
 	[SerializeField] SoundPlayer soundPlayer;
 	[SerializeField] Annotation annotationPrefab;
+	[SerializeField] MLKitWrapper mlKit;
 
 	public TouchDetector TouchDetector { get => touchDetector; }
 	public SoundPlayer SoundPlayer { get => soundPlayer; }
