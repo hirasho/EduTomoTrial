@@ -9,3 +9,4 @@ Recordings/
 *_BackUpThisFolder_ButDontShipItWithYourGame
 *_mapping.txt
 GradleOut/
+*.keystore
