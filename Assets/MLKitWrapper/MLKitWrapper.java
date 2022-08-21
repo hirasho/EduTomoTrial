@@ -90,6 +90,10 @@ public class MLKitWrapper
 
 	static class RectData
 	{
+		public String toString()
+		{
+			return "(" + left + "," + top + ") - (" + right + "," + bottom + ")";
+		}
 		public int bottom;
 		public int left;
 		public int right;
@@ -104,29 +108,37 @@ public class MLKitWrapper
 	
 	static public void recognizeText(String receiverGameObjectName, String serializedInput) 
 	{
-Log.d("MLKit", Integer.toString(serializedInput.length()));
 		TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
 //		Gson gson = new Gson();
 //		Input input = gson.fromJson(serializedInput, Input.class);
 		Input input = Input.deserialize(serializedInput);
-Log.d("MLKit", "input " + Integer.toString(input.width) + "x" + Integer.toString(input.height) + " pixelCount=" + Integer.toString(input.pixels.length));
+Log.d("MLKit", "input " + Integer.toString(input.width) + "x" + Integer.toString(input.height) + " pixelCount=" + Integer.toString(input.pixels.length) + " id=" + Integer.toString(input.requestId));
 
-		// TODO: Bitmap作る
 		Bitmap bitmap = Bitmap.createBitmap(input.pixels, input.width, input.height, Bitmap.Config.ARGB_8888);
-Log.d("MLKit", "bitmap " + Integer.toString(bitmap.getWidth()) + "x" + Integer.toString(bitmap.getHeight()));
-		// TODO: InputImage作る
-		InputImage inputImage = InputImage.fromBitmap(bitmap, 0);
+		if (bitmap == null)
+		{
+			Log.e("MLKit", "Bitmap.createBitmap failed.");
+		}
+		else
+		{
+			InputImage inputImage = InputImage.fromBitmap(bitmap, 0);
+			if (inputImage == null)
+			{
+				Log.e("MLKit", "InputImage.fromBitmap failed.");
+			}
+			else
+			{
+				Output output = new Output();
+				output.requestId = input.requestId;
 
-		Output output = new Output();
-		output.requestId = input.requestId;
-
-		// TODO: 認識走らせる
-		OnSuccess onSuccess = new OnSuccess(receiverGameObjectName, output);
-		OnFailure onFailure = new OnFailure(receiverGameObjectName, output);
-		Task<Text> result = recognizer.process(inputImage).
-			addOnSuccessListener(onSuccess).
-			addOnFailureListener(onFailure);
+				OnSuccess onSuccess = new OnSuccess(receiverGameObjectName, output);
+				OnFailure onFailure = new OnFailure(receiverGameObjectName, output);
+				Task<Text> result = recognizer.process(inputImage).
+					addOnSuccessListener(onSuccess).
+					addOnFailureListener(onFailure);
+			}
+		}
 	}
 
 	static class OnSuccess implements OnSuccessListener<Text>
@@ -139,13 +151,29 @@ Log.d("MLKit", "bitmap " + Integer.toString(bitmap.getWidth()) + "x" + Integer.t
 
 		@Override public void onSuccess(Text text) 
 		{
-Log.d("MLKit", "onSuccess");
-			TextData textData = new TextData();
-			output.text = parseText(text);
+			if (text == null)
+			{
+				Log.e("MLKit", "OnSuccess.onSuccess text is null.");
+			}
+			else
+			{
+				TextData textData = new TextData();
+				try
+				{
+					output.text = parseText(text);
+				}
+				catch (Exception e)
+				{
+					Log.e("MLKit", "OnSuccess parseText throw exception: " + e.getMessage());
+				}
 
-			Gson gson = new Gson();
-			String outputJson = gson.toJson(output);
-			UnityPlayer.UnitySendMessage(receiverGameObjectName, "OnComplete", outputJson);
+				if (output.text != null)
+				{
+					Gson gson = new Gson();
+					String outputJson = gson.toJson(output);
+					UnityPlayer.UnitySendMessage(receiverGameObjectName, "OnComplete", outputJson);
+				}
+			}
 		}
 		// non public ----
 		String receiverGameObjectName;
@@ -157,12 +185,19 @@ Log.d("MLKit", "onSuccess");
 			ret.text = src.getText();
 
 			List<Text.TextBlock> srcTextBlocks = src.getTextBlocks();
-			ret.textBlocks = new TextBlockData[srcTextBlocks.size()];
-Log.d("MLKit", "parseText " + ret.text + " " + ret.textBlocks.length);
-			for (int i = 0; i < srcTextBlocks.size(); i++)
+			if (srcTextBlocks != null)
 			{
-				TextBlockData block = parseTextBlock(srcTextBlocks.get(i));
-				ret.textBlocks[i] = block;
+				ret.textBlocks = new TextBlockData[srcTextBlocks.size()];
+Log.d("MLKit", "parseText " + ret.text + " " + ret.textBlocks.length);
+				for (int i = 0; i < srcTextBlocks.size(); i++)
+				{
+					TextBlockData block = parseTextBlock(srcTextBlocks.get(i));
+					ret.textBlocks[i] = block;
+				}
+			}
+			else
+			{
+				Log.w("MLKit", "OnSuccess.parseText getTextBlocks returned null.");
 			}
 			return ret;
 		}
@@ -176,14 +211,20 @@ Log.d("MLKit", "parseText " + ret.text + " " + ret.textBlocks.length);
 			ret.text = src.getText();
 
 			List<Text.Line> srcLines = src.getLines();
-			ret.lines = new LineData[srcLines.size()];
-Log.d("MLKit", "parseTextBlock " + ret.text + " " + ret.lines.length);
-			for (int i = 0; i < srcLines.size(); i++)
+			if (srcLines != null)
 			{
-				LineData line = parseLine(srcLines.get(i));
-				ret.lines[i] = line;
+				ret.lines = new LineData[srcLines.size()];
+Log.d("MLKit", "parseTextBlock " + ret.text + " " + ret.lines.length + " " + ret.boundingBox);
+				for (int i = 0; i < srcLines.size(); i++)
+				{
+					LineData line = parseLine(srcLines.get(i));
+					ret.lines[i] = line;
+				}
 			}
-
+			else
+			{
+				Log.w("MLKit", "OnSuccess.parseTextBlock getLines returned null.");
+			}
 			return ret;
 		}
 
@@ -196,12 +237,19 @@ Log.d("MLKit", "parseTextBlock " + ret.text + " " + ret.lines.length);
 			ret.text = src.getText();
 
 			List<Text.Element> srcElements = src.getElements();
-			ret.elements = new ElementData[srcElements.size()];
-Log.d("MLKit", "parseLine " + ret.text + " " + ret.elements.length);
-			for (int i = 0; i < srcElements.size(); i++)
+			if (srcElements != null)
 			{
-				ElementData element = parseElement(srcElements.get(i));
-				ret.elements[i] = element;
+				ret.elements = new ElementData[srcElements.size()];
+Log.d("MLKit", "parseLine " + ret.text + " " + ret.elements.length + " " + ret.boundingBox);
+				for (int i = 0; i < srcElements.size(); i++)
+				{
+					ElementData element = parseElement(srcElements.get(i));
+					ret.elements[i] = element;
+				}
+			}
+			else
+			{
+				Log.w("MLKit", "OnSuccess.parseLine getElements returned null.");
 			}
 
 			return ret;
@@ -214,7 +262,7 @@ Log.d("MLKit", "parseLine " + ret.text + " " + ret.elements.length);
 			ret.cornerPoints = parsePoints(src.getCornerPoints());
 			ret.recognizedLanguage = src.getRecognizedLanguage();
 			ret.text = src.getText();
-Log.d("MLKit", "parseElement " + ret.text);
+Log.d("MLKit", "parseElement " + ret.text + " " + ret.boundingBox);
 			return ret;
 		}
 

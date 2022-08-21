@@ -59,12 +59,13 @@ public class MLKitWrapper : MonoBehaviour
 
 	public bool Requested { get; private set; }
 	public string ErrorMessage { get; private set; }
-	public bool Enabled
+	public bool Implemented
 	{ 
 		get
 		{
 			var ret = false;
 #if UNITY_EDITOR // Editorでは無効
+
 #elif UNITY_ANDROID
 			ret = true;
 #endif			
@@ -78,26 +79,29 @@ public class MLKitWrapper : MonoBehaviour
 
 	public bool IsDone()
 	{
-Debug.Log("MLKit: IsDone " + Requested + " " + waitingRequestId);
 		return Requested && (waitingRequestId == int.MinValue);
 	}
 
 	public void Abort()
 	{
-Debug.Log("MLKit: Abort");
+Debug.Log("MLKit: Abort id=" + waitingRequestId);
 		Requested = false;
 		waitingRequestId = int.MinValue;
 	}
 
 	public Text GetResult()
 	{
+if (result != null)
+{
+	Debug.Log("MLKit: GetResult() : id=" + waitingRequestId);
+}
 		return result;
 	}
 
 	public bool RecognizeText(int width, int height, IReadOnlyList<Color32> pixels)
 	{
-Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.Count);
-		if (!IsDone()) // 前のが終わってないので止める
+Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.Count + " id=" + nextRequestId);
+		if (Requested && !IsDone()) // 前のが終わってないので止める
 		{
 			Abort();
 		}
@@ -109,6 +113,11 @@ Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.C
 		input.pixels = new int[pixels.Count];
 		input.requestId = nextRequestId;
 		waitingRequestId = nextRequestId;
+		nextRequestId++;
+		if (nextRequestId == int.MinValue) // 来ないと思うが巻き戻った時のための対処
+		{
+			nextRequestId++;
+		}
 
 		// Y反転しながら送る
 		for (var y = 0; y < height; y++)
@@ -139,11 +148,6 @@ System.IO.File.WriteAllText("mlkitInput.json", json);
 #endif
 			ret = true;
 			Requested = true;
-			nextRequestId++;
-			if (nextRequestId == int.MinValue) // 来ないと思うが巻き戻った時のための対処
-			{
-				nextRequestId++;
-			}
 
 #if DUMMY_MODE
 			StartCoroutine(CoOnCompleteDummy());
@@ -236,33 +240,33 @@ System.IO.File.WriteAllText("mlkitInput.json", json);
 
 	void OnComplete(string outputJson)
 	{
-		Debug.Log("MLKitWrapper.OnComplete ");
+Debug.Log("MLKitWrapper.OnComplete: json\n" + outputJson);
+		Output output = null;
 		try
 		{
-Debug.Log("MLKitWrapper.OnComplete: json\n" + outputJson);
-
-			var output = JsonUtility.FromJson<Output>(outputJson);
-			if (output.requestId == waitingRequestId) // ID違えば無視
-			{
-				if (string.IsNullOrEmpty(output.errorMessage))
-				{
-					result = output.text;
-					ErrorMessage = null;
-Debug.LogError("MLKitWrapper.OnComplete: Success " + output.text.textBlocks.Length + " " + output.text.text);
-				}
-				else
-				{
-					result = null;
-					ErrorMessage = output.errorMessage;
-Debug.LogError("MLKitWrapper.OnComplete: Error " + ErrorMessage);
-				}
-			}
+			output = JsonUtility.FromJson<Output>(outputJson);
 		}
 		catch (System.Exception e)
-		{			
+		{
 			Debug.LogException(e);
 		}
-		waitingRequestId = int.MinValue;
+		
+		if ((output != null) && (output.requestId == waitingRequestId)) // ID違えば無視
+		{
+			waitingRequestId = int.MinValue;
+			if (string.IsNullOrEmpty(output.errorMessage))
+			{
+				result = output.text;
+				ErrorMessage = null;
+Debug.LogError("\tSuccess " + output.text.textBlocks.Length + " " + output.text.text);
+			}
+			else
+			{
+				result = null;
+				ErrorMessage = output.errorMessage;
+Debug.LogError("\tError " + ErrorMessage);
+			}
+		}
 	}
 
 	IEnumerator CoOnCompleteDummy()

@@ -1,7 +1,6 @@
 Temp/
 Logs/
 Library/
-keys.json
 Recordings/
 .DS_Store
 *.aab
@@ -10,3 +9,4 @@ Recordings/
 *_mapping.txt
 GradleOut/
 *.keystore
+KeysSecret.cs

@@ -11,11 +11,14 @@ public class SettingsSubScene : SubScene
 	[SerializeField] UiSlider timeSlider;
 	[SerializeField] Toggle allowZeroToggle;
 	[SerializeField] Toggle showCubesToggle;
+	[SerializeField] Toggle visionApiToggle;
 	[SerializeField] Button backButton;
+	[SerializeField] HiddenCommand hiddenCommand;
 
 	public void ManualStart(Main main)
 	{
 		this.main = main;
+		hiddenCommand.SetPassword(main.Keys.VisionApiUnlockCommand);
 		backButton.onClick.AddListener(() => { toTitle = true; });
 
 		var sd = main.SaveData;
@@ -24,12 +27,25 @@ public class SettingsSubScene : SubScene
 		timeSlider.ManualStart(OnChange, sd.secondsPerProblem);
 		allowZeroToggle.isOn = sd.allowZero;
 		showCubesToggle.isOn = sd.showCubes;
+		allowZeroToggle.onValueChanged.AddListener(OnChangeToggle);
+		showCubesToggle.onValueChanged.AddListener(OnChangeToggle);
+		if (sd.useVisionApi)
+		{
+			UnlockVisionApiToggle();
+		}
 
 		saveTimer = saveIntervalSecond;
 	}
 
 	public override SubScene ManualUpdate(float deltaTime)
 	{
+		// 隠しコマンド
+		if (hiddenCommand.Unlocked)
+		{
+			UnlockVisionApiToggle();
+			hiddenCommand.ClearUnlocked();
+		}
+
 		minProblemCountSlider.ManualUpdate(deltaTime);
 		maxProblemCountSlider.ManualUpdate(deltaTime);
 		if (minProblemCountSlider.IntValue > maxProblemCountSlider.IntValue)
@@ -45,6 +61,7 @@ public class SettingsSubScene : SubScene
 			subScene.ManualStart(main);
 			ret = subScene;
 			Save();
+			main.ResetTextRecognizer();
 		}
 		else
 		{
@@ -63,6 +80,13 @@ public class SettingsSubScene : SubScene
 	bool dirty = false;
 	float saveTimer;
 
+	void UnlockVisionApiToggle()
+	{
+		visionApiToggle.gameObject.SetActive(true);
+		visionApiToggle.isOn = main.SaveData.useVisionApi;
+		visionApiToggle.onValueChanged.AddListener(OnChangeToggle);
+	}
+
 	void Save()
 	{
 		if (dirty)
@@ -73,7 +97,11 @@ public class SettingsSubScene : SubScene
 			sd.secondsPerProblem = timeSlider.IntValue;
 			sd.allowZero = allowZeroToggle.isOn;
 			sd.showCubes = showCubesToggle.isOn;
-			sd.Save();
+			if (visionApiToggle.gameObject.activeInHierarchy)
+			{
+				sd.useVisionApi = visionApiToggle.isOn;
+			}
+			main.Save();
 			dirty = false;
 		}
 		saveTimer = saveIntervalSecond;
@@ -82,5 +110,10 @@ public class SettingsSubScene : SubScene
 	void OnChange()
 	{
 		dirty = true;
+	}
+
+	void OnChangeToggle(bool unused)
+	{
+		OnChange();
 	}
 }

@@ -144,6 +144,19 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			title.ManualStart(main);
 			nextScene = title;
 		}
+
+		// MLKitなら認識しっぱなし
+		if (!main.TextRecognizer.UsingVisionApi)
+		{
+			if (!main.TextRecognizer.Requested || main.TextRecognizer.IsDone())
+			{
+				if (evaluationCoroutine == null)
+				{
+					evaluationCoroutine = StartCoroutine(CoRequestEvaluation());
+				}
+			}
+		}
+
 		return nextScene;
 	}
 
@@ -169,7 +182,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			pointerId);
 		if (eval)
 		{
-			StartCoroutine(CoRequestEvaluation());
+			evaluationCoroutine = StartCoroutine(CoRequestEvaluation());
 		}
 		justErased = false;
 	}
@@ -225,70 +238,72 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	{
 		ui.EndLoading();
 		ClearAnnotations();
-
-		var zones = activeFormula.AnswerZones;
-Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length);
-		var zoneMins = new Vector2[zones.Length];
-		var zoneMaxs = new Vector2[zones.Length];
-		for (var i = 0; i < zones.Length; i++)
+		if (evaluationRequestQuestionIndex == questionIndex) // もう次の問題行ってるので評価しない
 		{
-
-			Vector2 zoneMin, zoneMax;
-			zones[i].GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
-			zoneMins[i] = zoneMin;
-			zoneMaxs[i] = zoneMax;
-		}
-
-		var correctValues = new int[zones.Length];
-		if ((settings.operation == Operation.Addition) && settings.useSpecialFormula && (zones.Length == 3))
-		{
-			correctValues[0] = subAnswer0;
-			correctValues[1] = subAnswer1;
-			correctValues[2] = answer;
-		}
-		else
-		{
-			correctValues[0] = settings.invertOperation ? operand1 : answer;
-		}
-		var correctCount = 0;
-		foreach (var word in words)
-		{
-Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
-			var minD = float.MaxValue;
-			var minI = -1;
-			for (var zoneIndex = 0; zoneIndex < zones.Length; zoneIndex++)
+			var zones = activeFormula.AnswerZones;
+	Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length + " " + evaluationRequestQuestionIndex + " " + questionIndex);
+			var zoneMins = new Vector2[zones.Length];
+			var zoneMaxs = new Vector2[zones.Length];
+			for (var i = 0; i < zones.Length; i++)
 			{
-				var zoneMin = zoneMins[zoneIndex];
-				var zoneMax = zoneMaxs[zoneIndex];
-Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" + Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax));
-				if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
+
+				Vector2 zoneMin, zoneMax;
+				zones[i].GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
+				zoneMins[i] = zoneMin;
+				zoneMaxs[i] = zoneMax;
+			}
+
+			var correctValues = new int[zones.Length];
+			if ((settings.operation == Operation.Addition) && settings.useSpecialFormula && (zones.Length == 3))
+			{
+				correctValues[0] = subAnswer0;
+				correctValues[1] = subAnswer1;
+				correctValues[2] = answer;
+			}
+			else
+			{
+				correctValues[0] = settings.invertOperation ? operand1 : answer;
+			}
+			var correctCount = 0;
+			foreach (var word in words)
+			{
+Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
+				var minD = float.MaxValue;
+				var minI = -1;
+				for (var zoneIndex = 0; zoneIndex < zones.Length; zoneIndex++)
 				{
-					var d = (((word.boundsMin + word.boundsMax) - (zoneMin + zoneMax)) * 0.5f).magnitude;
-					if (d < minD)
+					var zoneMin = zoneMins[zoneIndex];
+					var zoneMax = zoneMaxs[zoneIndex];
+Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" + Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax));
+					if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
 					{
-						minD = d;
-						minI = zoneIndex;
+						var d = (((word.boundsMin + word.boundsMax) - (zoneMin + zoneMax)) * 0.5f).magnitude;
+						if (d < minD)
+						{
+							minD = d;
+							minI = zoneIndex;
+						}
 					}
 				}
-			}
 
-			if (minI >= 0)
-			{
-Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
-				var letters = new List<Evaluator.EvaluatedLetter>();
-				if (Evaluator.EvaluateWord(letters, word, correctValues[minI]))
+				if (minI >= 0)
 				{
-					correctCount++;
+Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
+					var letters = new List<Evaluator.EvaluatedLetter>();
+					if (Evaluator.EvaluateWord(letters, word, correctValues[minI]))
+					{
+						correctCount++;
+					}
+					ShowAnnotations(letters);
 				}
-				ShowAnnotations(letters);
+			}
+
+			if (correctCount == zones.Length)
+			{
+				nextRequested = true;
 			}
 		}
-
-		if (correctCount == zones.Length)
-		{
-			nextRequested = true;
-		}
-
+		evaluationCoroutine = null;
 	}
 
 	// non public -------
@@ -315,6 +330,8 @@ Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 	Formula activeFormula;
 	bool justErased;
 	float timeLimit;
+	Coroutine evaluationCoroutine;
+	int evaluationRequestQuestionIndex;
 
 	struct Question
 	{
@@ -349,7 +366,7 @@ Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 			{
 				if (duration >= timeLimit)
 				{
-					Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.minProblemCount + " " + sd.timeMinute);
+					Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.minProblemCount);
 					break;
 				}
 			}
@@ -410,7 +427,8 @@ if (Input.GetKeyDown(KeyCode.S))
 		{
 			yield break;
 		}
-
+Debug.Log(Time.frameCount + " " + ": CoRequestEvaluation");
+		evaluationRequestQuestionIndex = questionIndex;
 		yield return main.CoSaveRenderTexture();
 
 		var tex = main.SavedTexture;

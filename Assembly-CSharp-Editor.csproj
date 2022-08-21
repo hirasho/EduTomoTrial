@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/Scripts/Editor/ScreenCapture.cs" />
+     <Compile Include="Assets/Scripts/Editor/CallStackBuildProcess.cs" />
      <None Include="Assets/ExternalDependencyManager/Editor/external-dependency-manager_version-1.2.172_manifest.txt" />
      <None Include="Assets/MLKitWrapper/Editor/MLKitWrapperDependencies.xml" />
      <None Include="Assets/Firebase/Editor/FirebaseAnalytics_version-9.4.0_manifest.txt" />

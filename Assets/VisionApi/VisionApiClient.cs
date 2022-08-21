@@ -15,6 +15,11 @@ namespace VisionApi
 			this.apiKey = apiKey;
 		}
 
+		public void Dispose()
+		{
+			Abort();
+		}
+
 		public bool IsDone()
 		{
 			var ret = false;

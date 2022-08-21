@@ -36,7 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/Scripts/Utils.cs" />
+     <Compile Include="Assets/Scripts/System/Utils.cs" />
      <Compile Include="Assets/Scripts/Formula.cs" />
      <Compile Include="Assets/Scripts/DrawingManager.cs" />
      <Compile Include="Assets/Scripts/Ui/MainUi.cs" />
@@ -44,7 +44,7 @@
      <Compile Include="Assets/Scripts/CountingObject.cs" />
      <Compile Include="Assets/Scripts/SubScene.cs" />
      <Compile Include="Assets/TextRecognition/TextRecognizer.cs" />
-     <Compile Include="Assets/Scripts/Keys.cs" />
+     <Compile Include="Assets/Scripts/System/Keys.cs" />
      <Compile Include="Assets/Scripts/Evaluator.cs" />
      <Compile Include="Assets/Scripts/AnswerZone.cs" />
      <Compile Include="Assets/Scripts/SubScens/QuestionSubScene.cs" />
@@ -59,19 +59,23 @@
      <Compile Include="Assets/Scripts/SubScens/FreeDrawSubScene.cs" />
      <Compile Include="Assets/Scripts/Eraser.cs" />
      <Compile Include="Assets/Scripts/SubScens/TitleSubScene.cs" />
-     <Compile Include="Assets/Scripts/SaveDataPathUtil.cs" />
+     <Compile Include="Assets/Scripts/System/SaveDataPathUtil.cs" />
      <Compile Include="Assets/VisionApi/VisionApiClient.cs" />
      <Compile Include="Assets/VisionApi/VisionApiData.cs" />
      <Compile Include="Assets/Scripts/SaveData.cs" />
-     <Compile Include="Assets/Scripts/LineMeshGenerator.cs" />
+     <Compile Include="Assets/Scripts/System/LineMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/SubScens/LogViewSubScene.cs" />
-     <Compile Include="Assets/Scripts/TouchDetector.cs" />
+     <Compile Include="Assets/Scripts/System/TouchDetector.cs" />
      <Compile Include="Assets/Scripts/Main.cs" />
      <Compile Include="Assets/Scripts/ILinePointerEventReceiver.cs" />
      <Compile Include="Assets/Scripts/Ui/UiDigit.cs" />
      <Compile Include="Assets/Scripts/SoundPlayer.cs" />
      <Compile Include="Assets/Scripts/Crane.cs" />
      <Compile Include="Assets/Scripts/Line.cs" />
+     <Compile Include="Assets/Scripts/System/XorEncrypter.cs" />
+     <Compile Include="Assets/Scripts/KeysSecret.cs" />
+     <Compile Include="Assets/Scripts/System/HiddenCommand.cs" />
+     <Compile Include="Assets/Scripts/TextureRenderer.cs" />
      <None Include="Assets/Firebase/m2repository/com/google/firebase/firebase-app-unity/maven-metadata.xml" />
      <None Include="Assets/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/maven-metadata.xml" />
      <None Include="Assets/Shaders/TransparentColor.shader" />
