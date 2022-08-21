@@ -4,6 +4,8 @@
 	<androidPackages>
 		<androidPackage spec="com.google.android.gms:play-services-mlkit-text-recognition:18.0.0">
 		</androidPackage>
+		<androidPackage spec="com.google.mlkit:text-recognition:16.0.0-beta5">
+		</androidPackage>
 		<androidPackage spec="com.google.code.gson:gson:2.9.1">
 		</androidPackage>
 	</androidPackages>

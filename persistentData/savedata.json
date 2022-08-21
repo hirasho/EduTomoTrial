@@ -1,8 +1,0 @@
-{
-    "minProblemCount": 15,
-    "maxProblemCount": 20,
-    "timeMinute": 30,
-    "secondsPerProblem": 3,
-    "allowZero": false,
-    "showCubes": false
-}

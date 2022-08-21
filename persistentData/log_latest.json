@@ -16085,6 +16085,53 @@
             "description": "x*y(<=9)",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "5+5",
+                    "duration": 2.5576679706573488,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "0+0",
+                    "duration": 2.1326260566711427,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+0",
+                    "duration": 4.189669132232666,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "1+6",
+                    "duration": 2.232980966567993,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "1+4",
+                    "duration": 2.50547194480896,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/21/2022 8:46:22 PM",
+            "duration": 13.662528038024903,
+            "averageDuration": 2.7325055599212648,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x+?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
         }
     ]
 }

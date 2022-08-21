@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using Firebase;
 using Firebase.Analytics;
 using Firebase.Extensions;
@@ -13,27 +11,29 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	[SerializeField] float lineWidthMm = 1f; 
 	[SerializeField] float minDpi = 100f; 
 	[SerializeField] float maxDpi = 500f;
-	[SerializeField] int renderTextureHeight = 432;
 	[SerializeField] string defaultUserName = "平山オトモ";
 	[SerializeField] System.DateTime defaultBirthday = new System.DateTime(2015, 12, 20);
 	[SerializeField] Transform subSceneRoot;
 	[SerializeField] new Camera camera;
-	[SerializeField] Camera renderTextureCamera;
 	[SerializeField] TouchDetector touchDetector;
 	[SerializeField] SoundPlayer soundPlayer;
 	[SerializeField] Annotation annotationPrefab;
-	[SerializeField] MLKitWrapper mlKit;
+	[SerializeField] TextRecognizer textRecognizer;
+	[SerializeField] RawImage noiseBackground;
+	[SerializeField] Text recognitionHintForVisionApi;
+	[SerializeField] TextureRenderer textureRenderer;
 
 	public TouchDetector TouchDetector { get => touchDetector; }
 	public SoundPlayer SoundPlayer { get => soundPlayer; }
-	public VisionApi.Client VisionApi { get => visionApi; }
+	public TextRecognizer TextRecognizer { get => textRecognizer; }
 	public Camera MainCamera { get => camera; }
-	public Camera RenderTextureCamera { get => renderTextureCamera; }
+	public Camera RenderTextureCamera { get => textureRenderer.Camera; }
 	public LogData LogData { get; private set; }
 	public string UserName { get => defaultUserName; }
 	public System.DateTime Birthday { get => defaultBirthday; }
 	public SaveData SaveData { get => saveData; }
-	public Texture2D SavedTexture { get => savedTexture; }
+	public Texture2D SavedTexture { get => textureRenderer.SavedTexture; }
+	public Keys Keys { get => keys; }
 
 	public float DefaultLineWidth { get => ConvertMilliMeterToWorldUnit(lineWidthMm); }
 
@@ -57,39 +57,10 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	public IEnumerator CoSaveRenderTexture()
 	{
-		renderTextureCamera.enabled = true;
-		yield return new WaitForEndOfFrame();
-
-		Graphics.SetRenderTarget(renderTexture, 0);
-		savedTexture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), destX: 0, destY: 0);
-		renderTextureCamera.enabled = false;
-
-		var jpg = savedTexture.EncodeToJPG();
-#if UNITY_EDITOR
-System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
-#endif
+		yield return textureRenderer.CoRender();
 	}
 
-	public RectInt GetRectInRenderTexture(AnswerZone answerZone)
-	{
-		var min = Vector2.one * float.MaxValue;
-		var max = -min;
-		foreach (var rectTransform in answerZone.RectTransforms)
-		{
-			var wp = rectTransform.position;
-			var sp = renderTextureCamera.WorldToScreenPoint(wp);
-//Debug.Log(wp.ToString("F2") + " -> " + sp);
-			min = Vector2.Min(min, sp);
-			max = Vector2.Max(max, sp);
-		}
-		var minX = Mathf.FloorToInt(min.x);
-		var minY = Mathf.FloorToInt(min.y);
-		var maxX = Mathf.CeilToInt(max.x);
-		var maxY = Mathf.CeilToInt(max.y);
-		return new RectInt(minX, minY, maxX - minX, maxY - minY);
-	}
-
-	public Annotation ShowAnnotation(Evaluator.Letter letter, string textOverride, bool correctColor, Transform parent)
+	public Annotation ShowAnnotation(TextRecognizer.Letter letter, string textOverride, bool correctColor, Transform parent)
 	{
 		// 頂点抽出
 		var srcVertices = letter.vertices;
@@ -100,8 +71,8 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 		for (var i = 0; i < srcVertices.Count; i++)
 		{
 			var srcV = srcVertices[i];
-			var sp = new Vector3(srcV.x, RenderTextureCamera.targetTexture.height - srcV.y);
-			var ray = RenderTextureCamera.ScreenPointToRay(sp);
+			var sp = new Vector3(srcV.x, textureRenderer.Camera.targetTexture.height - srcV.y);
+			var ray = textureRenderer.Camera.ScreenPointToRay(sp);
 			var t = (0f - ray.origin.y) / ray.direction.y;
 			var wp = ray.origin + (ray.direction * t);
 			center += wp;
@@ -118,26 +89,16 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 
 	void Start()
 	{
-		saveData = SaveData.Load();
 		dpi = Mathf.Clamp(Screen.dpi, minDpi, maxDpi);
 		Debug.Log("DPI: " + Screen.dpi + " -> " + dpi);
 
-		var jsonAsset = Resources.Load<TextAsset>("keys");
-		if (jsonAsset != null)
-		{
-			try
-			{
-				var keys = JsonUtility.FromJson<Keys>(jsonAsset.text);
-				if (!string.IsNullOrEmpty(keys.VisionApiKey))
-				{
-					visionApi = new VisionApi.Client(keys.VisionApiKey);
-				}
-			}
-			catch (System.Exception e)
-			{
-				Debug.LogException(e);
-			}
-		}
+		// 鍵取得
+		this.keys = Keys.Instantiate();
+		saveData = SaveData.Load(keys.SaveDataEncryptionKey);
+
+		textRecognizer.ManualStart(keys.VisionApiKey, saveData.useVisionApi);
+		recognitionHintForVisionApi.enabled = textRecognizer.UsingVisionApi;
+
 		Application.targetFrameRate = 120;
 
 		LogData = new LogData();
@@ -146,11 +107,7 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 		titleSubScene.ManualStart(this);
 		subScene = titleSubScene;
 
-		var w = (renderTextureHeight * 16) / 9;
-		renderTexture = new RenderTexture(w, renderTextureHeight, 0);
-		renderTextureCamera.targetTexture = renderTexture;
-		renderTextureCamera.enabled = false;
-		savedTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+		textureRenderer.ManualStart();
 
 		// Firebase
 		FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => 
@@ -193,11 +150,42 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 
 		AdjustCameraHeight();
 
-		if ((visionApi != null) && visionApi.Requested && visionApi.IsDone())
+		if ((textRecognizer != null) && textRecognizer.Requested && textRecognizer.IsDone())
 		{
-			subScene.OnVisionApiDone(visionApi.Response);
-			visionApi.Complete();
+			var result = textRecognizer.GetResult();
+			textRecognizer.Abort(); // 結果破棄
+			if (result != null)
+			{
+				subScene.OnTextRecognitionComplete(result);
+			}
+			else
+			{
+				Debug.LogError("TextRecognizer.GetResult returns null.");
+			}
 		}
+
+		// MLKit対策
+		noiseBackground.uvRect = new Rect(
+			Random.value * 0.5f,
+			Random.value * 0.5f,
+			0.5f,
+			0.5f);
+	}
+
+	public void Save()
+	{
+		saveData.Save(keys.SaveDataEncryptionKey);		
+	}
+
+	public void ResetTextRecognizer()
+	{
+		TextRecognizer.TryReset(keys.VisionApiKey, saveData.useVisionApi);
+		recognitionHintForVisionApi.enabled = textRecognizer.UsingVisionApi;
+	}
+
+	public RectInt GetRectInRenderTexture(AnswerZone answerZone)
+	{
+		return textureRenderer.GetRect(answerZone);
 	}
 
 	public static bool BoundsIntersect(Vector2 min0, Vector2 max0, Vector2 min1, Vector2 max1)
@@ -227,12 +215,10 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 
 
 	// non public -------
-	VisionApi.Client visionApi;
 	SubScene subScene;
 	float dpi;
 	SaveData saveData;
-	RenderTexture renderTexture;
-	Texture2D savedTexture;
+	Keys keys;
 
 	float ConvertMilliMeterToWorldUnit(float milliMeter)
 	{
@@ -318,19 +304,4 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 		y /= Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * 0.5f);
 		camera.transform.localPosition = new Vector3(0f, y, 0f);
 	}
-
-#if UNITY_EDITOR
-	[UnityEditor.CustomEditor(typeof(Main))]
-	class CustomEditor : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			var self = target as Main;
-			base.OnInspectorGUI();
-			EditorGUILayout.ObjectField("RT", self.renderTexture, typeof(RenderTexture), allowSceneObjects: false);
-			EditorGUILayout.ObjectField("TEX", self.savedTexture, typeof(Texture2D), allowSceneObjects: false);
-		}
-	}
-#endif
-
 }

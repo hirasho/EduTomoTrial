@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 using System.Linq;
 
@@ -145,6 +144,19 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			title.ManualStart(main);
 			nextScene = title;
 		}
+
+		// MLKitなら認識しっぱなし
+		if (!main.TextRecognizer.UsingVisionApi)
+		{
+			if (!main.TextRecognizer.Requested || main.TextRecognizer.IsDone())
+			{
+				if (evaluationCoroutine == null)
+				{
+					evaluationCoroutine = StartCoroutine(CoRequestEvaluation());
+				}
+			}
+		}
+
 		return nextScene;
 	}
 
@@ -170,7 +182,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			pointerId);
 		if (eval)
 		{
-			StartCoroutine(CoRequestEvaluation());
+			evaluationCoroutine = StartCoroutine(CoRequestEvaluation());
 		}
 		justErased = false;
 	}
@@ -222,16 +234,14 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		crane.Release();		
 	}
 
-	public override void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
+	public override void OnTextRecognitionComplete(IReadOnlyList<TextRecognizer.Word> words)
 	{
-		if (response != null)
+		ui.EndLoading();
+		ClearAnnotations();
+		if (evaluationRequestQuestionIndex == questionIndex) // もう次の問題行ってるので評価しない
 		{
-			ui.EndLoading();
-			ClearAnnotations();
-
-			var words = Evaluator.ExtractWords(main.VisionApi.Response);
-			
 			var zones = activeFormula.AnswerZones;
+	Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length + " " + evaluationRequestQuestionIndex + " " + questionIndex);
 			var zoneMins = new Vector2[zones.Length];
 			var zoneMaxs = new Vector2[zones.Length];
 			for (var i = 0; i < zones.Length; i++)
@@ -255,7 +265,6 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 				correctValues[0] = settings.invertOperation ? operand1 : answer;
 			}
 			var correctCount = 0;
-Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length);
 			foreach (var word in words)
 			{
 Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
@@ -294,6 +303,7 @@ Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 				nextRequested = true;
 			}
 		}
+		evaluationCoroutine = null;
 	}
 
 	// non public -------
@@ -320,6 +330,8 @@ Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 	Formula activeFormula;
 	bool justErased;
 	float timeLimit;
+	Coroutine evaluationCoroutine;
+	int evaluationRequestQuestionIndex;
 
 	struct Question
 	{
@@ -354,7 +366,7 @@ Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 			{
 				if (duration >= timeLimit)
 				{
-					Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.minProblemCount + " " + sd.timeMinute);
+					Debug.Log("Break1 " + questionIndex + " " + duration + " " + sd.minProblemCount);
 					break;
 				}
 			}
@@ -383,7 +395,7 @@ Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 		ui.HideHanamaru();
 		ClearLines();
 		ClearAnnotations();
-		main.VisionApi.ClearDiffImage(); // キャッシュ消す
+		main.TextRecognizer.ClearDiffImage();
 		
 		UpdateQuestion();
 		while (!nextRequested)
@@ -411,10 +423,12 @@ if (Input.GetKeyDown(KeyCode.S))
 
 	IEnumerator CoRequestEvaluation()
 	{
-		if (main.VisionApi == null)
+		if (main.TextRecognizer == null)
 		{
 			yield break;
 		}
+Debug.Log(Time.frameCount + " " + ": CoRequestEvaluation");
+		evaluationRequestQuestionIndex = questionIndex;
 		yield return main.CoSaveRenderTexture();
 
 		var tex = main.SavedTexture;
@@ -427,7 +441,7 @@ if (Input.GetKeyDown(KeyCode.S))
 			rects.Add(rect);
 		}
 
-		if (main.VisionApi.Request(tex, rects))
+		if (main.TextRecognizer.Request(tex, rects))
 		{
 			ui.BeginLoading();
 		}

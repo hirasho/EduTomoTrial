@@ -30,7 +30,7 @@ public abstract class SubScene : MonoBehaviour
 	{		
 	}
 
-	public virtual void OnVisionApiDone(VisionApi.BatchAnnotateImagesResponse response)
+	public virtual void OnTextRecognitionComplete(IReadOnlyList<TextRecognizer.Word> words)
 	{
 	}
 }

@@ -14,6 +14,7 @@ public class Line : MonoBehaviour
 		transform.localPosition = new Vector3(0f, baseY, 0f);
 		prevPoint = Vector3.one * float.MaxValue;
 		generator.Width = lineWidth;
+		generator.SetSortingOrder(-100);
 	}
 
 	public void ReplaceMaterial(Material material)

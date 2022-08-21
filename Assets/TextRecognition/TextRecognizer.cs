@@ -20,25 +20,79 @@ public class TextRecognizer : MonoBehaviour
 		public string text;
 	}
 
-	public bool Busy { get; private set; }
+	public bool Requested 
+	{ 
+		get
+		{
+			var ret = false;
+			if ((mlKit != null) && mlKit.Requested)
+			{
+				ret = true;
+			}
+			else if ((visionApi != null) && visionApi.Requested)
+			{
+				return true;
+			}
+			return ret;
+		}
+	}
+	public bool UsingVisionApi { get => (visionApi != null); }
 
-	public void ManualStart(string visionApiKey)
+	public void ManualStart(string visionApiKey, bool useVisionApi)
 	{
-		if (!string.IsNullOrEmpty(visionApiKey))
+		TryReset(visionApiKey, useVisionApi);
+	}
+
+	// 設定変更時
+	public void TryReset(string visionApiKey, bool useVisionApi)
+	{
+		if (!mlKit.Implemented) // MLKitが動かないならvisionAPI有効
+		{
+			useVisionApi = true;
+		}
+
+		if (string.IsNullOrEmpty(visionApiKey)) // 鍵がないなら使えない
+		{
+			useVisionApi = false;
+		}
+
+		if (visionApi != null) // すでにあって
+		{
+			if (!useVisionApi) // VisionAPI → MLKit
+			{
+				visionApi.Dispose();
+				visionApi = null;
+			}
+		}
+		else if (useVisionApi) // MLKit → VisionApi
 		{
 			visionApi = new VisionApi.Client(visionApiKey);
 		}
 	}
 
+	public bool IsDone() // リクエスト投げてなければfalse
+	{
+		var ret = false;
+		if ((visionApi != null) && visionApi.Requested)
+		{
+			ret = visionApi.IsDone();
+		}
+		else if ((mlKit != null) && mlKit.Requested)
+		{
+			ret = mlKit.IsDone();
+		}
+		return ret;
+	}
+
 	public void Abort()
 	{
-		if (requestIsMlkit)
-		{
-
-		}
-		else
+		if ((visionApi != null) && visionApi.Requested)
 		{
 			visionApi.Abort();
+		}
+		else if ((mlKit != null) && mlKit.Requested)
+		{
+			mlKit.Abort();
 		}
 	}
 
@@ -56,14 +110,8 @@ public class TextRecognizer : MonoBehaviour
 
 	public IReadOnlyList<Word> GetResult()
 	{
-		Debug.Assert(!Busy);
-
 		List<Word> ret = null;
-		if (requestIsMlkit)
-		{
-
-		}
-		else
+		if ((visionApi != null) && visionApi.Requested)
 		{
 			if (visionApi.IsDone())
 			{
@@ -74,43 +122,69 @@ public class TextRecognizer : MonoBehaviour
 				}
 			}
 		}
+		else if ((mlKit != null) && mlKit.Requested)
+		{
+			if (mlKit.IsDone())
+			{
+				var result = mlKit.GetResult();
+				if ((result != null) && (result.textBlocks != null))
+				{
+					ret = new List<Word>();
+					foreach (var block in result.textBlocks)
+					{
+						if (block != null)
+						{
+							ProcessTextBlock(block, ret);
+						}
+					}
+				}
+			}
+		}
 		return ret;
-	} 
+	}
 
 	public bool Request(Texture2D texture, IReadOnlyList<RectInt> rects)
 	{
-		requestIsMlkit = false;
 		// dirty判定
 		var dirty = false;
 		var pixels = texture.GetPixels32();
 		var width = texture.width;
 		var height = texture.height;
-		// なければor解像度違えば作って真っ白で埋める
-		if ((prevPixels == null) || (pixels.Length != prevPixels.Length))
+
+		if ((mlKit != null) && mlKit.Implemented) // MLKitならdirty判定しない
 		{
-			prevPixels = new Color32[width * height];
-			prevWidth = width;
-			ClearDiffImage();
+			dirty = true;
 		}
 
-		if ((rects == null) || (rects.Count == 0))
+		if (!dirty)
 		{
-			dirty = FindDiff(
-				prevPixels, 
-				prevWidth, 
-				pixels, 
-				width, 
-				new RectInt(0, 0, width, height));
-		}
-		else
-		{
-			foreach (var rect in rects)
+			// なければor解像度違えば作って真っ白で埋める
+			if ((prevPixels == null) || (pixels.Length != prevPixels.Length))
 			{
-				if (FindDiff(prevPixels, prevWidth, pixels, width, rect))
+				prevPixels = new Color32[width * height];
+				prevWidth = width;
+				ClearDiffImage();
+			}
+
+			if ((rects == null) || (rects.Count == 0))
+			{
+				dirty = FindDiff(
+					prevPixels, 
+					prevWidth, 
+					pixels, 
+					width, 
+					new RectInt(0, 0, width, height));
+			}
+			else
+			{
+				foreach (var rect in rects)
 				{
-					dirty = true;
-					break;
-				} 
+					if (FindDiff(prevPixels, prevWidth, pixels, width, rect))
+					{
+						dirty = true;
+						break;
+					} 
+				}
 			}
 		}
 		prevPixels = pixels;
@@ -121,21 +195,14 @@ public class TextRecognizer : MonoBehaviour
 			return false;
 		}
 
-		if (Busy) // 前のが終わってないので止める
-		{
-			Abort();
-		}
-
 		var ret = false;
-		if (mlKit.Enabled)
-		{
-			ret = mlKit.RecognizeText(width, height, pixels);
-			requestIsMlkit = true;
-		}
-
-		if (!ret && (visionApi != null))
+		if (visionApi != null)
 		{
 			ret = visionApi.Request(texture);
+		}
+		else if ((mlKit != null) && mlKit.Implemented)
+		{
+			ret = mlKit.RecognizeText(width, height, pixels);
 		}
 		return ret;
 	}
@@ -144,7 +211,6 @@ public class TextRecognizer : MonoBehaviour
 	VisionApi.Client visionApi;
 	Color32[] prevPixels;
 	int prevWidth;
-	bool requestIsMlkit;
 
 	static bool FindDiff(Color32[] texels0, int width0, Color32[] texels1, int width1, RectInt rect)
 	{
@@ -161,17 +227,6 @@ public class TextRecognizer : MonoBehaviour
 					break;
 				}
 			}
-		}
-		return ret;
-	}
-
-
-	public static IList<Word> ExtractWords(VisionApi.BatchAnnotateImagesResponse batchResponses)
-	{
-		var ret = new List<Word>();
-		foreach (var response in batchResponses.responses)
-		{
-			ProcessTextAnnotation(response.fullTextAnnotation, ret);
 		}
 		return ret;
 	}
@@ -199,11 +254,11 @@ public class TextRecognizer : MonoBehaviour
 	{
 		foreach (var paragraph in block.paragraphs)
 		{
-			ProcessParagraphs(paragraph, wordsOut);
+			ProcessParagraph(paragraph, wordsOut);
 		}
 	}
 
-	static void ProcessParagraphs(VisionApi.Paragraph paragraph, List<Word> wordsOut)
+	static void ProcessParagraph(VisionApi.Paragraph paragraph, List<Word> wordsOut)
 	{
 		foreach (var word in paragraph.words)
 		{
@@ -251,5 +306,56 @@ public class TextRecognizer : MonoBehaviour
 
 		ret.text = symbol.text;
 		return ret;
+	}
+
+	static void ProcessTextBlock(MLKitWrapper.TextBlock textBlock, List<Word> wordsOut)
+	{
+		foreach (var line in textBlock.lines)
+		{
+			if (line != null)
+			{
+				ProcessLine(line, wordsOut);
+			}
+		}
+	}
+
+	static void ProcessLine(MLKitWrapper.Line line, List<Word> wordsOut)
+	{
+		foreach (var element in line.elements)
+		{
+			if (element != null)
+			{
+				ProcessElement(element, wordsOut);
+			}
+		}
+	}
+
+	static void ProcessElement(MLKitWrapper.Element element, List<Word> wordsOut)
+	{
+		var word = new Word();
+		word.letters = new List<Letter>();
+		word.boundsMin = new Vector2(element.boundingBox.left, element.boundingBox.top);
+		word.boundsMax = new Vector2(element.boundingBox.right, element.boundingBox.bottom);
+		Debug.Assert(word.boundsMin.x < word.boundsMax.x);
+		Debug.Assert(word.boundsMin.y < word.boundsMax.y);
+		var text = element.text;
+		word.text = text;
+
+		// Letterはここでは雑に分割する。後でLetterなしにするかもしれない
+		var width = word.boundsMax.x - word.boundsMin.x;
+		for (var i = 0; i < text.Length; i++)
+		{
+			var letter = new Letter();
+			letter.vertices = new List<Vector2>();
+			var x0 = word.boundsMin.x + (width * (float)i / (float)text.Length);
+			var x1 = word.boundsMin.x + (width * (float)(i + 1) / (float)text.Length);
+			letter.vertices.Add(new Vector2(x0 + 2, word.boundsMin.y + 2));
+			letter.vertices.Add(new Vector2(x1 - 2, word.boundsMin.y + 2));
+			letter.vertices.Add(new Vector2(x1 - 2, word.boundsMax.y - 2));
+			letter.vertices.Add(new Vector2(x0 + 2, word.boundsMax.y - 2));
+			letter.text = new string(text[i], 1);
+			word.letters.Add(letter);
+		}
+		wordsOut.Add(word);
 	}
 }
