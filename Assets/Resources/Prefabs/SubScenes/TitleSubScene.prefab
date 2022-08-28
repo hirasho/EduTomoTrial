@@ -1234,12 +1234,12 @@ PrefabInstance:
     - target: {fileID: 8812028407605709770, guid: 1330f70184f6847c69a0bf86fbd00607,
         type: 3}
       propertyPath: m_Text
-      value: "\u305F\u3057\u3056\u309320\n10\u3064\u304F\u308B"
+      value: "\u305F\u3057\u3056\u309320\n10\u3064\u304F\u308B(\u5B9F\u9A13\u4E2D)"
       objectReference: {fileID: 0}
     - target: {fileID: 8812028407605709770, guid: 1330f70184f6847c69a0bf86fbd00607,
         type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1330f70184f6847c69a0bf86fbd00607, type: 3}

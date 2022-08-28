@@ -62,7 +62,6 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	[SerializeField] Formula[] formulae;
 	[SerializeField] Transform lineRoot;
 	[SerializeField] Line linePrefab;
-	[SerializeField] Annotation annotationPrefab;
 	[SerializeField] Canvas paperCanvas;
 	
 	public void ManualStart(
@@ -146,7 +145,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		}
 
 		// MLKitなら認識しっぱなし
-		if (!main.TextRecognizer.UsingVisionApi)
+		if (!main.TextRecognizer.UsingVisionApi && drawingManager.Drawn())
 		{
 			if (!main.TextRecognizer.Requested || main.TextRecognizer.IsDone())
 			{
@@ -241,7 +240,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		if (evaluationRequestQuestionIndex == questionIndex) // もう次の問題行ってるので評価しない
 		{
 			var zones = activeFormula.AnswerZones;
-	Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length + " " + evaluationRequestQuestionIndex + " " + questionIndex);
+//Debug.Log("Evaluation: words=" + words.Count + " zones=" + zones.Length + " " + evaluationRequestQuestionIndex + " " + questionIndex);
 			var zoneMins = new Vector2[zones.Length];
 			var zoneMaxs = new Vector2[zones.Length];
 			for (var i = 0; i < zones.Length; i++)
@@ -264,6 +263,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			{
 				correctValues[0] = settings.invertOperation ? operand1 : answer;
 			}
+
 			var correctCount = 0;
 			foreach (var word in words)
 			{
@@ -427,9 +427,24 @@ if (Input.GetKeyDown(KeyCode.S))
 		{
 			yield break;
 		}
-Debug.Log(Time.frameCount + " " + ": CoRequestEvaluation");
+//Debug.Log(Time.frameCount + " " + ": CoRequestEvaluation");
 		evaluationRequestQuestionIndex = questionIndex;
-		yield return main.CoSaveRenderTexture();
+
+		// 縦横比ランダム変更
+		// まず、-1,1を生成して、そこから1-2の比を作る
+		var scaleSeed = Random.Range(-1f, 0.5f);
+		Vector2 scale;
+		if (scaleSeed < 0f) // 縦長
+		{
+			scale.y = 1f;
+			scale.x = 1f / (1f - scaleSeed);
+		}
+		else
+		{
+			scale.x = 1f;
+			scale.y = 1f / (1f + scaleSeed);
+		}
+		yield return main.CoSaveRenderTexture(scale);
 
 		var tex = main.SavedTexture;
 

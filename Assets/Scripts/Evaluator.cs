@@ -95,7 +95,7 @@ public static class Evaluator
 		{
 			digit = 6;
 		}
-		else if ((c == 'q') || (c == '។') || (c == 'a') || (c == '၄'))
+		else if ((c == 'q') || (c == '។') || (c == 'a') || (c == '၄') || (c == '?'))
 		{
 			digit = 9;
 		}

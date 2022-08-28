@@ -22,6 +22,8 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	[SerializeField] RawImage noiseBackground;
 	[SerializeField] Text recognitionHintForVisionApi;
 	[SerializeField] TextureRenderer textureRenderer;
+	[SerializeField] Canvas debugCanvas;
+	[SerializeField] RawImage debugRtView;
 
 	public TouchDetector TouchDetector { get => touchDetector; }
 	public SoundPlayer SoundPlayer { get => soundPlayer; }
@@ -55,9 +57,9 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		TrySaveLog();
 	}
 
-	public IEnumerator CoSaveRenderTexture()
+	public IEnumerator CoSaveRenderTexture(Vector2 scale)
 	{
-		yield return textureRenderer.CoRender();
+		yield return textureRenderer.CoRender(scale);
 	}
 
 	public Annotation ShowAnnotation(TextRecognizer.Letter letter, string textOverride, bool correctColor, Transform parent)
@@ -71,8 +73,8 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		for (var i = 0; i < srcVertices.Count; i++)
 		{
 			var srcV = srcVertices[i];
-			var sp = new Vector3(srcV.x, textureRenderer.Camera.targetTexture.height - srcV.y);
-			var ray = textureRenderer.Camera.ScreenPointToRay(sp);
+Debug.Log("Anno: " + letter.text + " " + i + " " + srcV);
+			var ray = textureRenderer.Camera.ScreenPointToRay(srcV);
 			var t = (0f - ray.origin.y) / ray.direction.y;
 			var wp = ray.origin + (ray.direction * t);
 			center += wp;
@@ -97,7 +99,8 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		saveData = SaveData.Load(keys.SaveDataEncryptionKey);
 
 		textRecognizer.ManualStart(keys.VisionApiKey, saveData.useVisionApi);
-		recognitionHintForVisionApi.enabled = textRecognizer.UsingVisionApi;
+//		recognitionHintForVisionApi.enabled = textRecognizer.UsingVisionApi;
+		recognitionHintForVisionApi.enabled = true;
 
 		Application.targetFrameRate = 120;
 
@@ -136,7 +139,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		}
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
-			StartCoroutine(CoSaveRenderTexture());
+			StartCoroutine(CoSaveRenderTexture(Vector2.one));
 		}
 #endif
 		var dt = Time.deltaTime;
@@ -154,8 +157,10 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		{
 			var result = textRecognizer.GetResult();
 			textRecognizer.Abort(); // 結果破棄
+			debugRtView.texture = textureRenderer.RenderTexture;
 			if (result != null)
 			{
+				textureRenderer.TransformToRtScreen(result);
 				subScene.OnTextRecognitionComplete(result);
 			}
 			else

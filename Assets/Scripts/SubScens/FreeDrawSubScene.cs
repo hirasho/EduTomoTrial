@@ -142,7 +142,8 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		{
 			yield break;
 		}
-		yield return main.CoSaveRenderTexture();
+
+		yield return main.CoSaveRenderTexture(Vector2.one);
 
 		var tex = main.SavedTexture;
 

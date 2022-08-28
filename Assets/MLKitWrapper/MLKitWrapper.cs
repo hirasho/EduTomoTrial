@@ -84,7 +84,10 @@ public class MLKitWrapper : MonoBehaviour
 
 	public void Abort()
 	{
+		if (Requested)
+		{
 Debug.Log("MLKit: Abort id=" + waitingRequestId);
+		}
 		Requested = false;
 		waitingRequestId = int.MinValue;
 	}
@@ -141,7 +144,7 @@ Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.C
 			serializedInput = input.Serialize();
 #else
 			var json = JsonUtility.ToJson(input, true);
-Debug.Log("MLKit input jsonSize=" + json.Length + " req=" + Requested);
+//Debug.Log("MLKit input jsonSize=" + json.Length + " req=" + Requested);
 #if UNITY_EDITOR
 System.IO.File.WriteAllText("mlkitInput.json", json);
 #endif
@@ -258,7 +261,7 @@ Debug.Log("MLKitWrapper.OnComplete: json\n" + outputJson);
 			{
 				result = output.text;
 				ErrorMessage = null;
-Debug.LogError("\tSuccess " + output.text.textBlocks.Length + " " + output.text.text);
+//Debug.LogError("\tSuccess " + output.text.textBlocks.Length + " " + output.text.text);
 			}
 			else
 			{

@@ -22,6 +22,22 @@ public class DrawingManager
 		pointers = new Dictionary<int, Pointer>();
 	}
 
+	public bool Drawn()
+	{
+		var ret = false;
+		foreach (var pointer in pointers.Values)
+		{
+			var lines = pointer.lines;
+			if (lines.Count > 0)
+			{
+				ret = true;
+				break;
+			}
+		}
+		return ret;
+	}
+
+
 	public void ManualUpdate(
 		ref Vector3 eraserPosition,
 		TouchDetector touchDetector, 
@@ -119,6 +135,11 @@ public class DrawingManager
 		{
 			evaluationRequested = false;
 		}
+
+		if (!Drawn()) // 消したとしても線が0なら評価不要
+		{
+			evaluationRequested = false;
+		}
 	}
 
 	public void RemoveLine(
@@ -158,18 +179,6 @@ public class DrawingManager
 				GameObject.Destroy(line.gameObject);
 			}
 			lines.Clear();
-		}
-	}
-
-	public IEnumerable<Line> EnumerateLines()
-	{
-		foreach (var pointer in pointers.Values)
-		{
-			var lines = pointer.lines;
-			foreach (var line in lines)
-			{
-				yield return line;
-			}
 		}
 	}
 
