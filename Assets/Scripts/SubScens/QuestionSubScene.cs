@@ -147,7 +147,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		// MLKitなら認識しっぱなし
 		if (!main.TextRecognizer.UsingVisionApi && drawingManager.Drawn())
 		{
-			if (!main.TextRecognizer.Requested || main.TextRecognizer.IsDone())
+			if (!main.TextRecognizer.IsBusy())
 			{
 				if (evaluationCoroutine == null)
 				{
@@ -233,7 +233,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		crane.Release();		
 	}
 
-	public override void OnTextRecognitionComplete(IReadOnlyList<TextRecognizer.Word> words)
+	public override void OnTextRecognitionComplete(TextRecognizer.Text text)
 	{
 		ui.EndLoading();
 		ClearAnnotations();
@@ -265,16 +265,16 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 			}
 
 			var correctCount = 0;
-			foreach (var word in words)
+			foreach (var word in text.words)
 			{
-Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
+//Debug.Log("Word: " + word.text + " -> " + word.boundsMin + " " + word.boundsMax);
 				var minD = float.MaxValue;
 				var minI = -1;
 				for (var zoneIndex = 0; zoneIndex < zones.Length; zoneIndex++)
 				{
 					var zoneMin = zoneMins[zoneIndex];
 					var zoneMax = zoneMaxs[zoneIndex];
-Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" + Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax));
+//Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" + Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax));
 					if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
 					{
 						var d = (((word.boundsMin + word.boundsMax) - (zoneMin + zoneMax)) * 0.5f).magnitude;
@@ -288,7 +288,7 @@ Debug.Log("\tZone: " + zoneIndex + " " + zoneMin + " " + zoneMax + " collide:" +
 
 				if (minI >= 0)
 				{
-Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
+//Debug.Log(word.text + " -> " + minI + " " + minD + " " + correctValues[minI]);
 					var letters = new List<Evaluator.EvaluatedLetter>();
 					if (Evaluator.EvaluateWord(letters, word, correctValues[minI]))
 					{

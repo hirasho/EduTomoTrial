@@ -99,14 +99,14 @@ public class FreeDrawSubScene : SubScene, IEraserEventReceiver
 		drawingManager.RemoveLine(ref eraseCount, ref justErased, line);
 	}
 
-	public override void OnTextRecognitionComplete(IReadOnlyList<TextRecognizer.Word> words)
+	public override void OnTextRecognitionComplete(TextRecognizer.Text text)
 	{
 		ClearAnnotations();
 
 		Vector2 zoneMin, zoneMax;
 		answerZone.GetScreenBounds(out zoneMin, out zoneMax, main.RenderTextureCamera);
 
-		foreach (var word in words)
+		foreach (var word in text.words)
 		{
 			if (Main.BoundsIntersect(word.boundsMin, word.boundsMax, zoneMin, zoneMax))
 			{

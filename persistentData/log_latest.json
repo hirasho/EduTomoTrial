@@ -16790,6 +16790,2262 @@
             "description": "x-y(<=10)",
             "userName": "平山オトモ",
             "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8*1",
+                    "duration": 2.3291640281677248,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "2*3",
+                    "duration": 2.1345748901367189,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3*2",
+                    "duration": 4.95648717880249,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "9*8",
+                    "duration": 3.280893087387085,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4*1",
+                    "duration": 2.5430870056152345,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:48:01 PM",
+            "duration": 16.084949493408204,
+            "averageDuration": 3.2169899940490724,
+            "operand0min": 1,
+            "operand0max": 9,
+            "operand1min": 1,
+            "operand1max": 9,
+            "answerMin": 1,
+            "answerMax": 81,
+            "description": "x*y(<=9)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-6",
+                    "duration": 10.694917678833008,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "8-0",
+                    "duration": 5.036632061004639,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-4",
+                    "duration": 7.346014976501465,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "6-5",
+                    "duration": 2.657042980194092,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-6",
+                    "duration": 3.1671249866485597,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:10 PM",
+            "duration": 29.134822845458986,
+            "averageDuration": 5.826964378356934,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-6",
+                    "duration": 10.694917678833008,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "8-0",
+                    "duration": 5.036632061004639,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-4",
+                    "duration": 7.346014976501465,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "6-5",
+                    "duration": 2.657042980194092,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-6",
+                    "duration": 3.1671249866485597,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:10 PM",
+            "duration": 29.134822845458986,
+            "averageDuration": 5.826964378356934,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+9",
+                    "duration": 2.60064697265625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+10",
+                    "duration": 3.5416901111602785,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+7",
+                    "duration": 2.1292688846588136,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+8",
+                    "duration": 2.6330299377441408,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+10",
+                    "duration": 5.163575172424316,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:42 PM",
+            "duration": 16.152523040771486,
+            "averageDuration": 3.2305045127868654,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-6",
+                    "duration": 10.694917678833008,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "8-0",
+                    "duration": 5.036632061004639,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-4",
+                    "duration": 7.346014976501465,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "6-5",
+                    "duration": 2.657042980194092,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-6",
+                    "duration": 3.1671249866485597,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:10 PM",
+            "duration": 29.134822845458986,
+            "averageDuration": 5.826964378356934,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+9",
+                    "duration": 2.60064697265625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+10",
+                    "duration": 3.5416901111602785,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+7",
+                    "duration": 2.1292688846588136,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+8",
+                    "duration": 2.6330299377441408,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+10",
+                    "duration": 5.163575172424316,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:42 PM",
+            "duration": 16.152523040771486,
+            "averageDuration": 3.2305045127868654,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-9",
+                    "duration": 2.952003002166748,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "15-7",
+                    "duration": 11.216568946838379,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "11-2",
+                    "duration": 8.996482849121094,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "13-10",
+                    "duration": 2.1233038902282717,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "11-1",
+                    "duration": 2.7920711040496828,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:00 PM",
+            "duration": 28.243574142456056,
+            "averageDuration": 5.648715019226074,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-6",
+                    "duration": 10.694917678833008,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "8-0",
+                    "duration": 5.036632061004639,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-4",
+                    "duration": 7.346014976501465,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "6-5",
+                    "duration": 2.657042980194092,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-6",
+                    "duration": 3.1671249866485597,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:10 PM",
+            "duration": 29.134822845458986,
+            "averageDuration": 5.826964378356934,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+9",
+                    "duration": 2.60064697265625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+10",
+                    "duration": 3.5416901111602785,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+7",
+                    "duration": 2.1292688846588136,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+8",
+                    "duration": 2.6330299377441408,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+10",
+                    "duration": 5.163575172424316,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:42 PM",
+            "duration": 16.152523040771486,
+            "averageDuration": 3.2305045127868654,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-9",
+                    "duration": 2.952003002166748,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "15-7",
+                    "duration": 11.216568946838379,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "11-2",
+                    "duration": 8.996482849121094,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "13-10",
+                    "duration": 2.1233038902282717,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "11-1",
+                    "duration": 2.7920711040496828,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:00 PM",
+            "duration": 28.243574142456056,
+            "averageDuration": 5.648715019226074,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-8",
+                    "duration": 2.538651943206787,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3-2",
+                    "duration": 6.8018598556518559,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-1",
+                    "duration": 3.016356945037842,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-5",
+                    "duration": 3.1128499507904054,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-5",
+                    "duration": 22.87896156311035,
+                    "strokes": 3,
+                    "erased": 2
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:36 PM",
+            "duration": 38.98153305053711,
+            "averageDuration": 7.796306610107422,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-6",
+                    "duration": 10.694917678833008,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "8-0",
+                    "duration": 5.036632061004639,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-4",
+                    "duration": 7.346014976501465,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "6-5",
+                    "duration": 2.657042980194092,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-6",
+                    "duration": 3.1671249866485597,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:10 PM",
+            "duration": 29.134822845458986,
+            "averageDuration": 5.826964378356934,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+9",
+                    "duration": 2.60064697265625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+10",
+                    "duration": 3.5416901111602785,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+7",
+                    "duration": 2.1292688846588136,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+8",
+                    "duration": 2.6330299377441408,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+10",
+                    "duration": 5.163575172424316,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:42 PM",
+            "duration": 16.152523040771486,
+            "averageDuration": 3.2305045127868654,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-9",
+                    "duration": 2.952003002166748,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "15-7",
+                    "duration": 11.216568946838379,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "11-2",
+                    "duration": 8.996482849121094,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "13-10",
+                    "duration": 2.1233038902282717,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "11-1",
+                    "duration": 2.7920711040496828,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:00 PM",
+            "duration": 28.243574142456056,
+            "averageDuration": 5.648715019226074,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-8",
+                    "duration": 2.538651943206787,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3-2",
+                    "duration": 6.8018598556518559,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-1",
+                    "duration": 3.016356945037842,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-5",
+                    "duration": 3.1128499507904054,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-5",
+                    "duration": 22.87896156311035,
+                    "strokes": 3,
+                    "erased": 2
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:36 PM",
+            "duration": 38.98153305053711,
+            "averageDuration": 7.796306610107422,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10-6",
+                    "duration": 6.344017028808594,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-1",
+                    "duration": 2.2601308822631838,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6-1",
+                    "duration": 4.992751121520996,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-7",
+                    "duration": 1.9586689472198487,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-3",
+                    "duration": 2.3037359714508058,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 4:00:17 PM",
+            "duration": 18.504850387573243,
+            "averageDuration": 3.70097017288208,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-6",
+                    "duration": 10.694917678833008,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "8-0",
+                    "duration": 5.036632061004639,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-4",
+                    "duration": 7.346014976501465,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "6-5",
+                    "duration": 2.657042980194092,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-6",
+                    "duration": 3.1671249866485597,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:10 PM",
+            "duration": 29.134822845458986,
+            "averageDuration": 5.826964378356934,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+9",
+                    "duration": 2.60064697265625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+10",
+                    "duration": 3.5416901111602785,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+7",
+                    "duration": 2.1292688846588136,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+8",
+                    "duration": 2.6330299377441408,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+10",
+                    "duration": 5.163575172424316,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:42 PM",
+            "duration": 16.152523040771486,
+            "averageDuration": 3.2305045127868654,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-9",
+                    "duration": 2.952003002166748,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "15-7",
+                    "duration": 11.216568946838379,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "11-2",
+                    "duration": 8.996482849121094,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "13-10",
+                    "duration": 2.1233038902282717,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "11-1",
+                    "duration": 2.7920711040496828,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:00 PM",
+            "duration": 28.243574142456056,
+            "averageDuration": 5.648715019226074,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-8",
+                    "duration": 2.538651943206787,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3-2",
+                    "duration": 6.8018598556518559,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-1",
+                    "duration": 3.016356945037842,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-5",
+                    "duration": 3.1128499507904054,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-5",
+                    "duration": 22.87896156311035,
+                    "strokes": 3,
+                    "erased": 2
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:36 PM",
+            "duration": 38.98153305053711,
+            "averageDuration": 7.796306610107422,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10-6",
+                    "duration": 6.344017028808594,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-1",
+                    "duration": 2.2601308822631838,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6-1",
+                    "duration": 4.992751121520996,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-7",
+                    "duration": 1.9586689472198487,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-3",
+                    "duration": 2.3037359714508058,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 4:00:17 PM",
+            "duration": 18.504850387573243,
+            "averageDuration": 3.70097017288208,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-4",
+                    "duration": 10.277409553527832,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "12-5",
+                    "duration": 3.7208199501037599,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "15-10",
+                    "duration": 2.3930819034576418,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "13-8",
+                    "duration": 2.4249489307403566,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "11-5",
+                    "duration": 2.2951440811157228,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 4:00:37 PM",
+            "duration": 21.78855323791504,
+            "averageDuration": 4.357710838317871,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "8+9",
+                    "duration": 2.543440103530884,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+3",
+                    "duration": 4.450468063354492,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "5+7",
+                    "duration": 5.737133979797363,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9+4",
+                    "duration": 2.7446370124816896,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+10",
+                    "duration": 3.8588080406188967,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:31 PM",
+            "duration": 20.149799346923829,
+            "averageDuration": 4.029959678649902,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6-2",
+                    "duration": 2.5671870708465578,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-4",
+                    "duration": 3.1996309757232668,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "5-0",
+                    "duration": 2.620136022567749,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-10",
+                    "duration": 3.1096019744873049,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9-2",
+                    "duration": 2.1883320808410646,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:57:53 PM",
+            "duration": 14.601751327514649,
+            "averageDuration": 2.9203503131866457,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-6",
+                    "duration": 10.694917678833008,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "8-0",
+                    "duration": 5.036632061004639,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-4",
+                    "duration": 7.346014976501465,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "6-5",
+                    "duration": 2.657042980194092,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8-6",
+                    "duration": 3.1671249866485597,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:10 PM",
+            "duration": 29.134822845458986,
+            "averageDuration": 5.826964378356934,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10+9",
+                    "duration": 2.60064697265625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8+10",
+                    "duration": 3.5416901111602785,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "4+7",
+                    "duration": 2.1292688846588136,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10+8",
+                    "duration": 2.6330299377441408,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7+10",
+                    "duration": 5.163575172424316,
+                    "strokes": 3,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:58:42 PM",
+            "duration": 16.152523040771486,
+            "averageDuration": 3.2305045127868654,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 11,
+            "answerMax": 20,
+            "description": "inv x+?=y(carry)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-9",
+                    "duration": 2.952003002166748,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "15-7",
+                    "duration": 11.216568946838379,
+                    "strokes": 4,
+                    "erased": 2
+                },
+                {
+                    "text": "11-2",
+                    "duration": 8.996482849121094,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "13-10",
+                    "duration": 2.1233038902282717,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "11-1",
+                    "duration": 2.7920711040496828,
+                    "strokes": 2,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:00 PM",
+            "duration": 28.243574142456056,
+            "averageDuration": 5.648715019226074,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "9-8",
+                    "duration": 2.538651943206787,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3-2",
+                    "duration": 6.8018598556518559,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-1",
+                    "duration": 3.016356945037842,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "10-5",
+                    "duration": 3.1128499507904054,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "7-5",
+                    "duration": 22.87896156311035,
+                    "strokes": 3,
+                    "erased": 2
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 3:59:36 PM",
+            "duration": 38.98153305053711,
+            "averageDuration": 7.796306610107422,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(<=10)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "10-6",
+                    "duration": 6.344017028808594,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-1",
+                    "duration": 2.2601308822631838,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "6-1",
+                    "duration": 4.992751121520996,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "10-7",
+                    "duration": 1.9586689472198487,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "9-3",
+                    "duration": 2.3037359714508058,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 4:00:17 PM",
+            "duration": 18.504850387573243,
+            "averageDuration": 3.70097017288208,
+            "operand0min": 0,
+            "operand0max": 10,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-?=y",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-4",
+                    "duration": 10.277409553527832,
+                    "strokes": 2,
+                    "erased": 1
+                },
+                {
+                    "text": "12-5",
+                    "duration": 3.7208199501037599,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "15-10",
+                    "duration": 2.3930819034576418,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "13-8",
+                    "duration": 2.4249489307403566,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "11-5",
+                    "duration": 2.2951440811157228,
+                    "strokes": 1,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 4:00:37 PM",
+            "duration": 21.78855323791504,
+            "averageDuration": 4.357710838317871,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "x-y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "13-8",
+                    "duration": 2.6673779487609865,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "19-9",
+                    "duration": 2.4163599014282228,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "13-5",
+                    "duration": 89.83892822265625,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "14-5",
+                    "duration": 13.907959938049317,
+                    "strokes": 3,
+                    "erased": 2
+                },
+                {
+                    "text": "13-4",
+                    "duration": 6.161067008972168,
+                    "strokes": 4,
+                    "erased": 2
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 4:01:01 PM",
+            "duration": 115.25355529785156,
+            "averageDuration": 23.050710678100587,
+            "operand0min": 11,
+            "operand0max": 20,
+            "operand1min": 0,
+            "operand1max": 10,
+            "answerMin": 0,
+            "answerMax": 10,
+            "description": "inv x-?=y(borrow)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "2*7",
+                    "duration": 2.9627199172973635,
+                    "strokes": 3,
+                    "erased": 0
+                },
+                {
+                    "text": "5*6",
+                    "duration": 3.161350965499878,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "9*2",
+                    "duration": 2.7185521125793459,
+                    "strokes": 2,
+                    "erased": 0
+                },
+                {
+                    "text": "8*7",
+                    "duration": 11.908317565917969,
+                    "strokes": 6,
+                    "erased": 2
+                },
+                {
+                    "text": "9*4",
+                    "duration": 7.721043109893799,
+                    "strokes": 3,
+                    "erased": 1
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 5:06:20 PM",
+            "duration": 28.780609130859376,
+            "averageDuration": 5.756121635437012,
+            "operand0min": 1,
+            "operand0max": 9,
+            "operand1min": 1,
+            "operand1max": 9,
+            "answerMin": 1,
+            "answerMax": 81,
+            "description": "x*y(<=9)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
+        },
+        {
+            "problems": [
+                {
+                    "text": "6*8",
+                    "duration": 4.852231979370117,
+                    "strokes": 3,
+                    "erased": 0
+                },
+                {
+                    "text": "7*6",
+                    "duration": 4.165743827819824,
+                    "strokes": 3,
+                    "erased": 0
+                },
+                {
+                    "text": "1*7",
+                    "duration": 14.63473129272461,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "8*1",
+                    "duration": 3.519659996032715,
+                    "strokes": 1,
+                    "erased": 0
+                },
+                {
+                    "text": "3*7",
+                    "duration": 4.693282127380371,
+                    "strokes": 4,
+                    "erased": 0
+                }
+            ],
+            "problemCount": 5,
+            "time": "8/28/2022 5:50:33 PM",
+            "duration": 32.1041374206543,
+            "averageDuration": 6.420827388763428,
+            "operand0min": 1,
+            "operand0max": 9,
+            "operand1min": 1,
+            "operand1max": 9,
+            "answerMin": 1,
+            "answerMax": 81,
+            "description": "x*y(<=9)",
+            "userName": "平山オトモ",
+            "birthday": "12/20/2015 12:00:00 AM"
         }
     ]
 }

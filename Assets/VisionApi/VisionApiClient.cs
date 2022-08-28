@@ -44,6 +44,9 @@ System.IO.File.WriteAllText("response.json", webRequest.downloadHandler.text);
 #endif
 						// 成功時の処理
 						Response = JsonUtility.FromJson<BatchAnnotateImagesResponse>(webRequest.downloadHandler.text);
+Debug.Log("Vision Done!! " + imageWidth + " " + imageHeight);
+						Response.imageWidth = this.imageWidth;
+						Response.imageHeight = this.imageHeight;
 					}
 					webRequest.Dispose();
 					webRequest = null;
@@ -106,12 +109,17 @@ System.IO.File.WriteAllText("request.json", jsonRequestBody);
 			webRequest.SetRequestHeader("Content-Type", "application/json");
 
 			webRequest.SendWebRequest();
+
+			this.imageWidth = readableImage.width;
+			this.imageHeight = readableImage.height;
 			return true;
 		}
 
 		// non public ---------
 		string apiKey;
 		UnityWebRequest webRequest;
+		int imageWidth;
+		int imageHeight;
 
 		// request Data Types.
 		[Serializable]

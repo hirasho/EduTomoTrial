@@ -6,6 +6,13 @@ public class TextRecognizer : MonoBehaviour
 {
 	[SerializeField] MLKitWrapper mlKit;
 
+	public class Text
+	{
+		public List<Word> words;
+		public int imageWidth;
+		public int imageHeight;
+	}
+
 	public class Word
 	{
 		public List<Letter> letters;
@@ -20,22 +27,6 @@ public class TextRecognizer : MonoBehaviour
 		public string text;
 	}
 
-	public bool Requested 
-	{ 
-		get
-		{
-			var ret = false;
-			if ((mlKit != null) && mlKit.Requested)
-			{
-				ret = true;
-			}
-			else if ((visionApi != null) && visionApi.Requested)
-			{
-				return true;
-			}
-			return ret;
-		}
-	}
 	public bool UsingVisionApi { get => (visionApi != null); }
 
 	public void ManualStart(string visionApiKey, bool useVisionApi)
@@ -70,30 +61,18 @@ public class TextRecognizer : MonoBehaviour
 		}
 	}
 
-	public bool IsDone() // リクエスト投げてなければfalse
-	{
+	public bool IsBusy()
+	{ 
 		var ret = false;
-		if ((visionApi != null) && visionApi.Requested)
+		if ((mlKit != null) && mlKit.IsFull())
 		{
-			ret = visionApi.IsDone();
+			ret = true;
 		}
-		else if ((mlKit != null) && mlKit.Requested)
+		else if ((visionApi != null) && visionApi.Requested)
 		{
-			ret = mlKit.IsDone();
+			return true;
 		}
 		return ret;
-	}
-
-	public void Abort()
-	{
-		if ((visionApi != null) && visionApi.Requested)
-		{
-			visionApi.Abort();
-		}
-		else if ((mlKit != null) && mlKit.Requested)
-		{
-			mlKit.Abort();
-		}
 	}
 
 	public void ClearDiffImage()
@@ -106,41 +85,6 @@ public class TextRecognizer : MonoBehaviour
 				prevPixels[i] = c;
 			}
 		}
-	}
-
-	public IReadOnlyList<Word> GetResult()
-	{
-		List<Word> ret = null;
-		if ((visionApi != null) && visionApi.Requested)
-		{
-			if (visionApi.IsDone())
-			{
-				ret = new List<Word>();
-				foreach (var response in visionApi.Response.responses)
-				{
-					ProcessTextAnnotation(response.fullTextAnnotation, ret);
-				}
-			}
-		}
-		else if ((mlKit != null) && mlKit.Requested)
-		{
-			if (mlKit.IsDone())
-			{
-				var result = mlKit.GetResult();
-				if ((result != null) && (result.textBlocks != null))
-				{
-					ret = new List<Word>();
-					foreach (var block in result.textBlocks)
-					{
-						if (block != null)
-						{
-							ProcessTextBlock(block, ret);
-						}
-					}
-				}
-			}
-		}
-		return ret;
 	}
 
 	public bool Request(Texture2D texture, IReadOnlyList<RectInt> rects)
@@ -202,7 +146,30 @@ public class TextRecognizer : MonoBehaviour
 		}
 		else if ((mlKit != null) && mlKit.Implemented)
 		{
-			ret = mlKit.RecognizeText(width, height, pixels);
+			var requestId = mlKit.RecognizeText(width, height, pixels);
+			ret = (requestId != MLKitWrapper.InvalidRequestId);
+		}
+		return ret;
+	}
+
+	public Text DequeueResult()
+	{
+		Text ret = null;
+		if ((visionApi != null) && visionApi.Requested)
+		{
+			if (visionApi.IsDone())
+			{
+				ret = ProcessBatchAnnotateImageResponse(visionApi.Response);
+				visionApi.Abort();
+			}
+		}
+		else if (mlKit != null)
+		{
+			var result = mlKit.GetResult(resetOnGet: true);
+			if ((result != null) && (result.textBlocks != null))
+			{
+				ret = ProcessText(result);
+			}
 		}
 		return ret;
 	}
@@ -230,6 +197,20 @@ public class TextRecognizer : MonoBehaviour
 		}
 		return ret;
 	}
+
+	static Text ProcessBatchAnnotateImageResponse(VisionApi.BatchAnnotateImagesResponse batchAnnotateImageResponse)
+	{
+		var ret = new Text();
+		ret.words = new List<Word>();
+		foreach (var response in batchAnnotateImageResponse.responses)
+		{
+			ProcessTextAnnotation(response.fullTextAnnotation, ret.words);
+		}
+		ret.imageWidth = batchAnnotateImageResponse.imageWidth;
+		ret.imageHeight = batchAnnotateImageResponse.imageHeight;
+		return ret;
+	}
+
 
 	static void ProcessTextAnnotation(VisionApi.TextAnnotation textAnnotation, List<Word> wordsOut)
 	{
@@ -305,6 +286,22 @@ public class TextRecognizer : MonoBehaviour
 		}
 
 		ret.text = symbol.text;
+		return ret;
+	}
+
+	static Text ProcessText(MLKitWrapper.Text text)
+	{
+		var ret = new Text();
+		ret.words = new List<Word>();
+		foreach (var block in text.textBlocks)
+		{
+			if (block != null)
+			{
+				ProcessTextBlock(block, ret.words);
+			}
+		}
+		ret.imageWidth = text.imageWidth;
+		ret.imageHeight = text.imageHeight;
 		return ret;
 	}
 

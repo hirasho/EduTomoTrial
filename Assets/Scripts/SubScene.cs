@@ -30,7 +30,7 @@ public abstract class SubScene : MonoBehaviour
 	{		
 	}
 
-	public virtual void OnTextRecognitionComplete(IReadOnlyList<TextRecognizer.Word> words)
+	public virtual void OnTextRecognitionComplete(TextRecognizer.Text text)
 	{
 	}
 }

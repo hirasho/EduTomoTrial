@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class MLKitWrapper : MonoBehaviour
 {
+	public const int InvalidRequestId = int.MinValue;
+
+	[SerializeField] int parallelCount = 2;
+
 	[System.Serializable]
 	public class Text
 	{
 		public string text;
 		public TextBlock[] textBlocks;
+		public int imageWidth;
+		public int imageHeight;
 	}
 
 	[System.Serializable]
@@ -57,8 +63,6 @@ public class MLKitWrapper : MonoBehaviour
 		public int y;
 	}
 
-	public bool Requested { get; private set; }
-	public string ErrorMessage { get; private set; }
 	public bool Implemented
 	{ 
 		get
@@ -77,51 +81,77 @@ public class MLKitWrapper : MonoBehaviour
 		}
 	}
 
-	public bool IsDone()
+	// キューが埋まっているか
+	public bool IsFull()
 	{
-		return Requested && (waitingRequestId == int.MinValue);
+		EnsureInitialize();
+		return (FindEmptyRequestIndex() < 0);
 	}
 
-	public void Abort()
+	// IDがInvalidなら何でもいいから返す
+	public Text GetResult(bool resetOnGet, int requestId = InvalidRequestId)
 	{
-		if (Requested)
+		EnsureInitialize();
+
+		Text ret = null;
+		foreach (var request in requests)
 		{
-Debug.Log("MLKit: Abort id=" + waitingRequestId);
+			if (request.IsDone())
+			{
+				if ((request.requestId == requestId) || requestId == InvalidRequestId)
+				{
+					ret = request.output.text;
+					if (resetOnGet)
+					{
+Debug.Log("GetResult : " + resetOnGet + " " + request.requestId);
+						request.Reset();
+					}
+					break;
+				}
+			}
 		}
-		Requested = false;
-		waitingRequestId = int.MinValue;
+		return ret;
 	}
 
-	public Text GetResult()
+	// 戻り値がInvalidRequestIdなら失敗している。一杯の時に勝手に止めたりはしない。
+	public int RecognizeText(int width, int height, IReadOnlyList<Color32> pixels)
 	{
-if (result != null)
-{
-	Debug.Log("MLKit: GetResult() : id=" + waitingRequestId);
-}
-		return result;
-	}
+		EnsureInitialize();
 
-	public bool RecognizeText(int width, int height, IReadOnlyList<Color32> pixels)
-	{
-Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.Count + " id=" + nextRequestId);
-		if (Requested && !IsDone()) // 前のが終わってないので止める
+		Request newRequest = null;
+		var newRequestId = InvalidRequestId;
+		if (requests.Count < parallelCount)
 		{
-			Abort();
+			newRequest = new Request();
+			requests.Add(newRequest);
+Debug.Log("Enqueue " + requests.Count);
 		}
-		result = null;
+		else
+		{
+			var vacantIndex = FindEmptyRequestIndex();
+			if (vacantIndex >= 0)
+			{
+				newRequest = requests[vacantIndex];
+			}
+		}
+
+		if (newRequest == null)
+		{
+			return newRequestId;
+		}
+
+//Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.Count + " id=" + nextRequestId);
 
 		var input = new Input();
 		input.width = width;
 		input.height = height;
 		input.pixels = new int[pixels.Count];
 		input.requestId = nextRequestId;
-		waitingRequestId = nextRequestId;
-		nextRequestId++;
-		if (nextRequestId == int.MinValue) // 来ないと思うが巻き戻った時のための対処
-		{
-			nextRequestId++;
-		}
+		newRequest.requestId = nextRequestId;
+		newRequest.imageWidth = width;
+		newRequest.imageHeight = height;
 
+		newRequestId = nextRequestId;
 		// Y反転しながら送る
 		for (var y = 0; y < height; y++)
 		{
@@ -133,8 +163,6 @@ Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.C
 			}
 		}
 
-		var ret = false;
-		EnsureExtractClass();
 		try
 		{
 			// jsonにすると遅いので、stringにバイナリデータ詰める
@@ -149,11 +177,8 @@ Debug.Log("MLKit Recognize: " + width + "x" + height + " pixelCount=" + pixels.C
 System.IO.File.WriteAllText("mlkitInput.json", json);
 #endif
 #endif
-			ret = true;
-			Requested = true;
-
 #if DUMMY_MODE
-			StartCoroutine(CoOnCompleteDummy());
+			StartCoroutine(CoOnCompleteDummy(nextRequestId));
 #else
 			javaClass.CallStatic("recognizeText", gameObject.name, serializedInput);
 #endif
@@ -162,22 +187,14 @@ System.IO.File.WriteAllText("mlkitInput.json", json);
 		{
 			Debug.LogException(e);
 		}
-		return ret;
-	}
 
-	public int TestIncrement(int a)
-	{
-		EnsureExtractClass();
-		var ret = int.MinValue;
-		try
+		nextRequestId++;
+		if (nextRequestId == int.MinValue) // 来ないと思うが巻き戻った時のための対処
 		{
-			ret = javaClass.CallStatic<int>("incrementTest", a);
+			nextRequestId++;
 		}
-		catch (System.Exception e)
-		{
-			Debug.LogException(e);
-		}
-		return ret;
+
+		return newRequestId;
 	}
 
 	// non public -----
@@ -221,13 +238,110 @@ System.IO.File.WriteAllText("mlkitInput.json", json);
 		public string errorMessage;
 	}
 
-	AndroidJavaClass javaClass;
-	Text result;
-	int waitingRequestId; // int.MinValue以外なら待ってる途中
-	int nextRequestId;
-
-	void EnsureExtractClass()
+	class Request
 	{
+		public Request()
+		{
+			Reset();
+		}
+
+		public void SetResult(Output output)
+		{
+			this.output = output;
+			output.text.imageWidth = imageWidth;
+			output.text.imageHeight = imageHeight;
+		}
+
+		public bool IsDone()
+		{
+			var ret = false;
+			if (requestId != InvalidRequestId)
+			{
+				if (output != null)
+				{
+					ret = true;
+				}
+			}
+			return ret;
+		}
+
+		public void Reset()
+		{
+			requestId = InvalidRequestId;
+			output = null;
+			imageWidth = imageHeight = 0;
+		}
+		public Output output;
+		public int requestId;
+		public int imageWidth;
+		public int imageHeight;
+	}
+
+	AndroidJavaClass javaClass;
+	List<Request> requests;
+	int nextRequestId; // 20億使い果たしたらバグります
+
+	int FindEmptyRequestIndex()
+	{
+		var ret = int.MinValue;
+		// 数が足りなければ足してそれ返す
+		if (requests.Count < parallelCount)
+		{
+			var request = new Request();
+			ret = requests.Count;
+			requests.Add(request);
+		}
+		else
+		{
+			for (var i = 0; i < requests.Count; i++)
+			{
+				var request = requests[i];
+				if (request.requestId == InvalidRequestId)
+				{
+					ret = i;
+					break;
+				}
+			}
+		}
+		return ret;
+	}
+
+
+	Request FindRequest(int requestId)
+	{
+		var index = FindRequestIndex(requestId);
+		Request ret = null;
+		if (index >= 0)
+		{
+			ret = requests[index];
+		}
+		return ret;
+	}
+
+	int FindRequestIndex(int requestId)
+	{
+//Debug.Log("Find id=" + requestId + " reqs=" + requests.Count);
+		var ret = int.MinValue;
+		for (var i = 0; i < requests.Count; i++)
+		{
+			var request = requests[i];
+//Debug.Log("\t" + i + " " + request.requestId);
+			if (request.requestId == requestId)
+			{
+				ret = i;
+				break;
+			}
+		}
+		return ret;
+	}
+
+	void EnsureInitialize()
+	{
+		if (requests == null)
+		{
+			requests = new List<Request>();
+		}
+
 		try
 		{
 			if (javaClass == null)
@@ -240,8 +354,9 @@ System.IO.File.WriteAllText("mlkitInput.json", json);
 			Debug.LogException(e);
 		}
 	}
-
-	void OnComplete(string outputJson)
+ 
+	// JAVAから呼ばれるので参照はない
+	void OnComplete(string outputJson) 
 	{
 Debug.Log("MLKitWrapper.OnComplete: json\n" + outputJson);
 		Output output = null;
@@ -254,64 +369,63 @@ Debug.Log("MLKitWrapper.OnComplete: json\n" + outputJson);
 			Debug.LogException(e);
 		}
 		
-		if ((output != null) && (output.requestId == waitingRequestId)) // ID違えば無視
+		if (output != null)
 		{
-			waitingRequestId = int.MinValue;
-			if (string.IsNullOrEmpty(output.errorMessage))
+			var request = FindRequest(output.requestId);
+			if (request != null)
 			{
-				result = output.text;
-				ErrorMessage = null;
-//Debug.LogError("\tSuccess " + output.text.textBlocks.Length + " " + output.text.text);
-			}
-			else
-			{
-				result = null;
-				ErrorMessage = output.errorMessage;
-Debug.LogError("\tError " + ErrorMessage);
+				request.SetResult(output);
 			}
 		}
 	}
 
-	IEnumerator CoOnCompleteDummy()
+	IEnumerator CoOnCompleteDummy(int requestId)
 	{
 		yield return new WaitForSeconds(0.25f);
 		Debug.Log("MLKitWrapper.OnComplete(DUMMY)");
-		ErrorMessage = null;
-		waitingRequestId = int.MinValue;
 
-		var boundingBox = new Rect() { bottom = 432 - 8, left = 8, right = 768 - 8, top = 8 };
+		var request = FindRequest(requestId);
+		if (request != null)
+		{
+			var boundingBox = new Rect() { bottom = 432 - 8, left = 8, right = 768 - 8, top = 8 };
 
-		var cornerPoints = new Point[4];
-		cornerPoints[0] = new Point() { x = 8, y = 8 };
-		cornerPoints[1] = new Point() { x = 768 - 8, y = 8 };
-		cornerPoints[2] = new Point() { x = 768 - 8, y = 432 - 8 };
-		cornerPoints[3] = new Point() { x = 8, y = 432 - 8 };
+			var cornerPoints = new Point[4];
+			cornerPoints[0] = new Point() { x = 8, y = 8 };
+			cornerPoints[1] = new Point() { x = 768 - 8, y = 8 };
+			cornerPoints[2] = new Point() { x = 768 - 8, y = 432 - 8 };
+			cornerPoints[3] = new Point() { x = 8, y = 432 - 8 };
 
-		result = new Text();
-		result.text = "HOGE";
-		result.textBlocks = new TextBlock[1];
+			var text = new Text();
+			text.text = "HOGE";
+			text.textBlocks = new TextBlock[1];
 
-		var textBlock = new TextBlock();
-		textBlock.boundingBox = boundingBox;
-		textBlock.cornerPoints = cornerPoints;
-		textBlock.recognizedLanguage = "English";
-		textBlock.text = "HOGE";
-		textBlock.lines = new Line[1];
-		result.textBlocks[0] = textBlock;
+			var textBlock = new TextBlock();
+			textBlock.boundingBox = boundingBox;
+			textBlock.cornerPoints = cornerPoints;
+			textBlock.recognizedLanguage = "English";
+			textBlock.text = "HOGE";
+			textBlock.lines = new Line[1];
+			text.textBlocks[0] = textBlock;
 
-		var line = new Line();
-		line.boundingBox = boundingBox;
-		line.cornerPoints = cornerPoints;
-		line.recognizedLanguage = "English";
-		line.text = "HOGE";
-		line.elements = new Element[1];
-		textBlock.lines[0] = line;
+			var line = new Line();
+			line.boundingBox = boundingBox;
+			line.cornerPoints = cornerPoints;
+			line.recognizedLanguage = "English";
+			line.text = "HOGE";
+			line.elements = new Element[1];
+			textBlock.lines[0] = line;
 
-		var element = new Element();
-		element.boundingBox = boundingBox;
-		element.cornerPoints = cornerPoints;
-		element.recognizedLanguage = "English";
-		element.text = "HOGE";
-		line.elements[0] = element;
+			var element = new Element();
+			element.boundingBox = boundingBox;
+			element.cornerPoints = cornerPoints;
+			element.recognizedLanguage = "English";
+			element.text = "HOGE";
+			line.elements[0] = element;
+
+			var output = new Output();
+			output.text = text;
+
+			request.SetResult(output);
+		}
 	}
 }

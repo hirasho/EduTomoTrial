@@ -6,6 +6,8 @@ namespace VisionApi
 	[Serializable]
 	public class BatchAnnotateImagesResponse {
 		public List<AnnotateImageResponse> responses;
+		public int imageWidth; // 本来はない
+		public int imageHeight; // 本来はない
 	}
 
 	[Serializable]

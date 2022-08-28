@@ -54,44 +54,57 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 #endif
 	}
 
-	public void TransformToRtScreen(IReadOnlyList<TextRecognizer.Word> words)
+	public void TransformToRtScreen(TextRecognizer.Text text)
 	{
-		foreach (var word in words)
+Debug.Log("TransformToRtScreen: " + text.imageWidth + " " + text.imageHeight);
+		foreach (var word in text.words)
 		{
-			TransformToRtScreen(word);
+			TransformToRtScreen(word, text.imageWidth, text.imageHeight);
 		}
 	}
 
-	public void TransformToRtScreen(TextRecognizer.Word word)
+	public void TransformToRtScreen(TextRecognizer.Word word, int imageWidth, int imageHeight)
 	{
-		TransformToRtScreen(out word.boundsMin, out word.boundsMax, word.boundsMin, word.boundsMax);
+		TransformToRtScreen(
+			out word.boundsMin, 
+			out word.boundsMax, 
+			word.boundsMin, 
+			word.boundsMax,
+			imageWidth,
+			imageHeight);
 		foreach (var letter in word.letters)
 		{
 			for (var i = 0; i < letter.vertices.Count; i++)
 			{
-				letter.vertices[i] = TransformToRtScreen(letter.vertices[i]);
+				letter.vertices[i] = TransformToRtScreen(letter.vertices[i], imageWidth, imageHeight);
 			}
 		}
 	}
 
-	public void TransformToRtScreen(out Vector2 minOut, out Vector2 maxOut, Vector2 minIn, Vector2 maxIn)
+	public void TransformToRtScreen(
+		out Vector2 minOut,
+		out Vector2 maxOut, 
+		Vector2 minIn, 
+		Vector2 maxIn,
+		int imageWidth,
+		int imageHeight)
 	{
-		var sx = (float)renderTexture.width / (float)savedTexture.width; 
-		var sy = (float)renderTexture.height / (float)savedTexture.height; 
+		var sx = (float)renderTexture.width / (float)imageWidth;
+		var sy = (float)renderTexture.height / (float)imageHeight; 
 		minOut.x = minIn.x * sx;
 		maxOut.x = maxIn.x * sx;
-		var invMinY = savedTexture.height - minIn.y; 
-		var invMaxY = savedTexture.height - maxIn.y; 
+		var invMinY = imageHeight - minIn.y; 
+		var invMaxY = imageHeight - maxIn.y; 
 		minOut.y = invMaxY * sy; // ひっくりかえる
 		maxOut.y = invMinY * sy; // ひっくりかえる
 	}
 
-	public Vector2 TransformToRtScreen(Vector2 p)
+	public Vector2 TransformToRtScreen(Vector2 p, int imageWidth, int imageHeight)
 	{
-		p.y = savedTexture.height - p.y; // y反転
+		p.y = imageHeight - p.y; // y反転
 		// スケール
-		p.x *= (float)renderTexture.width / (float)savedTexture.width;
-		p.y *= (float)renderTexture.height / (float)savedTexture.height;
+		p.x *= (float)renderTexture.width / (float)imageWidth;
+		p.y *= (float)renderTexture.height / (float)imageHeight;
 		return p;
 	}
 
@@ -107,12 +120,10 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 			min = Vector2.Min(min, sp);
 			max = Vector2.Max(max, sp);
 		}
-		var sx = (float)savedTexture.width / (float)renderTexture.width;
-		var sy = (float)savedTexture.height / (float)renderTexture.height;
-		var minX = Mathf.FloorToInt(min.x * sx);
-		var minY = Mathf.FloorToInt(min.y * sy);
-		var maxX = Mathf.CeilToInt(max.x * sx);
-		var maxY = Mathf.CeilToInt(max.y * sy);
+		var minX = Mathf.FloorToInt(min.x);
+		var minY = Mathf.FloorToInt(min.y);
+		var maxX = Mathf.CeilToInt(max.x);
+		var maxY = Mathf.CeilToInt(max.y);
 		return new RectInt(minX, minY, maxX - minX, maxY - minY);
 	}
 

@@ -73,7 +73,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		for (var i = 0; i < srcVertices.Count; i++)
 		{
 			var srcV = srcVertices[i];
-Debug.Log("Anno: " + letter.text + " " + i + " " + srcV);
+//Debug.Log("Anno: " + letter.text + " " + i + " " + srcV);
 			var ray = textureRenderer.Camera.ScreenPointToRay(srcV);
 			var t = (0f - ray.origin.y) / ray.direction.y;
 			var wp = ray.origin + (ray.direction * t);
@@ -153,10 +153,9 @@ Debug.Log("Anno: " + letter.text + " " + i + " " + srcV);
 
 		AdjustCameraHeight();
 
-		if ((textRecognizer != null) && textRecognizer.Requested && textRecognizer.IsDone())
+		var result = textRecognizer.DequeueResult();
+		if (result != null)
 		{
-			var result = textRecognizer.GetResult();
-			textRecognizer.Abort(); // 結果破棄
 			debugRtView.texture = textureRenderer.RenderTexture;
 			if (result != null)
 			{
