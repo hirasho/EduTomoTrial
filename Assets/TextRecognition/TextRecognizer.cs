@@ -9,8 +9,7 @@ public class TextRecognizer : MonoBehaviour
 	public class Text
 	{
 		public List<Word> words;
-		public int imageWidth;
-		public int imageHeight;
+		public int requestId;
 	}
 
 	public class Word
@@ -87,7 +86,8 @@ public class TextRecognizer : MonoBehaviour
 		}
 	}
 
-	public bool Request(Texture2D texture, IReadOnlyList<RectInt> rects)
+	// 戻り値はリクエストID。負なら受け付けていない
+	public int Request(Texture2D texture, IReadOnlyList<RectInt> rects)
 	{
 		// dirty判定
 		var dirty = false;
@@ -99,7 +99,7 @@ public class TextRecognizer : MonoBehaviour
 		{
 			dirty = true;
 		}
-
+dirty = true; // FindDiffあたりがバグってるのでとりあえずこれで
 		if (!dirty)
 		{
 			// なければor解像度違えば作って真っ白で埋める
@@ -136,18 +136,17 @@ public class TextRecognizer : MonoBehaviour
 
 		if (!dirty)
 		{
-			return false;
+			return int.MinValue;
 		}
 
-		var ret = false;
+		var ret = int.MinValue;
 		if (visionApi != null)
 		{
 			ret = visionApi.Request(texture);
 		}
 		else if ((mlKit != null) && mlKit.Implemented)
 		{
-			var requestId = mlKit.RecognizeText(width, height, pixels);
-			ret = (requestId != MLKitWrapper.InvalidRequestId);
+			ret = mlKit.RecognizeText(width, height, pixels);
 		}
 		return ret;
 	}
@@ -160,6 +159,7 @@ public class TextRecognizer : MonoBehaviour
 			if (visionApi.IsDone())
 			{
 				ret = ProcessBatchAnnotateImageResponse(visionApi.Response);
+				ret.requestId = visionApi.LastRequestId;
 				visionApi.Abort();
 			}
 		}
@@ -169,6 +169,7 @@ public class TextRecognizer : MonoBehaviour
 			if ((result != null) && (result.textBlocks != null))
 			{
 				ret = ProcessText(result);
+				ret.requestId = result.requestId;
 			}
 		}
 		return ret;
@@ -186,19 +187,28 @@ public class TextRecognizer : MonoBehaviour
 		{
 			for (var x = rect.x; x < (rect.x + rect.width); x++)
 			{
+try
+{
 				var c0 = texels0[(y * width0) + x];
 				var c1 = texels1[(y * width1) + x];
 				if ((c0.r != c1.r) || (c0.g != c1.g) || (c0.b != c1.b))
 				{
 					ret = true;
 					break;
-				}
+				}	
+}
+catch (System.Exception e)
+{
+	Debug.Log(x + " " + y + " " + texels0.Length + " " + texels1.Length + " " + width0 + " " + width1 + " " + rect.x + " " + rect.y + " " + rect.width + " " + rect.height);
+	throw e;
+}
 			}
 		}
 		return ret;
 	}
 
-	static Text ProcessBatchAnnotateImageResponse(VisionApi.BatchAnnotateImagesResponse batchAnnotateImageResponse)
+	static Text ProcessBatchAnnotateImageResponse(
+		VisionApi.BatchAnnotateImagesResponse batchAnnotateImageResponse)
 	{
 		var ret = new Text();
 		ret.words = new List<Word>();
@@ -206,8 +216,6 @@ public class TextRecognizer : MonoBehaviour
 		{
 			ProcessTextAnnotation(response.fullTextAnnotation, ret.words);
 		}
-		ret.imageWidth = batchAnnotateImageResponse.imageWidth;
-		ret.imageHeight = batchAnnotateImageResponse.imageHeight;
 		return ret;
 	}
 
@@ -300,8 +308,6 @@ public class TextRecognizer : MonoBehaviour
 				ProcessTextBlock(block, ret.words);
 			}
 		}
-		ret.imageWidth = text.imageWidth;
-		ret.imageHeight = text.imageHeight;
 		return ret;
 	}
 

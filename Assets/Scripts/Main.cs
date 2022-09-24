@@ -57,9 +57,9 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		TrySaveLog();
 	}
 
-	public IEnumerator CoSaveRenderTexture(Vector2 scale)
+	public IEnumerator CoSaveRenderTexture(Vector2 scale, float rotation)
 	{
-		yield return textureRenderer.CoRender(scale);
+		yield return textureRenderer.CoRender(scale, rotation);
 	}
 
 	public Annotation ShowAnnotation(TextRecognizer.Letter letter, string textOverride, bool correctColor, Transform parent)
@@ -139,7 +139,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		}
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
-			StartCoroutine(CoSaveRenderTexture(Vector2.one));
+			StartCoroutine(CoSaveRenderTexture(Vector2.one, 0f));
 		}
 #endif
 		var dt = Time.deltaTime;
@@ -149,6 +149,7 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		{
 			Destroy(subScene.gameObject);
 			subScene = nextSubScene;
+			Resources.UnloadUnusedAssets();
 		}
 
 		AdjustCameraHeight();
@@ -159,7 +160,6 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 			debugRtView.texture = textureRenderer.RenderTexture;
 			if (result != null)
 			{
-				textureRenderer.TransformToRtScreen(result);
 				subScene.OnTextRecognitionComplete(result);
 			}
 			else
@@ -190,6 +190,11 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	public RectInt GetRectInRenderTexture(AnswerZone answerZone)
 	{
 		return textureRenderer.GetRect(answerZone);
+	}
+
+	public void TransformToRtScreen(TextRecognizer.Text text, Vector2 scale, float rotation)
+	{
+		textureRenderer.TransformToRtScreen(text, scale, rotation);
 	}
 
 	public static bool BoundsIntersect(Vector2 min0, Vector2 max0, Vector2 min1, Vector2 max1)
@@ -308,4 +313,5 @@ public class Main : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		y /= Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * 0.5f);
 		camera.transform.localPosition = new Vector3(0f, y, 0f);
 	}
+
 }

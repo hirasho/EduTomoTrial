@@ -14,8 +14,7 @@ public class MLKitWrapper : MonoBehaviour
 	{
 		public string text;
 		public TextBlock[] textBlocks;
-		public int imageWidth;
-		public int imageHeight;
+		public int requestId;
 	}
 
 	[System.Serializable]
@@ -101,6 +100,7 @@ public class MLKitWrapper : MonoBehaviour
 				if ((request.requestId == requestId) || requestId == InvalidRequestId)
 				{
 					ret = request.output.text;
+					ret.requestId = request.requestId;
 					if (resetOnGet)
 					{
 Debug.Log("GetResult : " + resetOnGet + " " + request.requestId);
@@ -148,8 +148,6 @@ Debug.Log("Enqueue " + requests.Count);
 		input.pixels = new int[pixels.Count];
 		input.requestId = nextRequestId;
 		newRequest.requestId = nextRequestId;
-		newRequest.imageWidth = width;
-		newRequest.imageHeight = height;
 
 		newRequestId = nextRequestId;
 		// Y反転しながら送る
@@ -248,8 +246,6 @@ System.IO.File.WriteAllText("mlkitInput.json", json);
 		public void SetResult(Output output)
 		{
 			this.output = output;
-			output.text.imageWidth = imageWidth;
-			output.text.imageHeight = imageHeight;
 		}
 
 		public bool IsDone()
@@ -269,12 +265,9 @@ System.IO.File.WriteAllText("mlkitInput.json", json);
 		{
 			requestId = InvalidRequestId;
 			output = null;
-			imageWidth = imageHeight = 0;
 		}
 		public Output output;
 		public int requestId;
-		public int imageWidth;
-		public int imageHeight;
 	}
 
 	AndroidJavaClass javaClass;

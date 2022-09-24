@@ -35,9 +35,11 @@ public static class Evaluator
 			evaluatedLetter.numberText = ReadNumber(letter.text);
 			evaluatedLetter.correct = false;
 
-			var ca = (answerIndex >= 0) ? answerText[answerIndex] : '\0';
+			var ca = (answerIndex >= 0) ? answerText[answerIndex] : ' ';
 			var cw = evaluatedLetter.numberText[0];
-			if (cw != '?')
+//Debug.Log("E: " + evaluatedLetter.numberText + " " + evaluatedLetter.srcLetter + " " + cw);
+//Debug.Log("Eval " + writtenIndex + " " + answerIndex + " " + ca + " <> " + cw + " " + ret + " " + matchCount);
+			if (IsDigit(cw))
 			{
 				if (ca == cw)
 				{
@@ -57,7 +59,13 @@ public static class Evaluator
 		{
 			ret = false;
 		}
+//Debug.Log("Eval Last " + answerText.Length + " <> " + matchCount + " ret= " + ret);
 		return ret;
+	}
+
+	public static bool IsDigit(char c)
+	{
+		return ((c >= '0') && (c <= '9'));
 	}
 
 	public static string ReadNumber(string text)
@@ -67,6 +75,7 @@ public static class Evaluator
 		{
 			var digit = TryReadDigit(text[i]);
 			var c = (digit < 0) ? text : digit.ToString();
+//Debug.Log("ReadNumber " + c + " <- " + text[i]);
 			sb.Append(c);
 		}
 		return sb.ToString();
@@ -79,7 +88,7 @@ public static class Evaluator
 		{
 			digit = c - '0';
 		}
-		else if ((c == 'o') || (c == 'O') || (c == 'D'))
+		else if ((c == 'o') || (c == 'о') || (c == 'O') || (c == 'D'))
 		{
 			digit = 0;
 		}
@@ -91,9 +100,13 @@ public static class Evaluator
 		{
 			digit = 5;
 		}
-		else if ((c == 'б'))
+		else if ((c == 'б') || (c == 'ь'))
 		{
 			digit = 6;
+		}
+		else if ((c == 'ㄱ'))
+		{
+			digit = 7;
 		}
 		else if ((c == 'q') || (c == '។') || (c == 'a') || (c == '၄') || (c == '?'))
 		{

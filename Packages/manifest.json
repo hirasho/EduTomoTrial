@@ -2,6 +2,8 @@
   "dependencies": {
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ide.vscode": "1.2.5",
+    "com.unity.ml-agents": "file:/Users/hirayama-takashi/hirasho/mlenv/ml-agents-release_19/com.unity.ml-agents",
+    "com.unity.ml-agents.extensions": "file:/Users/hirayama-takashi/hirasho/mlenv/ml-agents-release_19/com.unity.ml-agents.extensions",
     "com.unity.recorder": "3.0.3",
     "com.unity.ugui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",

@@ -8,6 +8,7 @@ namespace VisionApi
 	public class Client
 	{
 		public BatchAnnotateImagesResponse Response { get; private set; }
+		public int LastRequestId { get; private set; }
 		public bool Requested { get; private set; }
 
 		public Client(string apiKey)
@@ -65,11 +66,18 @@ Debug.Log("Vision Done!! " + imageWidth + " " + imageHeight);
 			Requested = false;
 		}
 
-		public bool Request(Texture2D readableImage)
+		// 戻り値はリクエストID
+		public int Request(Texture2D readableImage)
 		{
 			if (!IsDone()) // 前のが終わってないので止める
  			{
 				Abort();
+			}
+
+			LastRequestId++;
+			if (LastRequestId < 0) // オーバーフローしたら0に戻す
+			{
+				LastRequestId = 0;
 			}
 
 			Requested = true;
@@ -112,7 +120,7 @@ System.IO.File.WriteAllText("request.json", jsonRequestBody);
 
 			this.imageWidth = readableImage.width;
 			this.imageHeight = readableImage.height;
-			return true;
+			return LastRequestId;
 		}
 
 		// non public ---------

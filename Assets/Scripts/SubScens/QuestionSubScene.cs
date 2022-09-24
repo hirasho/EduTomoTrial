@@ -52,6 +52,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		public bool invertOperation;
 		public bool useSpecialFormula;
 	}
+	[SerializeField] float rotationMax = 30f;
 	[SerializeField] Eraser eraser;
 	[SerializeField] float countingObjectGrabY = 0.1f;
 	[SerializeField] MainUi ui;
@@ -108,6 +109,8 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 		{
 			formula.gameObject.SetActive(formula == activeFormula);
 		}
+
+		recognitionParam = new Dictionary<int, RecognitionParams>();
 
 		MakeQuestions();
 
@@ -235,6 +238,17 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 
 	public override void OnTextRecognitionComplete(TextRecognizer.Text text)
 	{
+		RecognitionParams rp;
+		Debug.LogWarning("Result : " + text.requestId);
+		if (recognitionParam.TryGetValue(text.requestId, out rp))
+		{
+			recognitionParam.Remove(text.requestId);
+			main.TransformToRtScreen(text, rp.scale, rp.rotation);
+		}
+		else
+		{
+			Debug.Assert(false, "BAKANA");
+		}
 		ui.EndLoading();
 		ClearAnnotations();
 		if (evaluationRequestQuestionIndex == questionIndex) // もう次の問題行ってるので評価しない
@@ -294,6 +308,7 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 					{
 						correctCount++;
 					}
+
 					ShowAnnotations(letters);
 				}
 			}
@@ -332,6 +347,12 @@ public class QuestionSubScene : SubScene, IEraserEventReceiver
 	float timeLimit;
 	Coroutine evaluationCoroutine;
 	int evaluationRequestQuestionIndex;
+	class RecognitionParams
+	{
+		public Vector2 scale;
+		public float rotation;
+	}
+	Dictionary<int, RecognitionParams> recognitionParam;
 
 	struct Question
 	{
@@ -444,7 +465,12 @@ if (Input.GetKeyDown(KeyCode.S))
 			scale.x = 1f;
 			scale.y = 1f / (1f + scaleSeed);
 		}
-		yield return main.CoSaveRenderTexture(scale);
+		var rotation = Random.Range(-rotationMax, rotationMax);
+		if (main.TextRecognizer.UsingVisionApi)
+		{
+			rotation = 0f;
+		}
+		yield return main.CoSaveRenderTexture(scale, rotation);
 
 		var tex = main.SavedTexture;
 
@@ -456,8 +482,14 @@ if (Input.GetKeyDown(KeyCode.S))
 			rects.Add(rect);
 		}
 
-		if (main.TextRecognizer.Request(tex, rects))
+		var reqId = main.TextRecognizer.Request(tex, rects);
+		if (reqId >= 0)
 		{
+			var recogParams = new RecognitionParams();
+			recogParams.scale = scale;
+			recogParams.rotation = rotation;
+			recognitionParam.Add(reqId, recogParams);
+			Debug.LogWarning("RequestRecog: " + reqId + " " + scale + " " + rotation);
 			ui.BeginLoading();
 		}
 	}
@@ -533,7 +565,7 @@ if (Input.GetKeyDown(KeyCode.S))
 					var ans = v0 + v1;
 					if ((ans >= ansMin) && (ans <= ansMax))
 					{
-						questions.Add(new Question(v0, v1, 0, ans, Operation.Addition));
+						questionSet.Add(new Question(v0, v1, 0, ans, Operation.Addition));
 					}
 					ans = v0 - v1;
 					if ((ans >= ansMin) && (ans <= ansMax))

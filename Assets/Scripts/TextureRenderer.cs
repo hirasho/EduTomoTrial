@@ -12,10 +12,12 @@ public class TextureRenderer : MonoBehaviour
 	[SerializeField] new Camera camera;
 	[SerializeField] Camera scalingCamera;
 	[SerializeField] RawImage scalingImage;
+	[SerializeField] Transform scalingImageRotation;
 
 	public Camera Camera { get => camera; }
 	public Texture2D SavedTexture { get => savedTexture; }
 	public RenderTexture RenderTexture { get => scaledTexture; }
+
 
 	public void ManualStart()
 	{
@@ -30,9 +32,44 @@ public class TextureRenderer : MonoBehaviour
 		scalingCamera.enabled = false;
 	}
 
-	public IEnumerator CoRender(Vector2 scale)
+	public Matrix4x4 GetImageToRtTransform(Vector2 scale, float rotation)
 	{
-		scalingImage.rectTransform.localScale = new Vector3(scale.x, scale.y, 1f);
+		var imageScale = CalcImageScale(scale, rotation);
+		var w = Mathf.CeilToInt(renderTexture.width * scale.x);
+		var h = Mathf.CeilToInt(renderTexture.height * scale.y);
+		var ret = Matrix4x4.Translate(new Vector3(-renderTexture.width * 0.5f, -renderTexture.height * 0.5f, 0f));
+		ret = Matrix4x4.Scale(new Vector3(imageScale.x, imageScale.y, 1f)) * ret;
+		ret = Matrix4x4.Rotate(Quaternion.Euler(0f, 0f, rotation)) * ret;
+		ret = Matrix4x4.Translate(new Vector3(renderTexture.width * 0.5f, renderTexture.height * 0.5f, 0f)) * ret;
+		ret = Matrix4x4.Scale(new Vector3(1f, -1f, 1f)) * ret;
+		ret = Matrix4x4.Translate(new Vector3(0f, h, 0f)) * ret;
+		ret = ret.inverse;
+		return ret;
+	}
+
+	Vector2 CalcImageScale(Vector2 scale, float rotation)
+	{
+		var ret = scale;
+		// 回転角に応じて縮小 s = a/(a*cosθ + b*sinθ) 拡大率s a長辺 b短辺
+		var a = (float)renderTexture.width;
+		var b = (float)renderTexture.height;
+		var theta = Mathf.Abs(rotation) * Mathf.Deg2Rad;
+		var rotScale0 = a / ((a * Mathf.Cos(theta)) + (b * Mathf.Sin(theta)));
+		var rotScale1 = b / ((a * Mathf.Sin(theta)) + (b * Mathf.Cos(theta)));
+		var rotScale = Mathf.Min(rotScale0, rotScale1);
+//Debug.Log(rotScale0 + " " + rotScale1 + " " + angle + " " + a + " " + b);
+		ret *= rotScale;
+		return ret;
+	}
+
+	public IEnumerator CoRender(Vector2 scale, float rotation)
+	{
+		var imageScale = CalcImageScale(scale, rotation);
+		// 回転角に応じて縮小 s = a/(a*cosθ + b*sinθ) 拡大率s a長辺 b短辺
+		var a = (float)renderTexture.width;
+		var b = (float)renderTexture.height;
+		scalingImage.rectTransform.localScale = new Vector3(imageScale.x, imageScale.y, 1f);
+		scalingImageRotation.localRotation = Quaternion.Euler(0f, 0f, rotation);
 		camera.enabled = true;
 		scalingCamera.enabled = true;
 
@@ -42,6 +79,10 @@ public class TextureRenderer : MonoBehaviour
 
 		var w = Mathf.CeilToInt(renderTexture.width * scale.x);
 		var h = Mathf.CeilToInt(renderTexture.height * scale.y);
+		if (savedTexture != null)
+		{
+			Resources.UnloadAsset(savedTexture);
+		}
 		savedTexture = new Texture2D(w, h, TextureFormat.RGBA32, false);
 		savedTexture.ReadPixels(new Rect(0, 0, w, h), destX: 0, destY: 0);
 
@@ -54,29 +95,28 @@ System.IO.File.WriteAllBytes("rtTest.jpg", jpg);
 #endif
 	}
 
-	public void TransformToRtScreen(TextRecognizer.Text text)
+	public void TransformToRtScreen(TextRecognizer.Text text, Vector2 scale, float rotation)
 	{
-Debug.Log("TransformToRtScreen: " + text.imageWidth + " " + text.imageHeight);
+		var imageToRt = GetImageToRtTransform(scale, rotation);
 		foreach (var word in text.words)
 		{
-			TransformToRtScreen(word, text.imageWidth, text.imageHeight);
+			TransformToRtScreen(word, imageToRt);
 		}
 	}
 
-	public void TransformToRtScreen(TextRecognizer.Word word, int imageWidth, int imageHeight)
+	public void TransformToRtScreen(TextRecognizer.Word word, Matrix4x4 imageToRt)
 	{
 		TransformToRtScreen(
 			out word.boundsMin, 
 			out word.boundsMax, 
 			word.boundsMin, 
 			word.boundsMax,
-			imageWidth,
-			imageHeight);
+			imageToRt);
 		foreach (var letter in word.letters)
 		{
 			for (var i = 0; i < letter.vertices.Count; i++)
 			{
-				letter.vertices[i] = TransformToRtScreen(letter.vertices[i], imageWidth, imageHeight);
+				letter.vertices[i] = TransformToRtScreen(letter.vertices[i], imageToRt);
 			}
 		}
 	}
@@ -86,26 +126,28 @@ Debug.Log("TransformToRtScreen: " + text.imageWidth + " " + text.imageHeight);
 		out Vector2 maxOut, 
 		Vector2 minIn, 
 		Vector2 maxIn,
-		int imageWidth,
-		int imageHeight)
+		Matrix4x4 imageToRt)
 	{
-		var sx = (float)renderTexture.width / (float)imageWidth;
-		var sy = (float)renderTexture.height / (float)imageHeight; 
-		minOut.x = minIn.x * sx;
-		maxOut.x = maxIn.x * sx;
-		var invMinY = imageHeight - minIn.y; 
-		var invMaxY = imageHeight - maxIn.y; 
-		minOut.y = invMaxY * sy; // ひっくりかえる
-		maxOut.y = invMinY * sy; // ひっくりかえる
+		// 4点定義して全部変換してしまう
+		var points = new List<Vector2>();
+		points.Add(new Vector3(minIn.x, minIn.y));
+		points.Add(new Vector3(minIn.x, maxIn.y));
+		points.Add(new Vector3(maxIn.x, minIn.y));
+		points.Add(new Vector3(maxIn.x, maxIn.y));
+		minOut = Vector2.one * float.MaxValue;
+		maxOut = -minOut;
+		for (var i = 0; i < points.Count; i++)
+		{
+			points[i] = TransformToRtScreen(points[i], imageToRt);
+			minOut = Vector2.Min(minOut, points[i]);
+			maxOut = Vector2.Max(maxOut, points[i]);
+		}
 	}
 
-	public Vector2 TransformToRtScreen(Vector2 p, int imageWidth, int imageHeight)
+	public static Vector2 TransformToRtScreen(Vector2 p, Matrix4x4 imageToRt)
 	{
-		p.y = imageHeight - p.y; // y反転
-		// スケール
-		p.x *= (float)renderTexture.width / (float)imageWidth;
-		p.y *= (float)renderTexture.height / (float)imageHeight;
-		return p;
+		var p3 = imageToRt.MultiplyPoint3x4(p);
+		return new Vector2(p3.x, p3.y);
 	}
 
 	public RectInt GetRect(AnswerZone answerZone)
@@ -131,6 +173,7 @@ Debug.Log("TransformToRtScreen: " + text.imageWidth + " " + text.imageHeight);
 	RenderTexture renderTexture;
 	RenderTexture scaledTexture;
 	Texture2D savedTexture;
+	Matrix4x4 imageToRt;
 
 
 #if UNITY_EDITOR
